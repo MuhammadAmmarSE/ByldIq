@@ -134,3 +134,30 @@
     }
   }
 }
+
+/**
+ * Accordion open/close height, used by the `Accordion` component.
+ * `--radix-accordion-content-height` is set by Radix on the content element
+ * itself. This is the one deliberate exception to the "never animate
+ * height" rule in docs/architecture.md — there's no transform-only way to
+ * animate to an unknown content height, and using the existing
+ * `--duration-base` token means it already collapses to 0ms under
+ * `prefers-reduced-motion` (see the media query above tokens.css sets).
+ */
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
