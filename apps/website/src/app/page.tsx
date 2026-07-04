@@ -17,7 +17,7 @@ export default function FoundationCheckPage() {
   const setJourney = useAppStore((state) => state.setJourney);
 
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-16">
+    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-16">
       <div className="space-y-2">
         <p className="text-muted font-mono text-sm">Milestone 1</p>
         <h1 className="text-foreground text-3xl font-semibold">Engineering foundation</h1>
@@ -62,6 +62,6 @@ export default function FoundationCheckPage() {
           ))}
         </div>
       </section>
-    </main>
+    </div>
   );
 }

@@ -52,3 +52,23 @@ if (!Element.prototype.releasePointerCapture) {
 if (!Element.prototype.scrollIntoView) {
   Element.prototype.scrollIntoView = () => {};
 }
+
+// jsdom doesn't implement matchMedia at all. `next-themes`' ThemeProvider
+// calls it unconditionally on mount (even with `enableSystem={false}`),
+// using the legacy `addListener`/`removeListener` API alongside the modern
+// one, so this stub — unlike per-test mocks such as useReducedMotion's own
+// — needs to support both. Defaults to "no match"; tests that care about a
+// specific query's result (e.g. reduced motion) still mock it themselves.
+if (!window.matchMedia) {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    }) as MediaQueryList;
+}

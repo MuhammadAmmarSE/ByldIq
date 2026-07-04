@@ -4,4 +4,8 @@ export type {
   CommandPaletteItem,
   CommandPaletteProps,
 } from "./CommandPalette.types";
-export { CommandPaletteProvider, type CommandPaletteProviderProps } from "./CommandPaletteProvider";
+export {
+  CommandPaletteProvider,
+  useCommandPalette,
+  type CommandPaletteProviderProps,
+} from "./CommandPaletteProvider";

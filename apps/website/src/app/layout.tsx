@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import "./globals.css";
+import { PageShell } from "@/components/PageShell";
 import { siteConfig } from "@/config/site";
 import { fontVariables } from "@/lib/fonts";
 import { jsonLdScriptProps, organizationJsonLd } from "@/lib/json-ld";
@@ -41,7 +42,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${fontVariables} h-full`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col antialiased">
         <script {...jsonLdScriptProps(organizationJsonLd())} />
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          <PageShell>{children}</PageShell>
+        </AppProviders>
       </body>
     </html>
   );

@@ -32,9 +32,17 @@ and lazy-loads the palette itself:
 ];
 ```
 
-Render `<CommandPalette>` directly only for a fully controlled instance
-(e.g. a "Search" button that opens it without the keyboard shortcut) —
-see the `TriggeredFromButton` story.
+To open the palette from a button (e.g. `Navbar`'s search trigger)
+without rendering a second controlled instance, use `useCommandPalette()`:
+
+```tsx
+const { open } = useCommandPalette();
+<Button onClick={open}>Search</Button>;
+```
+
+Render `<CommandPalette>` directly only outside a `CommandPaletteProvider`
+tree (rare — e.g. an isolated Storybook story). See the
+`TriggeredFromButton` story for the fully-controlled pattern.
 
 ## Props
 

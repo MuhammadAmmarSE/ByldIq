@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 
 import type { CommandPaletteGroup } from "./CommandPalette.types";
@@ -13,6 +13,21 @@ export interface CommandPaletteProviderProps {
   children: ReactNode;
   /** Empty by default (no pages/content to search yet — see CommandPalette's doc comment). Pages wire real groups in once those platforms exist. */
   groups?: CommandPaletteGroup[];
+}
+
+interface CommandPaletteContextValue {
+  open: () => void;
+}
+
+const CommandPaletteContext = createContext<CommandPaletteContextValue | null>(null);
+
+/** Lets UI outside the shortcut itself (e.g. Navbar's search button) open the palette. */
+export function useCommandPalette(): CommandPaletteContextValue {
+  const context = useContext(CommandPaletteContext);
+  if (!context) {
+    throw new Error("useCommandPalette must be used within a CommandPaletteProvider");
+  }
+  return context;
 }
 
 /**
@@ -36,10 +51,15 @@ export function CommandPaletteProvider({ children, groups = [] }: CommandPalette
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const contextValue = useMemo<CommandPaletteContextValue>(
+    () => ({ open: () => setOpen(true) }),
+    [],
+  );
+
   return (
-    <>
+    <CommandPaletteContext.Provider value={contextValue}>
       {children}
       {open && <CommandPalette open={open} onOpenChange={setOpen} groups={groups} />}
-    </>
+    </CommandPaletteContext.Provider>
   );
 }

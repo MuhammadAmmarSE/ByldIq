@@ -7,7 +7,8 @@ import { Skeleton } from "@/components/Skeleton";
  */
 export default function Loading() {
   return (
-    <main
+    <div
+      role="status"
       aria-busy="true"
       aria-label="Loading"
       className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-16"
@@ -19,6 +20,6 @@ export default function Loading() {
       </div>
       <Skeleton className="h-32 w-full" />
       <Skeleton className="h-32 w-full" />
-    </main>
+    </div>
   );
 }
