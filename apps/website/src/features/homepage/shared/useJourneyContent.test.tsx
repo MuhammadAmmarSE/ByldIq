@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 
 import { StoreProvider, useAppStore } from "@/providers/StoreProvider";
 
@@ -28,6 +28,13 @@ function Harness() {
 }
 
 describe("useJourneyContent", () => {
+  beforeEach(() => {
+    // The persisted app store (Phase 0) writes journey selection to
+    // localStorage, and StoreProvider rehydrates from it on mount — clear it
+    // so one test's journey selection can't leak into the next.
+    localStorage.clear();
+  });
+
   it("returns the default entry when no journey is selected", () => {
     render(
       <StoreProvider>

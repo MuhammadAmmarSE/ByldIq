@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useEffect } from "react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const { mockTrack } = vi.hoisted(() => ({ mockTrack: vi.fn() }));
 
@@ -22,6 +22,13 @@ function renderSelector() {
 }
 
 describe("JourneySelector", () => {
+  beforeEach(() => {
+    // The persisted app store (Phase 0) writes journey selection to
+    // localStorage, and StoreProvider rehydrates from it on mount — clear it
+    // so one test's journey selection can't leak into the next.
+    localStorage.clear();
+  });
+
   afterEach(() => {
     mockTrack.mockClear();
   });
