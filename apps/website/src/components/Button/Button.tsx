@@ -9,7 +9,7 @@ import { cn } from "@/utils/cn";
 import type { ButtonProps } from "./Button.types";
 
 const buttonStyles = cva(
-  "focus-visible:outline-none inline-flex shrink-0 items-center justify-center gap-2 rounded-md font-medium transition-colors disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-md font-medium transition-colors disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {

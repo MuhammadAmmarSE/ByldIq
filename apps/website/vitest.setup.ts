@@ -25,3 +25,30 @@ class MockIntersectionObserver implements IntersectionObserver {
 }
 
 vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
+
+// jsdom also lacks ResizeObserver, which Radix's Popper-based positioning
+// (Select/Popover/Tooltip/DropdownMenu content) uses to react to size changes.
+class MockResizeObserver implements ResizeObserver {
+  observe = () => {};
+  unobserve = () => {};
+  disconnect = () => {};
+}
+
+vi.stubGlobal("ResizeObserver", MockResizeObserver);
+
+// jsdom implements neither the Pointer Events capture methods nor
+// `scrollIntoView` — Radix's Select/Popover/DropdownMenu/Tooltip primitives
+// call these during pointer interaction and positioning. Stub them as
+// no-ops so component tests can simulate real clicks/keyboard nav.
+if (!Element.prototype.hasPointerCapture) {
+  Element.prototype.hasPointerCapture = () => false;
+}
+if (!Element.prototype.setPointerCapture) {
+  Element.prototype.setPointerCapture = () => {};
+}
+if (!Element.prototype.releasePointerCapture) {
+  Element.prototype.releasePointerCapture = () => {};
+}
+if (!Element.prototype.scrollIntoView) {
+  Element.prototype.scrollIntoView = () => {};
+}
