@@ -1,0 +1,8 @@
+.next
+out
+build
+storybook-static
+.content-collections
+coverage
+playwright-report
+pnpm-lock.yaml
