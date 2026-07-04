@@ -94,6 +94,22 @@
   --z-popover: 1500;
   --z-toast: 1600;
   --z-tooltip: 1700;
+
+  /* Opacity (interaction states, never used for brand color mixing) */
+  --opacity-hover: 0.08;
+  --opacity-pressed: 0.12;
+  --opacity-disabled: 0.5;
+  --opacity-overlay: 0.4;
+
+  /* Blur (glass panels, backdrop overlays — used sparingly per Part 5) */
+  --blur-sm: 4px;
+  --blur-md: 12px;
+  --blur-lg: 24px;
+
+  /* Layout widths — content containers, independent of breakpoints */
+  --layout-width-narrow: 42rem;
+  --layout-width-content: 80rem;
+  --layout-width-wide: 90rem;
 }
 
 .dark {
@@ -120,4 +136,35 @@
     --duration-slow: 0ms;
     --duration-slower: 0ms;
   }
+}
+
+/**
+ * High contrast — prepared, not fully designed (per Milestone 2 scope).
+ * Strengthens the two things that matter most under prefers-contrast
+ * (border definition and focus visibility) without redesigning the
+ * palette. Also exposed as a manual `.high-contrast` class for a future
+ * in-app toggle that doesn't depend on the OS setting.
+ */
+@media (prefers-contrast: more) {
+  :root {
+    --color-border: var(--color-neutral-500);
+    --focus-ring-width: 3px;
+  }
+
+  .dark {
+    --color-border: var(--color-neutral-400);
+  }
+}
+
+:root {
+  --focus-ring-width: 2px;
+}
+
+.high-contrast {
+  --color-border: var(--color-neutral-500);
+  --focus-ring-width: 3px;
+}
+
+.dark.high-contrast {
+  --color-border: var(--color-neutral-400);
 }

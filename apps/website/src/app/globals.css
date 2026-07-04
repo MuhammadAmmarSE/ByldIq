@@ -65,6 +65,18 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
 
+  /* Blur — overrides Tailwind's defaults with our scale (drives both
+     `blur-*` and `backdrop-blur-*` utilities). */
+  --blur-sm: var(--blur-sm);
+  --blur-md: var(--blur-md);
+  --blur-lg: var(--blur-lg);
+
+  /* Content container widths — Tailwind's `--container-*` namespace drives
+     `max-w-*` utilities (e.g. `max-w-content`). */
+  --container-narrow: var(--layout-width-narrow);
+  --container-content: var(--layout-width-content);
+  --container-wide: var(--layout-width-wide);
+
   --font-sans: var(--font-plus-jakarta-sans);
   --font-body: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
@@ -91,7 +103,19 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-focus-ring);
+    outline: var(--focus-ring-width) solid var(--color-focus-ring);
     outline-offset: 2px;
+  }
+
+  /* Smooth (not instant, not flashing) light/dark switching. Scoped to the
+     color properties a theme change actually touches, so every element
+     transitions in lockstep instead of at different rates. Off entirely
+     under reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    * {
+      transition-property: background-color, border-color, color, fill, stroke, outline-color;
+      transition-duration: var(--duration-base);
+      transition-timing-function: var(--ease-standard);
+    }
   }
 }
