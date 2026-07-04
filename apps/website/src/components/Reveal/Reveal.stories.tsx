@@ -9,6 +9,11 @@ const meta = {
   parameters: {
     // whileInView needs room to scroll into view — fullscreen gives it that.
     layout: "fullscreen",
+    // The a11y check can snapshot mid-fade (or before scroll-into-view), catching
+    // a transient partial-opacity frame that reads as a false-positive contrast
+    // failure. Steady-state contrast of this same text is already covered by
+    // Text's own stories.
+    a11y: { config: { rules: [{ id: "color-contrast", enabled: false }] } },
   },
 } satisfies Meta<typeof Reveal>;
 

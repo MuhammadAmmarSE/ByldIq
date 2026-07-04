@@ -41,9 +41,16 @@
   --color-muted: var(--color-neutral-500);
   --color-accent: var(--color-primary-500);
   --color-accent-foreground: var(--color-neutral-0);
-  --color-danger: #e5484d;
-  --color-success: #30a46c;
+  /* Danger/success are deliberately darker than a typical "brand" red/green
+     — at full-strength fill with white text (Badge, Button destructive),
+     the lighter placeholders measured under 4.5:1 (WCAG AA). These pass
+     comfortably (~6.5:1 / ~5:1) while staying visually a "red"/"green". */
+  --color-danger: #b91c1c;
+  --color-danger-foreground: var(--color-neutral-0);
+  --color-success: #15803d;
+  --color-success-foreground: var(--color-neutral-0);
   --color-warning: #f5a623;
+  --color-warning-foreground: var(--color-neutral-950);
   --color-focus-ring: var(--color-primary-500);
 
   /* Typography scale */

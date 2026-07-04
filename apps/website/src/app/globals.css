@@ -23,8 +23,11 @@
   --color-accent: var(--color-accent);
   --color-accent-foreground: var(--color-accent-foreground);
   --color-danger: var(--color-danger);
+  --color-danger-foreground: var(--color-danger-foreground);
   --color-success: var(--color-success);
+  --color-success-foreground: var(--color-success-foreground);
   --color-warning: var(--color-warning);
+  --color-warning-foreground: var(--color-warning-foreground);
   --color-focus-ring: var(--color-focus-ring);
 
   /* Tailwind's font-size namespace is `--text-*` (with an optional
