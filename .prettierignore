@@ -6,3 +6,7 @@ storybook-static
 coverage
 playwright-report
 pnpm-lock.yaml
+
+# hand-authored knowledge base; Prettier's markdown formatter collapses the
+# intentional blank-line spacing this document relies on for readability
+CLAUDE.md

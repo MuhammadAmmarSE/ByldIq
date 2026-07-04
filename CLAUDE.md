@@ -2,6 +2,7 @@
 ########################### CLAUDE.md #################################
 #######################################################################
 
+
 PART 1
 COMPANY IDENTITY
 
@@ -12,6 +13,7 @@ Status: Living Document
 Owner: Byld IQ
 
 Last Updated: (update automatically)
+
 
 Purpose of this document
 
@@ -440,6 +442,7 @@ Consistent design
 Delightful interactions
 
 A feature is not complete until all of these qualities have been considered.
+
 
 PART 2
 
@@ -3440,6 +3443,7 @@ Motion succeeds when it quietly reinforces trust, clarity, and product quality w
 
 END OF PART 6
 
+
 PART 7
 
 CONTENT STRATEGY & COPYWRITING LANGUAGE
@@ -6112,7 +6116,7 @@ Primary Layout
 
 Desktop Layout
 
----
+----------------------------------------------------------
 
 Headline
 
@@ -6138,7 +6142,7 @@ Floating Metrics
 
 Technology Preview
 
----
+----------------------------------------------------------
 
 Visual occupies approximately 60%.
 
@@ -8923,6 +8927,7 @@ When visitors leave this section, they should think:
 END OF PART 14
 #######################################################################
 
+
 PART 15
 
 HOMEPAGE EXPERIENCE
@@ -9689,6 +9694,7 @@ Visitors should leave this section believing that Byld IQ's quality comes from d
 #######################################################################
 END OF PART 15
 #######################################################################
+
 
 PART 16
 
@@ -16443,6 +16449,7 @@ utils_old
 
 misc
 
+
 Good
 
 buildpath
@@ -17392,6 +17399,7 @@ app/
 (api)
 
 (auth)
+
 
 Every route grouped by business capability.
 
@@ -18726,6 +18734,7 @@ CardV2
 
 BigHero
 
+
 Good
 
 JourneySelector
@@ -18758,6 +18767,7 @@ Component
 ↓
 
 Primitive
+
 
 Each level has one responsibility.
 
@@ -18858,6 +18868,7 @@ Timeline.tsx
 Roadmap.tsx
 
 RecommendationPanel.tsx
+
 
 These components never leave the feature unless reused multiple times.
 
@@ -18968,6 +18979,7 @@ useTechnologySearch()
 
 useArchitecture()
 
+
 Hooks expose
 
 State.
@@ -19020,6 +19032,7 @@ settings
 
 data
 
+
 Good
 
 journey
@@ -19029,6 +19042,7 @@ technology
 article
 
 caseStudy
+
 
 Props communicate meaning.
 
@@ -19049,6 +19063,7 @@ Never inside JSX.
 Bad
 
 if (x && y && z)
+
 
 Move into
 
@@ -19267,6 +19282,7 @@ TechnologyCard.stories.tsx
 TechnologyCard.docs.md
 
 index.ts
+
 
 Every component self-contained.
 
