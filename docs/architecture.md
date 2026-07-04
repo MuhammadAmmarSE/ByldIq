@@ -1,10 +1,39 @@
 # Architecture
 
-This document is the layering contract for the codebase. It exists so
-"no business logic inside components" and "no API calls inside UI" (from
-the Engineering Execution Guide) are enforceable rules, not just intentions.
+This document is the layering contract for `apps/website`. It exists so
+"no business logic inside components" and "no API calls inside UI" are
+enforceable rules, not just intentions. `CLAUDE.md` at the repo root is
+authoritative — this file is the practical, repo-specific application of
+its Parts 24–27 (the Engineering Constitution) and takes a back seat to it
+wherever they'd conflict.
 
-## Directory contract
+## Repository structure (monorepo)
+
+```
+apps/            deployable applications (website, and future admin /
+                 client-portal / buildpath apps)
+packages/        code shared across 2+ apps — empty until there's a real
+                 second consumer (CLAUDE.md Part 27: "promote only after
+                 multiple real use cases")
+services/        business-capability services (ai, cms, search, ...)
+infrastructure/  deployment/cloud config
+docs/            repo-wide living documentation (this file)
+tools/, scripts/, tests/   dev tooling, automation, cross-app tests
+```
+
+See `CLAUDE.md` Part 25 for the full rationale and target package/service
+list. `packages/`, `services/`, `infrastructure/`, `tools/`, `scripts/`,
+and `tests/` each have their own `README.md` explaining what belongs
+there — they're intentionally empty right now.
+
+ESLint's config (`eslint.config.mjs`) lives at the repo root, not inside
+`apps/website`, because flat config doesn't search parent directories;
+every other app-specific tool config (`tsconfig.json`, `next.config.ts`,
+`vitest.config.ts`, `playwright.config.ts`, `.storybook/`) stays inside
+`apps/website` since those tools resolve paths relative to the app's own
+directory.
+
+## Directory contract (`apps/website/src/`)
 
 ```
 src/
@@ -22,7 +51,7 @@ src/
                not in components/.
 
   providers/   App-wide React context providers (theme, query client,
-               store, analytics). One composition root: AppProviders.tsx.
+               store, analytics, motion). One composition root: AppProviders.tsx.
 
   store/       Zustand store factories. Always a factory function, never a
                module-level store instance — the App Router can render
@@ -37,7 +66,7 @@ src/
 
   lib/         Framework-adjacent utilities that are still infrastructure,
                not business logic: env validation, font loading, motion
-               token mirrors, the analytics client.
+               token mirrors, the analytics client, JSON-LD helpers.
 
   utils/       Pure helper functions with no framework dependency (cn,
                formatters, etc.).
@@ -79,7 +108,9 @@ anything a token already covers.
 
 Dark mode is `next-themes` toggling a `.dark` class on `<html>`; Tailwind's
 `dark:` variant is wired to that same class via `@custom-variant dark` in
-`globals.css`, and every semantic color token has a `.dark` override.
+`globals.css`, and every semantic color token has a `.dark` override. Per
+CLAUDE.md Part 5, dark mode is independently designed, not an inverted
+light mode.
 
 ## Motion
 
@@ -98,25 +129,29 @@ to `0ms` under that media query as a baseline safety net.
 Motion + Motion One) with `reducedMotion="user"` and the token-derived
 duration/easing as defaults, so any `motion.*` component automatically
 respects `prefers-reduced-motion` and matches the rest of the design system
-without repeating transition props everywhere. GSAP is still the tool for
-complex scroll-driven sequences (Milestone 4+); it isn't provider-scoped and
-should read the same `--duration-*`/`--ease-*` tokens directly.
+without repeating transition props everywhere. Per CLAUDE.md Part 27,
+animation logic stays isolated in motion-specific components rather than
+scattered through business code. GSAP is still the tool for complex
+scroll-driven sequences (Milestone 4+); it isn't provider-scoped and should
+read the same `--duration-*`/`--ease-*` tokens directly.
 
 ## Component folder rules (Milestone 2+)
 
-Once real components exist, each one gets its own folder:
+Per CLAUDE.md Part 27, once real components exist, each one gets its own
+folder:
 
 ```
-Hero/
-  Hero.tsx
-  Hero.types.ts
-  Hero.motion.ts
-  Hero.test.tsx
-  Hero.stories.tsx
+TechnologyCard/
+  TechnologyCard.tsx
+  TechnologyCard.types.ts
+  TechnologyCard.test.tsx
+  TechnologyCard.stories.tsx
+  TechnologyCard.docs.md
   index.ts
 ```
 
-Every component needs: TypeScript types, accessibility (keyboard, ARIA,
-focus-visible), dark mode support, defined enter/hover/focus/exit/loading/
-error states, a Storybook story, and a test. This isn't enforced by tooling
-yet — it's the bar for review.
+Prefer named exports over default exports. Every component needs:
+TypeScript types, accessibility (keyboard, ARIA, focus-visible), dark mode
+support, defined enter/hover/focus/exit/loading/error states, a Storybook
+story, and a test. This isn't enforced by tooling yet — it's the bar for
+review.

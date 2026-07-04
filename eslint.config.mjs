@@ -6,6 +6,11 @@ import tseslint from "typescript-eslint";
 // eslint-config-next ships eslintrc-format shared configs (which already
 // register eslint-plugin-jsx-a11y); FlatCompat bridges them into ESLint 9's
 // flat config system.
+//
+// This file lives at the repo root rather than inside apps/website because
+// ESLint's flat config doesn't search parent directories for a config file —
+// centralizing it here also matches CLAUDE.md Part 25 ("Configuration
+// Files: Centralized ... Avoid duplicate configuration").
 const compat = new FlatCompat({ baseDirectory: import.meta.dirname });
 
 const eslintConfig = defineConfig([
@@ -13,6 +18,13 @@ const eslintConfig = defineConfig([
   ...tseslint.configs.strict,
   ...storybook.configs["flat/recommended"],
   {
+    // Tells eslint-plugin-next where the Next.js app actually lives, since
+    // it isn't at the repo root in this monorepo layout.
+    settings: {
+      next: {
+        rootDir: "apps/website",
+      },
+    },
     rules: {
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": [
@@ -35,14 +47,16 @@ const eslintConfig = defineConfig([
     },
   },
   globalIgnores([
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-    "storybook-static/**",
-    ".content-collections/**",
-    "coverage/**",
-    "playwright-report/**",
+    // Unlike .gitignore, these globs aren't anchored/recursive by default —
+    // `**/` is required to match inside apps/website (and any future app).
+    "**/.next/**",
+    "**/out/**",
+    "**/build/**",
+    "**/next-env.d.ts",
+    "**/storybook-static/**",
+    "**/.content-collections/**",
+    "**/coverage/**",
+    "**/playwright-report/**",
   ]),
 ]);
 
