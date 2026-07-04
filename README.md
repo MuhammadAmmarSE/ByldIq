@@ -5,10 +5,20 @@ Engineering foundation for the Byld IQ platform — a pnpm monorepo, per
 knowledge base; **read that file before making any product or
 architecture decision in this repo**).
 
-This is **Milestone 1**: architecture, design tokens, theming, providers,
-and tooling only. No marketing pages or feature UI exist yet;
-`apps/website/src/app/page.tsx` is a throwaway placeholder that proves the
-foundation boots, and is replaced in Milestone 4.
+This repo has completed:
+
+- **Milestone 1** — architecture, design tokens, theming, providers, and
+  tooling.
+- **Milestone 2** — the design system: ~40 reusable UI primitives, the
+  navigation shell (`Navbar`/`Footer`/`MobileNav`/`PageShell`), the
+  Command Palette, and a motion utility layer. See
+  `docs/architecture.md`'s component inventory for the full list.
+
+No marketing pages or business content exist yet;
+`apps/website/src/app/page.tsx` is still the Milestone 1 placeholder
+(now rendered inside `PageShell`), replaced with the real homepage in a
+later milestone. `config/site.ts`'s `primaryNav` stays empty until that
+milestone defines real information architecture.
 
 ## Repository layout
 
@@ -96,7 +106,10 @@ Lighthouse CI on every PR to `main`/`develop` and every push to
 
 ## Notes on scope
 
-This milestone intentionally does not include: navigation, buttons, forms,
-the AI companion, BuildPath, or any homepage content — those are later
-milestones. React Three Fiber and Rive are not installed yet; they're added
-when the sections that need them (Milestone 4) are built.
+The design system (Milestone 2) intentionally does not include: the Byld
+AI Companion itself (`FloatingActionButton` is a structural placeholder
+for it), BuildPath, real navigation content/IA, or any homepage/business
+content — those are later milestones. Table, Data Grid, Charts, Tree
+View, Calendar, and AI Chat primitives are deferred until a page actually
+needs them (CLAUDE.md Part 23). React Three Fiber and Rive are not
+installed yet; they're added when the sections that need them are built.

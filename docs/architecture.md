@@ -135,10 +135,9 @@ scattered through business code. GSAP is still the tool for complex
 scroll-driven sequences (Milestone 4+); it isn't provider-scoped and should
 read the same `--duration-*`/`--ease-*` tokens directly.
 
-## Component folder rules (Milestone 2+)
+## Component folder rules
 
-Per CLAUDE.md Part 27, once real components exist, each one gets its own
-folder:
+Per CLAUDE.md Part 27, every component gets its own folder:
 
 ```
 TechnologyCard/
@@ -150,8 +149,116 @@ TechnologyCard/
   index.ts
 ```
 
-Prefer named exports over default exports. Every component needs:
-TypeScript types, accessibility (keyboard, ARIA, focus-visible), dark mode
-support, defined enter/hover/focus/exit/loading/error states, a Storybook
-story, and a test. This isn't enforced by tooling yet — it's the bar for
-review.
+Rules, applied to every component in `src/components/` as of Milestone 2:
+
+- Named exports only, no default exports.
+- Variants via `cva` (`class-variance-authority`); classes merged through
+  `cn()` (`src/utils/cn.ts`) — never raw string concatenation or template
+  literals for conditional classes.
+- Interactive components: full keyboard operability, a visible focus ring
+  (token-driven, global via `:focus-visible` in `globals.css` — components
+  should not need to add their own focus styling), dark mode (automatic,
+  since components only ever reference semantic tokens), and
+  loading/disabled/error states where the component has them.
+- `ComponentName.test.tsx`: render + accessibility-relevant assertions +
+  keyboard interaction (`@testing-library/user-event`) for anything
+  interactive.
+- `ComponentName.stories.tsx`: default story + every variant/state; dark
+  mode is covered for free by the `addon-themes` toolbar. The Storybook
+  a11y addon (`@storybook/addon-a11y`, backed by axe-core) fails the
+  `vitest --project=storybook` run on any violation — this is the primary
+  accessibility gate, not a manual checklist.
+- `ComponentName.docs.md`: purpose, usage, props table, accessibility
+  notes. Short — it documents decisions, not restates the prop types
+  already visible in `ComponentName.types.ts`.
+- Components built on a Radix primitive (`@radix-ui/react-*`) get
+  `"use client"` — they use hooks/context internally. Components that
+  merely accept and forward an `onClick`-style prop (e.g. `Button`) don't
+  need it; only the module that actually calls a hook does.
+
+## Component inventory (Milestone 2)
+
+Everything below lives in `apps/website/src/components/`. "Built on"
+marks primitives built on top of a lower-level dependency (Radix UI,
+`cmdk`, `next-themes`) rather than hand-rolled from scratch.
+
+### Foundation / layout
+
+| Component       | Built on       | Notes                                                      |
+| --------------- | -------------- | ---------------------------------------------------------- |
+| `Icon`          | `lucide-react` | Consistent sizing/stroke; decorative or named via `label`. |
+| `Heading`       | —              | Display/H1–H6 type scale.                                  |
+| `Text`          | —              | Subtitle/Body/Caption/Code type scale.                     |
+| `Container`     | —              | `narrow`/`content`/`wide` layout widths.                   |
+| `Reveal`        | `motion`       | Scroll-triggered fade + slide-up entrance.                 |
+| `BlueprintGrid` | —              | Decorative fine-grid-line illustration/background.         |
+
+### Core display
+
+| Component  | Built on               | Notes                                                       |
+| ---------- | ---------------------- | ----------------------------------------------------------- |
+| `Button`   | `@radix-ui/react-slot` | `asChild` for rendering as a link; loading/disabled.        |
+| `Badge`    | —                      |                                                             |
+| `Avatar`   | Radix Avatar           | Image with initials fallback.                               |
+| `Card`     | —                      | Compound: `Card.Header` / `.Content` / `.Footer`.           |
+| `Divider`  | Radix Separator        |                                                             |
+| `Spinner`  | —                      | Indeterminate loading; keeps spinning under reduced motion. |
+| `Alert`    | —                      | Inline persistent message (vs. `Toast`, transient).         |
+| `Skeleton` | —                      | Milestone 1 — loading placeholder, opacity-only pulse.      |
+
+### Form
+
+| Component     | Built on         | Notes                                          |
+| ------------- | ---------------- | ---------------------------------------------- |
+| `Label`       | Radix Label      | Pairs with every form control below.           |
+| `Input`       | —                |                                                |
+| `Textarea`    | —                |                                                |
+| `Select`      | Radix Select     | Options array in, value out.                   |
+| `Checkbox`    | Radix Checkbox   |                                                |
+| `Radio`       | Radix RadioGroup | Exports `RadioGroup` + `RadioGroupItem`.       |
+| `Switch`      | Radix Switch     |                                                |
+| `SearchField` | `Input` + `Icon` | Optional clear button (controlled usage only). |
+
+### Overlay & feedback
+
+| Component  | Built on       | Notes                                                            |
+| ---------- | -------------- | ---------------------------------------------------------------- |
+| `Tooltip`  | Radix Tooltip  |                                                                  |
+| `Modal`    | Radix Dialog   | `forceMount` + `AnimatePresence` for exit animation.             |
+| `Drawer`   | Radix Dialog   | Side-sheet variant of `Modal`.                                   |
+| `Toast`    | Radix Toast    | `ToastProvider` (mounted in `AppProviders`) + `useToast()` hook. |
+| `Progress` | Radix Progress |                                                                  |
+
+### Disclosure & wayfinding
+
+| Component    | Built on        | Notes                                                                                |
+| ------------ | --------------- | ------------------------------------------------------------------------------------ |
+| `Tabs`       | Radix Tabs      |                                                                                      |
+| `Accordion`  | Radix Accordion | Height animation is the one exception to "never animate height" — see `globals.css`. |
+| `Breadcrumb` | `next/link`     |                                                                                      |
+| `Pagination` | `Button`        | First/last + sibling window, collapsing into ellipses.                               |
+| `Timeline`   | —               | Vertical step sequence (complete/current/upcoming).                                  |
+
+### Command
+
+| Component                | Built on                      | Notes                                                                                         |
+| ------------------------ | ----------------------------- | --------------------------------------------------------------------------------------------- |
+| `CommandPalette`         | `cmdk` + Radix Dialog         | `groups` empty by default — no content yet to search.                                         |
+| `CommandPaletteProvider` | `next/dynamic` (`ssr: false`) | Global `Cmd`/`Ctrl`+`K` shortcut; lazy-loads `CommandPalette`; exposes `useCommandPalette()`. |
+
+### Navigation shell (structural — no final IA/content)
+
+| Component              | Built on                          | Notes                                                                     |
+| ---------------------- | --------------------------------- | ------------------------------------------------------------------------- |
+| `Navbar`               | `motion` + `useScrollDirection`   | Transparent at top, glass background once scrolled, hides on scroll-down. |
+| `MegaMenu`             | Radix Popover                     | Used by `Navbar` for any `NavItem` with `children`.                       |
+| `MobileNav`            | `Drawer`                          | Bottom dock (Home/Search/Menu) + full drawer for the rest of the IA.      |
+| `Footer`               | —                                 | Columns/social links empty by default.                                    |
+| `FloatingActionButton` | `motion`                          | Generic fixed trigger — future home for the Byld AI Companion.            |
+| `ThemeToggle`          | `next-themes`                     | Quick light/dark switch (not the full light/dark/system choice).          |
+| `PageShell`            | `Navbar` + `Footer` + `MobileNav` | Wired into `app/layout.tsx`; owns the mobile drawer's shared open state.  |
+
+`config/site.ts`'s `primaryNav` stays empty until a later milestone
+defines real information architecture — every component above renders
+correctly with zero items in the meantime; `apps/website/src/app/page.tsx`
+stays the Milestone 1 placeholder, now rendered inside `PageShell`.

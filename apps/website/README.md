@@ -2,8 +2,8 @@
 
 The Byld IQ marketing site. Next.js 15 (App Router) · React 19 ·
 TypeScript (strict) · Tailwind CSS v4 · Zustand · TanStack Query · Zod ·
-next-themes · `motion` (Framer Motion) · Storybook 10 · Vitest ·
-Playwright.
+next-themes · `motion` (Framer Motion) · Radix UI · `cmdk` · lucide-react ·
+`class-variance-authority` · Storybook 10 · Vitest · Playwright.
 
 Run everything from the repo root (`pnpm dev`, `pnpm test`, etc.) — see
 the root `README.md`. The commands below are for running this app's
@@ -26,7 +26,7 @@ lives there. See the root README's "Why ESLint lives at the repo root".
 ```
 src/
   app/         # routes, layouts — composition only, no business logic
-  components/  # presentational UI (Milestone 2+)
+  components/  # presentational UI — ~40 primitives + navigation shell (Milestone 2)
   features/    # domain UI + logic, composed from components
   providers/   # app-wide React context providers
   store/       # Zustand store factories (per-request, not module singletons)
