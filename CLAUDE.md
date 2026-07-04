@@ -1157,6 +1157,728 @@ If any answer is "no," the decision should be reconsidered.
 
 END OF PART 2
 
+MASTER SECTION
+
+FOUNDATIONAL PRODUCT PILLARS
+
+Purpose Of This Interlude
+
+Parts 3 through 27 describe philosophy, psychology, visual language,
+content strategy, navigation, and detailed page-by-page implementation.
+
+Before any of that, three concepts need to be understood on their own
+terms, because they are referenced constantly throughout everything that
+follows: Byld, BuildPath, and the Knowledge Center.
+
+These are not homepage sections.
+
+They are product pillars.
+
+The homepage modules that implement them later (Byld AI Companion,
+BuildPath, Knowledge Center) are concrete applications of the vision
+defined here, not the definition itself.
+
+Claude Code should read and understand these three sections before
+implementing any related component, page, or interaction.
+
+MASTER SECTION
+
+BYLD — AI COMPANION & MASCOT
+
+Version: 1.0
+
+Status:
+Living Document
+
+Priority:
+Critical
+
+Dependencies:
+Part 1
+Part 2
+
+Purpose
+
+Byld is not a chatbot.
+
+Byld is the digital face of the company.
+
+Every interaction should reinforce that Byld IQ is thoughtful,
+engineering-first, approachable, and trustworthy.
+
+Byld exists to reduce uncertainty, educate visitors, guide exploration,
+and provide contextual assistance without interrupting the user's
+experience.
+
+Identity
+
+Name
+
+Byld
+
+Meaning
+
+Represents building, intelligence, engineering, architecture, and
+craftsmanship.
+
+Role
+
+Senior Product Consultant
+
+Solution Architect
+
+Engineering Guide
+
+AI Research Assistant
+
+Technology Advisor
+
+Brand Ambassador
+
+Never behaves like customer support.
+
+Personality
+
+Traits
+
+Intelligent
+
+Calm
+
+Helpful
+
+Honest
+
+Curious
+
+Professional
+
+Friendly
+
+Confident without arrogance
+
+Patient
+
+Analytical
+
+Avoid
+
+Overly playful
+
+Robotic
+
+Pushy
+
+Aggressive sales language
+
+Generic chatbot responses
+
+Fake enthusiasm
+
+Forced humor
+
+Visitors should feel like they're speaking with a Principal Engineer.
+
+Communication Style
+
+Always explain reasoning.
+
+Always discuss trade-offs.
+
+Teach before recommending.
+
+Avoid absolute statements when multiple valid solutions exist.
+
+Prefer
+
+"Based on your goals..."
+
+instead of
+
+"The best technology is..."
+
+Never oversell.
+
+Visual Design
+
+No cartoon robot.
+
+No human face.
+
+No mascot animal.
+
+Appearance should feel engineered.
+
+Examples
+
+Floating geometric orb
+
+Abstract architectural shape
+
+Minimal blueprint-inspired companion
+
+Soft ambient glow
+
+Glass and metallic materials
+
+Subtle breathing animation
+
+Minimal eyes or expressive indicators (optional)
+
+Premium motion
+
+The mascot should look timeless rather than trendy.
+
+Emotional States
+
+Supported states
+
+Sleeping
+
+Listening
+
+Thinking
+
+Processing
+
+Speaking
+
+Guiding
+
+Celebrating
+
+Waiting
+
+Idle
+
+State transitions should be subtle and smooth.
+
+Behaviors
+
+Idle
+
+Slow breathing animation.
+
+Occasional gentle movement.
+
+Listening
+
+Slight glow.
+
+Thinking
+
+Soft pulse.
+
+Animated particles.
+
+Speaking
+
+Subtle waveform.
+
+Guiding
+
+Points toward relevant UI.
+
+Celebrating
+
+Reserved success animation.
+
+Never exaggerated.
+
+Website Positioning
+
+Desktop
+
+Bottom-right floating assistant.
+
+Expandable.
+
+Dockable.
+
+Collapsible.
+
+Mobile
+
+Bottom sheet.
+
+Full-screen conversation.
+
+Gesture support.
+
+Context Awareness
+
+Byld always understands
+
+Current page
+
+Current journey
+
+Current industry
+
+Current solution
+
+Current technology
+
+Current case study
+
+Current BuildPath progress
+
+Theme
+
+Accessibility settings
+
+Device type
+
+Conversation history
+
+Never asks for information already known.
+
+Memory
+
+Session memory by default.
+
+Optional persistent memory with user consent.
+
+Remember
+
+Preferred technologies
+
+Product goals
+
+Selected journey
+
+Saved roadmaps
+
+Viewed case studies
+
+BuildPath progress
+
+Always explain what is remembered and why.
+
+Assistance Strategy
+
+Byld should proactively help only when useful.
+
+Examples
+
+Suggest related case studies.
+
+Explain architecture diagrams.
+
+Recommend BuildPath.
+
+Summarize long articles.
+
+Compare technologies.
+
+Clarify engineering concepts.
+
+Never interrupt reading.
+
+Never auto-open.
+
+Accessibility
+
+Keyboard accessible
+
+Screen reader friendly
+
+Reduced motion support
+
+Adjustable text size
+
+Voice-ready architecture
+
+High-contrast compatible
+
+Future Vision
+
+Eventually evolve into
+
+AI Product Manager
+
+AI Architect
+
+Proposal Generator
+
+Client Portal Assistant
+
+Meeting Preparation Assistant
+
+Documentation Assistant
+
+Code Architecture Advisor
+
+END OF MASTER SECTION — BYLD
+
+MASTER SECTION
+
+BUILDPATH™
+
+Version: 1.0
+
+Status:
+Living Document
+
+Priority:
+Critical
+
+Dependencies:
+Part 1
+Part 2
+
+Vision
+
+BuildPath is the flagship product of Byld IQ.
+
+It is not a contact form.
+
+It is not a questionnaire.
+
+It is an AI-powered product discovery platform.
+
+Visitors should finish with a clear understanding of their product,
+roadmap, risks, technologies, and next steps.
+
+Goals
+
+Help visitors discover
+
+Product vision
+
+Business goals
+
+User types
+
+Platforms
+
+Features
+
+AI opportunities
+
+Security needs
+
+Scalability requirements
+
+Technical risks
+
+Budget expectations
+
+Delivery phases
+
+Core Workflow
+
+Welcome
+
+↓
+
+Business Goals
+
+↓
+
+Problem Discovery
+
+↓
+
+Target Users
+
+↓
+
+Platform Selection
+
+↓
+
+Feature Discovery
+
+↓
+
+Technology Recommendation
+
+↓
+
+Architecture Recommendation
+
+↓
+
+Risk Analysis
+
+↓
+
+Timeline
+
+↓
+
+Budget
+
+↓
+
+AI Analysis
+
+↓
+
+Interactive Roadmap
+
+↓
+
+Executive Summary
+
+↓
+
+Export PDF
+
+↓
+
+Book Discovery
+
+AI Responsibilities
+
+The AI should
+
+Ask intelligent follow-up questions.
+
+Explain recommendations.
+
+Compare alternatives.
+
+Generate phased roadmaps.
+
+Recommend technologies with trade-offs.
+
+Suggest team composition.
+
+Highlight business and technical risks.
+
+Outputs
+
+Generate
+
+Executive Summary
+
+Product Roadmap
+
+Architecture Overview
+
+Technology Recommendations
+
+Team Recommendation
+
+Risk Assessment
+
+AI Opportunities
+
+Feature Prioritization
+
+Timeline
+
+PDF Export
+
+Integrations
+
+Connected to
+
+AI Companion
+
+Solutions Platform
+
+Technology Explorer
+
+Case Studies
+
+Knowledge Center
+
+CRM
+
+Proposal Builder
+
+Client Portal
+
+Future Expansion
+
+BuildPath eventually becomes a standalone SaaS product.
+
+END OF MASTER SECTION — BUILDPATH™
+
+MASTER SECTION
+
+KNOWLEDGE CENTER
+
+Version: 1.0
+
+Status:
+Living Document
+
+Priority:
+Critical
+
+Dependencies:
+Part 1
+Part 2
+
+Vision
+
+The Knowledge Center is not a blog.
+
+It is an engineering knowledge platform.
+
+Its purpose is to educate founders, product managers, designers,
+engineers, and business leaders.
+
+Knowledge should create trust.
+
+Content Categories
+
+Product Strategy
+
+MVP Validation
+
+UX
+
+UI
+
+Design Systems
+
+Frontend
+
+Backend
+
+AI Engineering
+
+Architecture
+
+Cloud
+
+DevOps
+
+Shopify
+
+Performance
+
+Accessibility
+
+Security
+
+Testing
+
+Analytics
+
+Product Management
+
+Engineering Leadership
+
+Engineering Culture
+
+Content Types
+
+Articles
+
+Playbooks
+
+Whitepapers
+
+Engineering Guides
+
+Architecture Reviews
+
+Decision Records (ADRs)
+
+Interactive Tutorials
+
+Case Study Breakdowns
+
+Framework Comparisons
+
+Videos
+
+Workshops
+
+Checklists
+
+Templates
+
+Future Courses
+
+Learning Experience
+
+Support
+
+Reading mode
+
+Bookmarking
+
+AI summaries
+
+Interactive diagrams
+
+Architecture explorers
+
+Code examples
+
+Reading progress
+
+Related content
+
+Learning paths
+
+Difficulty levels
+
+AI Integration
+
+Byld understands every article.
+
+Visitors can ask
+
+Explain this.
+
+Summarize it.
+
+Compare alternatives.
+
+Show real-world examples.
+
+Explain for beginners.
+
+Explain for executives.
+
+Connections
+
+Every article should connect to
+
+Related technologies
+
+Relevant case studies
+
+Solutions
+
+BuildPath
+
+AI Companion
+
+Additional guides
+
+No page should ever become a dead end.
+
+Future Vision
+
+The Knowledge Center evolves into
+
+Engineering Academy
+
+Certification Platform
+
+Interactive Courses
+
+AI Tutor
+
+Community Hub
+
+Live Workshops
+
+Public Documentation Portal
+
+Research Library
+
+END OF MASTER SECTION — KNOWLEDGE CENTER
+
 PART 3
 
 PRODUCT PHILOSOPHY & PRODUCT THINKING
