@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { ToastProvider } from "@/components/Toast";
 import { AnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { MotionProvider } from "@/providers/MotionProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
@@ -16,7 +17,9 @@ export function StorybookProviders({ children }: { children: ReactNode }) {
     <MotionProvider>
       <QueryProvider>
         <StoreProvider>
-          <AnalyticsProvider>{children}</AnalyticsProvider>
+          <AnalyticsProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </AnalyticsProvider>
         </StoreProvider>
       </QueryProvider>
     </MotionProvider>
