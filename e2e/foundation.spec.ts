@@ -39,3 +39,12 @@ test("has no automatically detectable accessibility violations", async ({ page }
 
   expect(results.violations).toEqual([]);
 });
+
+test("shows the custom not-found page for unknown routes", async ({ page }) => {
+  const response = await page.goto("/this-route-does-not-exist");
+
+  expect(response?.status()).toBe(404);
+  await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
+  await page.getByRole("link", { name: "Back home" }).click();
+  await expect(page.getByRole("heading", { name: "Engineering foundation" })).toBeVisible();
+});
