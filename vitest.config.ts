@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
 const dirname =
@@ -36,6 +37,7 @@ export default defineConfig({
             "@": path.join(dirname, "src"),
           },
         },
+        plugins: [react()],
         test: {
           name: "unit",
           environment: "jsdom",
