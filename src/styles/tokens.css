@@ -1,0 +1,123 @@
+/**
+ * Byld IQ design tokens.
+ *
+ * Single source of truth for color, spacing, radius, shadow, motion, and
+ * z-index values. Components must reference these via `var(--token)` or the
+ * Tailwind utilities generated from them below — never a raw hex/px value.
+ *
+ * Color values here are neutral placeholders. They exist so the token
+ * pipeline (CSS vars -> Tailwind theme -> utilities -> dark mode) is fully
+ * wired end to end. Swap the values once the brand's final palette is
+ * approved; no consumer of these tokens should need to change.
+ */
+
+:root {
+  /* Neutral scale */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f7f7f8;
+  --color-neutral-100: #eeeef0;
+  --color-neutral-200: #dcdce1;
+  --color-neutral-300: #b9bac2;
+  --color-neutral-400: #8f909c;
+  --color-neutral-500: #6b6c7a;
+  --color-neutral-600: #4f5061;
+  --color-neutral-700: #383947;
+  --color-neutral-800: #24252f;
+  --color-neutral-900: #16171e;
+  --color-neutral-950: #0b0b10;
+  --color-neutral-1000: #000000;
+
+  /* Brand placeholder accent (see file header) */
+  --color-primary-400: #6d7bff;
+  --color-primary-500: #4d5bff;
+  --color-primary-600: #3a46e0;
+
+  /* Semantic surfaces (light mode) */
+  --color-background: var(--color-neutral-0);
+  --color-foreground: var(--color-neutral-950);
+  --color-surface: var(--color-neutral-0);
+  --color-surface-raised: var(--color-neutral-50);
+  --color-border: var(--color-neutral-200);
+  --color-muted: var(--color-neutral-500);
+  --color-accent: var(--color-primary-500);
+  --color-accent-foreground: var(--color-neutral-0);
+  --color-danger: #e5484d;
+  --color-success: #30a46c;
+  --color-warning: #f5a623;
+  --color-focus-ring: var(--color-primary-500);
+
+  /* Typography scale */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.7;
+
+  /* Radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  /* Shadow (elevation) */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.12);
+  --shadow-xl: 0 24px 64px -16px rgb(0 0 0 / 0.16);
+
+  /* Motion: only opacity/transform/filter should be animated (see docs/architecture.md) */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --duration-slower: 480ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Z-index scale */
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-fixed: 1200;
+  --z-overlay: 1300;
+  --z-modal: 1400;
+  --z-popover: 1500;
+  --z-toast: 1600;
+  --z-tooltip: 1700;
+}
+
+.dark {
+  --color-background: var(--color-neutral-950);
+  --color-foreground: var(--color-neutral-50);
+  --color-surface: var(--color-neutral-900);
+  --color-surface-raised: var(--color-neutral-800);
+  --color-border: var(--color-neutral-700);
+  --color-muted: var(--color-neutral-400);
+  --color-accent: var(--color-primary-400);
+  --color-accent-foreground: var(--color-neutral-950);
+  --color-focus-ring: var(--color-primary-400);
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.24);
+  --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.32);
+  --shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.4);
+  --shadow-xl: 0 24px 64px -16px rgb(0 0 0 / 0.48);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+}

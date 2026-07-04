@@ -1,0 +1,97 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* next-themes toggles `.dark` on <html>; opt Tailwind's dark: variant into that. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* Breakpoints, per the responsive spec (Small -> Desktop). Overrides Tailwind defaults. */
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 390px;
+  --breakpoint-md: 430px;
+  --breakpoint-lg: 768px;
+  --breakpoint-xl: 1024px;
+  --breakpoint-2xl: 1280px;
+  --breakpoint-3xl: 1440px;
+
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-border: var(--color-border);
+  --color-muted: var(--color-muted);
+  --color-accent: var(--color-accent);
+  --color-accent-foreground: var(--color-accent-foreground);
+  --color-danger: var(--color-danger);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-focus-ring: var(--color-focus-ring);
+
+  /* Tailwind's font-size namespace is `--text-*` (with an optional
+     `--text-*--line-height` companion) — not `--font-size-*`. Values are
+     sourced from the `--font-size-*` / `--line-height-*` tokens so there is
+     still one place (tokens.css) that owns the actual numbers. */
+  --text-xs: var(--font-size-xs);
+  --text-xs--line-height: var(--line-height-normal);
+  --text-sm: var(--font-size-sm);
+  --text-sm--line-height: var(--line-height-normal);
+  --text-base: var(--font-size-base);
+  --text-base--line-height: var(--line-height-normal);
+  --text-lg: var(--font-size-lg);
+  --text-lg--line-height: var(--line-height-normal);
+  --text-xl: var(--font-size-xl);
+  --text-xl--line-height: var(--line-height-snug);
+  --text-2xl: var(--font-size-2xl);
+  --text-2xl--line-height: var(--line-height-snug);
+  --text-3xl: var(--font-size-3xl);
+  --text-3xl--line-height: var(--line-height-tight);
+  --text-4xl: var(--font-size-4xl);
+  --text-4xl--line-height: var(--line-height-tight);
+  --text-5xl: var(--font-size-5xl);
+  --text-5xl--line-height: var(--line-height-tight);
+  --text-6xl: var(--font-size-6xl);
+  --text-6xl--line-height: var(--line-height-tight);
+
+  /* `rounded-full` is a static Tailwind keyword, not theme-driven — no
+     mapping needed; --radius-full in tokens.css exists for non-Tailwind
+     consumers only. */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+
+  --font-sans: var(--font-plus-jakarta-sans);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+}
