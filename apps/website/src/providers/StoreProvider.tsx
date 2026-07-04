@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useRef, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
 import { useStore } from "zustand";
 
 import { createAppStore, type AppStore } from "@/store/app-store";
@@ -12,6 +12,13 @@ const AppStoreContext = createContext<AppStoreApi | null>(null);
 export function StoreProvider({ children }: { children: ReactNode }) {
   const storeRef = useRef<AppStoreApi | null>(null);
   storeRef.current ??= createAppStore();
+
+  // Rehydrating after mount (rather than during store creation) keeps the
+  // first client render identical to the server-rendered markup, then
+  // applies the persisted journey/intro state — no hydration mismatch.
+  useEffect(() => {
+    void storeRef.current?.persist.rehydrate();
+  }, []);
 
   return <AppStoreContext.Provider value={storeRef.current}>{children}</AppStoreContext.Provider>;
 }

@@ -101,3 +101,49 @@ export const drawerPanel = {
     visible: { opacity: 1, x: 0, transition: baseTransition },
   } satisfies Variants,
 };
+
+/**
+ * Idle "breathing" loop for the AI companion orb (CLAUDE.md Part 16 Idle
+ * state: "Slow breathing animation"). Infinite loops aren't covered by
+ * `MotionProvider`'s `reducedMotion="user"` the way one-shot transforms are —
+ * callers must also branch on `useReducedMotion()` and skip this variant
+ * entirely for reduced-motion users.
+ */
+export const breathe: Variants = {
+  idle: {
+    scale: [1, 1.04, 1],
+    transition: { duration: 3.2, repeat: Infinity, ease: ease.standard },
+  },
+};
+
+/** Soft pulse for "active"/"thinking" indicators (AI companion, live status dots). Same reduced-motion caveat as `breathe`. */
+export const pulse: Variants = {
+  active: {
+    opacity: [0.6, 1, 0.6],
+    scale: [1, 1.08, 1],
+    transition: { duration: 1.6, repeat: Infinity, ease: ease.standard },
+  },
+};
+
+/** Ambient drift for decorative background particles/orbs (Part 9 background layers). Same reduced-motion caveat as `breathe`. */
+export const float: Variants = {
+  floating: {
+    y: [0, -10, 0],
+    transition: { duration: 6, repeat: Infinity, ease: ease.standard },
+  },
+};
+
+/**
+ * SVG path stroke draw-in for architecture/git-graph diagrams (Part 6:
+ * "Blueprint drawing" is an explicitly allowed scroll-based motion). Pair
+ * with `<motion.path variants={drawPath} initial="hidden" whileInView="visible">`
+ * on a path that has a defined `pathLength`.
+ */
+export const drawPath: Variants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: { duration: duration.slower * 2, ease: ease.decelerate },
+  },
+};
