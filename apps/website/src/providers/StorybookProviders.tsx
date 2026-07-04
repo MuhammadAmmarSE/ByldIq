@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { CommandPaletteProvider } from "@/components/CommandPalette";
 import { ToastProvider } from "@/components/Toast";
 import { AnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { MotionProvider } from "@/providers/MotionProvider";
@@ -18,7 +19,9 @@ export function StorybookProviders({ children }: { children: ReactNode }) {
       <QueryProvider>
         <StoreProvider>
           <AnalyticsProvider>
-            <ToastProvider>{children}</ToastProvider>
+            <ToastProvider>
+              <CommandPaletteProvider>{children}</CommandPaletteProvider>
+            </ToastProvider>
           </AnalyticsProvider>
         </StoreProvider>
       </QueryProvider>
