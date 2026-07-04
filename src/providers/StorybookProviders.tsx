@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { AnalyticsProvider } from "@/providers/AnalyticsProvider";
+import { MotionProvider } from "@/providers/MotionProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { StoreProvider } from "@/providers/StoreProvider";
 
@@ -12,10 +13,12 @@ import { StoreProvider } from "@/providers/StoreProvider";
  */
 export function StorybookProviders({ children }: { children: ReactNode }) {
   return (
-    <QueryProvider>
-      <StoreProvider>
-        <AnalyticsProvider>{children}</AnalyticsProvider>
-      </StoreProvider>
-    </QueryProvider>
+    <MotionProvider>
+      <QueryProvider>
+        <StoreProvider>
+          <AnalyticsProvider>{children}</AnalyticsProvider>
+        </StoreProvider>
+      </QueryProvider>
+    </MotionProvider>
   );
 }

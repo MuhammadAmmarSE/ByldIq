@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { AnalyticsProvider } from "@/providers/AnalyticsProvider";
+import { MotionProvider } from "@/providers/MotionProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { StoreProvider } from "@/providers/StoreProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
@@ -13,11 +14,13 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
-      <QueryProvider>
-        <StoreProvider>
-          <AnalyticsProvider>{children}</AnalyticsProvider>
-        </StoreProvider>
-      </QueryProvider>
+      <MotionProvider>
+        <QueryProvider>
+          <StoreProvider>
+            <AnalyticsProvider>{children}</AnalyticsProvider>
+          </StoreProvider>
+        </QueryProvider>
+      </MotionProvider>
     </ThemeProvider>
   );
 }

@@ -93,6 +93,15 @@ animation beyond a simple transition can be skipped when the user has
 `prefers-reduced-motion` set; the duration tokens themselves also collapse
 to `0ms` under that media query as a baseline safety net.
 
+`src/providers/MotionProvider.tsx` wraps the app in `motion`'s
+`MotionConfig` (the `motion` package is the unified successor to Framer
+Motion + Motion One) with `reducedMotion="user"` and the token-derived
+duration/easing as defaults, so any `motion.*` component automatically
+respects `prefers-reduced-motion` and matches the rest of the design system
+without repeating transition props everywhere. GSAP is still the tool for
+complex scroll-driven sequences (Milestone 4+); it isn't provider-scoped and
+should read the same `--duration-*`/`--ease-*` tokens directly.
+
 ## Component folder rules (Milestone 2+)
 
 Once real components exist, each one gets its own folder:

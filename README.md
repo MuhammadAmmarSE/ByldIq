@@ -9,8 +9,8 @@ placeholder that proves the foundation boots, and is replaced in Milestone 4.
 ## Stack
 
 Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS v4 ·
-Zustand · TanStack Query · Zod · next-themes · Storybook 10 · Vitest ·
-Playwright.
+Zustand · TanStack Query · Zod · next-themes · `motion` (Framer Motion) ·
+Storybook 10 · Vitest · Playwright.
 
 ## Getting started
 
