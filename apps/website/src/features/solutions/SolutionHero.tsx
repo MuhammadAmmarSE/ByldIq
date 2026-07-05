@@ -23,7 +23,7 @@ import type { SolutionHeroProps } from "./SolutionHero.types";
  */
 export function SolutionHero({ solution, className }: SolutionHeroProps) {
   const analytics = useAnalytics();
-  const { open: openAiCompanion } = useAiCompanion();
+  const { open: openAiCompanion, setPageContext } = useAiCompanion();
 
   useEffect(() => {
     analytics.track("solution_viewed", { slug: solution.slug });
@@ -31,8 +31,20 @@ export function SolutionHero({ solution, className }: SolutionHeroProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [solution.slug]);
 
+  useEffect(() => {
+    // Makes the AI Companion's greeting acknowledge this solution if opened
+    // from this page (CLAUDE.md Part 20: "AI automatically changes
+    // context"), without touching the visitor's separate journey
+    // preference. Cleared on unmount so leaving the page falls back to the
+    // journey-based greeting rather than a stale solution reference.
+    setPageContext({ label: solution.title, slug: solution.slug });
+    return () => setPageContext(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [solution.slug, solution.title]);
+
   function handlePrimaryCta() {
     analytics.track("solution_cta_selected", { slug: solution.slug, cta: "hero-primary" });
+    analytics.track("solution_buildpath_started", { slug: solution.slug });
   }
 
   function handleTalkToByld() {
@@ -53,7 +65,7 @@ export function SolutionHero({ solution, className }: SolutionHeroProps) {
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <Button asChild size="lg" onClick={handlePrimaryCta}>
-            <Link href="/buildpath">{solution.primaryCtaLabel}</Link>
+            <Link href={`/buildpath?solution=${solution.slug}`}>{solution.primaryCtaLabel}</Link>
           </Button>
           <Button variant="outline" size="lg" onClick={handleTalkToByld}>
             Talk to Byld

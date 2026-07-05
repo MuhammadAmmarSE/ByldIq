@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { JOURNEYS } from "@/types/journey";
 
-import { GREETINGS, RESPONSES } from "./responses";
+import { getPageContextGreeting, GREETINGS, RESPONSES } from "./responses";
 
 describe("GREETINGS", () => {
   it("has a greeting for every journey plus a default", () => {
@@ -24,5 +24,13 @@ describe("RESPONSES", () => {
       expect(response.content.length).toBeGreaterThan(0);
       expect(response.quickReplies.length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe("getPageContextGreeting", () => {
+  it("mentions the given page label and offers at least one quick reply", () => {
+    const greeting = getPageContextGreeting("Startup Product Engineering");
+    expect(greeting.content).toContain("Startup Product Engineering");
+    expect(greeting.quickReplies.length).toBeGreaterThan(0);
   });
 });

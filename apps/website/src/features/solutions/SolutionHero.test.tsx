@@ -57,18 +57,43 @@ describe("SolutionHero", () => {
     expect(mockTrack).toHaveBeenCalledWith("solution_viewed", { slug: solution.slug });
   });
 
-  it("links the primary CTA to BuildPath and tracks the click", async () => {
+  it("links the primary CTA to BuildPath with the solution prefilled, and tracks the click", async () => {
     const user = userEvent.setup();
     renderHero();
 
     const cta = screen.getByRole("link", { name: solution.primaryCtaLabel });
-    expect(cta).toHaveAttribute("href", "/buildpath");
+    expect(cta).toHaveAttribute("href", `/buildpath?solution=${solution.slug}`);
 
     await user.click(cta);
     expect(mockTrack).toHaveBeenCalledWith("solution_cta_selected", {
       slug: solution.slug,
       cta: "hero-primary",
     });
+    expect(mockTrack).toHaveBeenCalledWith("solution_buildpath_started", {
+      slug: solution.slug,
+    });
+  });
+
+  it("sets the AI companion's page context to this solution on mount", () => {
+    function Harness() {
+      const pageContext = useAiCompanionStore((state) => state.pageContext);
+      return (
+        <>
+          <SolutionHero solution={solution} />
+          <p data-testid="page-context">{pageContext ? pageContext.slug : "none"}</p>
+        </>
+      );
+    }
+
+    render(
+      <StoreProvider>
+        <AiCompanionStoreProvider>
+          <Harness />
+        </AiCompanionStoreProvider>
+      </StoreProvider>,
+    );
+
+    expect(screen.getByTestId("page-context")).toHaveTextContent(solution.slug);
   });
 
   it("opens the AI companion from Talk to Byld", async () => {

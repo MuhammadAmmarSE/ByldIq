@@ -43,6 +43,17 @@ describe("useAiCompanion", () => {
     expect(mockTrack).toHaveBeenCalledWith("ai_companion_opened", { journey: null });
   });
 
+  it("greets with the page context when one is set, taking priority over the journey", () => {
+    const { result } = renderHook(() => useAiCompanion(), { wrapper });
+
+    act(() =>
+      result.current.setPageContext({ label: "Startup Product Engineering", slug: "startup" }),
+    );
+    act(() => result.current.open());
+
+    expect(result.current.messages[0]?.content).toContain("Startup Product Engineering");
+  });
+
   it("does not re-greet on a second open once a conversation exists", () => {
     const { result } = renderHook(() => useAiCompanion(), { wrapper });
 

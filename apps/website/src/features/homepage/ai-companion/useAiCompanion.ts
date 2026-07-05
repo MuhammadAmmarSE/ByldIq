@@ -9,7 +9,7 @@ import { useAppStore } from "@/providers/StoreProvider";
 import "./analytics";
 
 import { matchIntent } from "./engine/intents";
-import { GREETINGS, RESPONSES } from "./engine/responses";
+import { getPageContextGreeting, GREETINGS, RESPONSES } from "./engine/responses";
 
 const REPLY_DELAY_MS = 700;
 
@@ -26,20 +26,28 @@ export function useAiCompanion() {
   const toggle = useAiCompanionStore((state) => state.toggle);
   const addMessage = useAiCompanionStore((state) => state.addMessage);
   const clearConversation = useAiCompanionStore((state) => state.clearConversation);
+  const pageContext = useAiCompanionStore((state) => state.pageContext);
+  const setPageContext = useAiCompanionStore((state) => state.setPageContext);
   const journey = useAppStore((state) => state.journey);
   const analytics = useAnalytics();
   const [isThinking, setIsThinking] = useState(false);
 
   const ensureGreeting = useCallback(() => {
     if (messages.length > 0) return;
-    const greeting = journey ? GREETINGS[journey] : GREETINGS.default;
+    // A specific page (e.g. a solution) takes priority over the broader
+    // journey greeting — it's the more relevant context available.
+    const greeting = pageContext
+      ? getPageContextGreeting(pageContext.label)
+      : journey
+        ? GREETINGS[journey]
+        : GREETINGS.default;
     addMessage({
       id: crypto.randomUUID(),
       role: "assistant",
       content: greeting.content,
       quickReplies: greeting.quickReplies,
     });
-  }, [messages.length, journey, addMessage]);
+  }, [messages.length, pageContext, journey, addMessage]);
 
   const handleOpen = useCallback(() => {
     open();
@@ -101,5 +109,6 @@ export function useAiCompanion() {
     toggle: handleToggle,
     sendMessage,
     clearConversation: handleClearConversation,
+    setPageContext,
   };
 }

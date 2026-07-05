@@ -33,6 +33,20 @@ describe("createAiCompanionStore", () => {
     expect(store.getState().messages).toEqual([]);
   });
 
+  it("defaults pageContext to null and can set/clear it", () => {
+    const store = createAiCompanionStore();
+    expect(store.getState().pageContext).toBeNull();
+
+    store.getState().setPageContext({ label: "Startup Product Engineering", slug: "startup" });
+    expect(store.getState().pageContext).toEqual({
+      label: "Startup Product Engineering",
+      slug: "startup",
+    });
+
+    store.getState().setPageContext(null);
+    expect(store.getState().pageContext).toBeNull();
+  });
+
   it("creates independent instances per call", () => {
     const storeA = createAiCompanionStore();
     const storeB = createAiCompanionStore();

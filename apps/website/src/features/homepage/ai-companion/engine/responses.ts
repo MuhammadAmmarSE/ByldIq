@@ -114,3 +114,17 @@ export const RESPONSES: Record<AiIntent, AiResponse> = {
     quickReplies: ["Compare technologies", "Start BuildPath"],
   },
 };
+
+/**
+ * A greeting for a specific page (currently: solution pages) — more
+ * specific than the five journey greetings above without fabricating
+ * bespoke copy for every page CLAUDE.md's content model could ever add.
+ * CLAUDE.md Part 20: "AI automatically changes context... Visitors never
+ * repeat themselves."
+ */
+export function getPageContextGreeting(label: string): AiResponse {
+  return {
+    content: `Looks like you're exploring ${label}. Want help thinking through the approach, or would a personalized roadmap from BuildPath be more useful?`,
+    quickReplies: ["What's a typical roadmap?", "Compare technologies", "Start BuildPath"],
+  };
+}

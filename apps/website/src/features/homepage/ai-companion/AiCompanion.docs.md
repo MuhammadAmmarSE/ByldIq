@@ -29,6 +29,16 @@ sent to a server." The visitor's journey (from the persisted app store)
 drives the initial greeting, so the companion never re-asks something the
 site already knows.
 
+## Page context
+
+`pageContext` (`{ label, slug } | null`) is a separate, more specific
+signal than `journey`: a page can call `setPageContext()` (e.g. a solution
+page, via `SolutionHero`) to make the greeting acknowledge exactly what's
+being viewed (`getPageContextGreeting`), without overwriting the
+visitor's broader journey preference — which is deliberately a distinct,
+explicit choice the visitor makes elsewhere (Journey Selection Engine),
+not something a page visit should silently change.
+
 ## Scope note
 
 Desktop and mobile share the same `Drawer`-based panel rather than a

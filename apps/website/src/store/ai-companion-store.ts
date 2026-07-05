@@ -8,9 +8,16 @@ export interface AiMessage {
   quickReplies?: string[];
 }
 
+/** What page the visitor is currently viewing, for a more specific greeting than the journey alone (CLAUDE.md Part 16: "Byld always understands: Current page... Current solution"). */
+export interface AiPageContext {
+  label: string;
+  slug: string;
+}
+
 export interface AiCompanionState {
   isOpen: boolean;
   messages: AiMessage[];
+  pageContext: AiPageContext | null;
 }
 
 export interface AiCompanionActions {
@@ -19,6 +26,7 @@ export interface AiCompanionActions {
   toggle: () => void;
   addMessage: (message: AiMessage) => void;
   clearConversation: () => void;
+  setPageContext: (context: AiPageContext | null) => void;
 }
 
 export type AiCompanionStore = AiCompanionState & AiCompanionActions;
@@ -26,6 +34,7 @@ export type AiCompanionStore = AiCompanionState & AiCompanionActions;
 export const defaultAiCompanionState: AiCompanionState = {
   isOpen: false,
   messages: [],
+  pageContext: null,
 };
 
 /**
@@ -44,5 +53,6 @@ export function createAiCompanionStore(initState: AiCompanionState = defaultAiCo
     toggle: () => set((state) => ({ isOpen: !state.isOpen })),
     addMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
     clearConversation: () => set({ messages: [] }),
+    setPageContext: (context) => set({ pageContext: context }),
   }));
 }
