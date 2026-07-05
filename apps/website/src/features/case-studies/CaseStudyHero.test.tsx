@@ -60,6 +60,8 @@ describe("CaseStudyHero", () => {
     expect(screen.getByText(caseStudy.teamSize)).toBeInTheDocument();
     expect(screen.getByText(caseStudy.timeline)).toBeInTheDocument();
     expect(screen.getByText(caseStudy.projectScale)).toBeInTheDocument();
+    expect(screen.getByText(caseStudy.platform.join(", "))).toBeInTheDocument();
+    expect(screen.getByText(caseStudy.projectType)).toBeInTheDocument();
   });
 
   it("tracks case_study_viewed once on mount", () => {

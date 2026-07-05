@@ -67,18 +67,23 @@ export function CaseStudyHero({ caseStudy, company, className }: CaseStudyHeroPr
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="neutral">{company.industry}</Badge>
           <Badge variant="outline">{businessProblemLabel}</Badge>
+          <Badge variant="outline">{caseStudy.projectType}</Badge>
           {caseStudy.aiInvolvement && <Badge variant="accent">AI-powered</Badge>}
         </div>
 
         <Heading variant="display">{caseStudy.headline}</Heading>
 
-        <dl className="grid grid-cols-3 gap-4">
+        <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {KEY_FACTS.map((fact) => (
             <div key={fact.key}>
               <dt className="text-muted text-xs">{fact.label}</dt>
               <dd className="text-foreground text-sm font-medium">{caseStudy[fact.key]}</dd>
             </div>
           ))}
+          <div>
+            <dt className="text-muted text-xs">Platform</dt>
+            <dd className="text-foreground text-sm font-medium">{caseStudy.platform.join(", ")}</dd>
+          </div>
         </dl>
 
         <div className="flex flex-wrap items-center gap-3 pt-2">

@@ -1,10 +1,10 @@
 # CaseStudyHero
 
 Every case study page's hero (CLAUDE.md Part 21): a breadcrumb back to
-`/work`, industry/business-problem/AI-involvement badges, the headline,
-three key facts (team, timeline, scale), and two CTAs — BuildPath and the
-AI Companion. Mirrors `SolutionHero`'s structure so the Solutions and
-Case Studies platforms feel like one system.
+`/work`, industry/business-problem/project-type/AI-involvement badges,
+the headline, four key facts (team, timeline, scale, platform), and two
+CTAs — BuildPath and the AI Companion. Mirrors `SolutionHero`'s structure
+so the Solutions and Case Studies platforms feel like one system.
 
 ## Props
 
