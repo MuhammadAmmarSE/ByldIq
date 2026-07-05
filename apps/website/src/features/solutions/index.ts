@@ -15,4 +15,5 @@ export { SolutionSelector } from "./SolutionSelector";
 export { SolutionCard } from "./SolutionCard";
 export { SolutionHero } from "./SolutionHero";
 export { SolutionOverview } from "./SolutionOverview";
+export { CapabilityExplorer } from "./CapabilityExplorer";
 export * from "./analytics";
