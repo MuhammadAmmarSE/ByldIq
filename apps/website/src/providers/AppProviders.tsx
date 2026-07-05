@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { CommandPaletteProvider } from "@/components/CommandPalette";
 import { ToastProvider } from "@/components/Toast";
+import { AiCompanionProvider } from "@/features/homepage/ai-companion";
 import { AiCompanionStoreProvider } from "@/providers/AiCompanionStoreProvider";
 import { AnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { MotionProvider } from "@/providers/MotionProvider";
@@ -23,7 +24,9 @@ export function AppProviders({ children }: { children: ReactNode }) {
             <AiCompanionStoreProvider>
               <AnalyticsProvider>
                 <ToastProvider>
-                  <CommandPaletteProvider>{children}</CommandPaletteProvider>
+                  <CommandPaletteProvider>
+                    <AiCompanionProvider>{children}</AiCompanionProvider>
+                  </CommandPaletteProvider>
                 </ToastProvider>
               </AnalyticsProvider>
             </AiCompanionStoreProvider>
