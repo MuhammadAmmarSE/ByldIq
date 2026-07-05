@@ -17,4 +17,5 @@ export { SolutionHero } from "./SolutionHero";
 export { SolutionOverview } from "./SolutionOverview";
 export { CapabilityExplorer } from "./CapabilityExplorer";
 export { ArchitectureExplorer } from "./ArchitectureExplorer";
+export { TechnologyExplorer } from "./TechnologyExplorer";
 export * from "./analytics";

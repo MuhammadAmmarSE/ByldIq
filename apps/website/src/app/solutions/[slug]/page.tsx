@@ -8,6 +8,7 @@ import {
   SOLUTIONS,
   SolutionHero,
   SolutionOverview,
+  TechnologyExplorer,
 } from "@/features/solutions";
 
 interface SolutionPageProps {
@@ -39,9 +40,9 @@ export async function generateMetadata({ params }: SolutionPageProps): Promise<M
  * page has the same section order (CLAUDE.md Part 20: "all pages must
  * share the same architecture"). Built incrementally across Milestone 4's
  * phases; Hero, Business Problem, Business Outcomes, Engineering
- * Philosophy, Capability Explorer, and Architecture Explorer are real so
- * far — the remaining sections (technology, delivery, metrics, related
- * content, FAQ, final CTA) land in later phases.
+ * Philosophy, Capability Explorer, Architecture Explorer, and Technology
+ * Explorer are real so far — the remaining sections (delivery, metrics,
+ * related content, FAQ, final CTA) land in later phases.
  */
 export default async function SolutionPage({ params }: SolutionPageProps) {
   const { slug } = await params;
@@ -54,6 +55,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
       <SolutionOverview solution={solution} />
       <CapabilityExplorer solution={solution} />
       <ArchitectureExplorer solution={solution} />
+      <TechnologyExplorer solution={solution} />
     </Container>
   );
 }
