@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
+import { siteConfig } from "@/config/site";
 import {
   ArchitectureExplorer,
   CapabilityExplorer,
@@ -17,6 +18,7 @@ import {
   SuccessMetrics,
   TechnologyExplorer,
 } from "@/features/solutions";
+import { breadcrumbJsonLd, faqPageJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 interface SolutionPageProps {
   params: Promise<{ slug: string }>;
@@ -39,6 +41,18 @@ export async function generateMetadata({ params }: SolutionPageProps): Promise<M
   return {
     title: solution.title,
     description: solution.heroSupportingCopy,
+    alternates: { canonical: `/solutions/${solution.slug}` },
+    openGraph: {
+      title: solution.title,
+      description: solution.heroSupportingCopy,
+      url: `/solutions/${solution.slug}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: solution.title,
+      description: solution.heroSupportingCopy,
+    },
   };
 }
 
@@ -59,6 +73,16 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
 
   return (
     <Container size="content" className="space-y-16 py-16">
+      <script
+        {...jsonLdScriptProps(
+          breadcrumbJsonLd([
+            { name: "Home", url: siteConfig.url },
+            { name: "Solutions", url: `${siteConfig.url}/solutions` },
+            { name: solution.navLabel, url: `${siteConfig.url}/solutions/${solution.slug}` },
+          ]),
+        )}
+      />
+      <script {...jsonLdScriptProps(faqPageJsonLd(solution.faqs))} />
       <SolutionHero solution={solution} />
       <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
         <SolutionSidebar className="hidden lg:block" />

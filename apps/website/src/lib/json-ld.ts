@@ -28,3 +28,42 @@ export function organizationJsonLd() {
     url: siteConfig.url,
   };
 }
+
+/**
+ * BreadcrumbList schema (CLAUDE.md Part 26: "Structured Data" is a
+ * required metadata field). `items` should be given in root-to-leaf order,
+ * with absolute URLs — schema.org's `item` expects a full URL, not a path.
+ */
+export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}
+
+/**
+ * FAQPage schema for any page whose FAQ accordion mirrors real, visible
+ * page content (CLAUDE.md Part 20's solution pages) — never for FAQ
+ * content that isn't actually rendered, which Google's guidelines treat as
+ * spam.
+ */
+export function faqPageJsonLd(faqs: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+}

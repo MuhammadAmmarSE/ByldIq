@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
 import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
 import { CASE_STUDIES } from "@/features/homepage/proof-engine";
+import { SOLUTIONS } from "@/features/solutions";
 
 /**
  * Grows as real routes land. Only routes with real, crawlable content are
@@ -31,6 +32,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    {
+      url: `${siteConfig.url}/solutions`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    ...SOLUTIONS.map((solution): MetadataRoute.Sitemap[number] => ({
+      url: `${siteConfig.url}/solutions/${solution.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    })),
     ...CASE_STUDIES.map((caseStudy): MetadataRoute.Sitemap[number] => ({
       url: `${siteConfig.url}/case-studies/${caseStudy.slug}`,
       lastModified: new Date(),
