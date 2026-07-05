@@ -12,4 +12,9 @@ export type {
 } from "./data/case-study.schema";
 export { FICTIONAL_COMPANIES } from "./data/fictional-companies";
 export type { FictionalCompany } from "./data/fictional-companies";
+export { BUSINESS_PROBLEMS } from "./data/business-problems";
+export type { BusinessProblemCategory } from "./data/business-problems";
+export { WorkExplorer } from "./WorkExplorer";
+export { WorkHero } from "./WorkHero";
+export { WorkFilterBar } from "./WorkFilterBar";
 export * from "./analytics";
