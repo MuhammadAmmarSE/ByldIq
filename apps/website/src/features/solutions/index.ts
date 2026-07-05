@@ -16,4 +16,5 @@ export { SolutionCard } from "./SolutionCard";
 export { SolutionHero } from "./SolutionHero";
 export { SolutionOverview } from "./SolutionOverview";
 export { CapabilityExplorer } from "./CapabilityExplorer";
+export { ArchitectureExplorer } from "./ArchitectureExplorer";
 export * from "./analytics";
