@@ -19,7 +19,10 @@ import type { WorkHeroProps } from "./WorkHero.types";
  * platform's philosophy — an engineering library, not a project gallery —
  * with search, quick industry filters, an AI entry point, and a pointer to
  * the featured case study, all in one place per the spec's hero
- * requirements.
+ * requirements. `headline`/`supportingCopy` are overridable so the facet
+ * routes (`/work/industry/[industry]`, etc.) can give each landing page
+ * its own real `<h1>` instead of duplicating this component's fixed copy
+ * under a second heading.
  */
 export function WorkHero({
   query,
@@ -28,6 +31,8 @@ export function WorkHero({
   industryFilter,
   onIndustryQuickFilter,
   featured,
+  headline = "Engineering Stories, Not Portfolios.",
+  supportingCopy = "Every project here explains the business challenge, the engineering decisions, the trade-offs, and the results — not just the finished screenshots.",
   className,
 }: WorkHeroProps) {
   const { open: openAiCompanion } = useAiCompanion();
@@ -38,11 +43,8 @@ export function WorkHero({
 
       <div className="relative mx-auto max-w-2xl space-y-6 px-6">
         <div className="space-y-3">
-          <Heading variant="display">Engineering Stories, Not Portfolios.</Heading>
-          <Text variant="subtitle">
-            Every project here explains the business challenge, the engineering decisions, the
-            trade-offs, and the results — not just the finished screenshots.
-          </Text>
+          <Heading variant="display">{headline}</Heading>
+          <Text variant="subtitle">{supportingCopy}</Text>
         </div>
 
         <SearchField

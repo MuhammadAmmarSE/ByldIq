@@ -95,4 +95,39 @@ describe("WorkHero", () => {
       `/work/${featured.slug}`,
     );
   });
+
+  it("uses the default headline and supporting copy when none are given", () => {
+    render(
+      <WorkHero
+        query=""
+        onQueryChange={vi.fn()}
+        industries={industries}
+        industryFilter={null}
+        onIndustryQuickFilter={vi.fn()}
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", { name: "Engineering Stories, Not Portfolios." }),
+    ).toBeInTheDocument();
+  });
+
+  it("overrides the headline and supporting copy when given, for facet-specific pages", () => {
+    render(
+      <WorkHero
+        query=""
+        onQueryChange={vi.fn()}
+        industries={industries}
+        industryFilter={null}
+        onIndustryQuickFilter={vi.fn()}
+        headline="Retail engineering stories."
+        supportingCopy="Case studies from retail teams."
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", { name: "Retail engineering stories." }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Case studies from retail teams.")).toBeInTheDocument();
+  });
 });

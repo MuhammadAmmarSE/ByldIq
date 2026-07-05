@@ -12,29 +12,10 @@ import "./analytics";
 
 import { BUSINESS_PROBLEMS } from "./data/business-problems";
 import { CASE_STUDIES } from "./data/case-studies";
-import { FICTIONAL_COMPANIES } from "./data/fictional-companies";
+import { COMPANIES_BY_ID, INDUSTRIES, TECHNOLOGIES } from "./data/facets";
 import { WorkFilterBar } from "./WorkFilterBar";
 import { WorkHero } from "./WorkHero";
 import type { WorkExplorerProps } from "./WorkExplorer.types";
-
-const COMPANIES_BY_ID = new Map(FICTIONAL_COMPANIES.map((company) => [company.id, company]));
-
-const INDUSTRIES = Array.from(
-  new Map(
-    CASE_STUDIES.map((caseStudy) => COMPANIES_BY_ID.get(caseStudy.companyId)?.industry)
-      .filter((industry): industry is string => Boolean(industry))
-      .map((industry) => [slugify(industry), industry]),
-  ),
-).map(([slug, label]) => ({ slug, label }));
-
-const TECHNOLOGIES = Array.from(
-  new Map(
-    CASE_STUDIES.flatMap((caseStudy) => caseStudy.technologies).map((technology) => [
-      slugify(technology),
-      technology,
-    ]),
-  ),
-).map(([slug, label]) => ({ slug, label }));
 
 const FEATURED_CASE_STUDIES = CASE_STUDIES.filter((caseStudy) => caseStudy.featured);
 
@@ -51,12 +32,32 @@ const FEATURED_CASE_STUDIES = CASE_STUDIES.filter((caseStudy) => caseStudy.featu
  * invented signal CLAUDE.md's "never fabricate numbers" principle warns
  * against applied to metrics. The full grid below Featured serves
  * discovery instead.
+ *
+ * The `initial*`/`headline`/`supportingCopy` props let the facet routes
+ * (`/work/industry/[industry]`, `/work/technology/[technology]`,
+ * `/work/business-problem/[problem]`, `/work/search`) reuse this exact
+ * component pre-seeded with a filter or query, rather than building a
+ * second, thinner listing page for the same content.
  */
-export function WorkExplorer({ className }: WorkExplorerProps) {
-  const [query, setQuery] = useState("");
-  const [industryFilter, setIndustryFilter] = useState<string | null>(null);
-  const [technologyFilter, setTechnologyFilter] = useState<string | null>(null);
-  const [businessProblemFilter, setBusinessProblemFilter] = useState<string | null>(null);
+export function WorkExplorer({
+  className,
+  initialQuery = "",
+  initialIndustryFilter,
+  initialTechnologyFilter,
+  initialBusinessProblemFilter,
+  headline,
+  supportingCopy,
+}: WorkExplorerProps) {
+  const [query, setQuery] = useState(initialQuery);
+  const [industryFilter, setIndustryFilter] = useState<string | null>(
+    initialIndustryFilter ?? null,
+  );
+  const [technologyFilter, setTechnologyFilter] = useState<string | null>(
+    initialTechnologyFilter ?? null,
+  );
+  const [businessProblemFilter, setBusinessProblemFilter] = useState<string | null>(
+    initialBusinessProblemFilter ?? null,
+  );
   const [aiOnly, setAiOnly] = useState(false);
   const analytics = useAnalytics();
 
@@ -128,6 +129,8 @@ export function WorkExplorer({ className }: WorkExplorerProps) {
         industryFilter={industryFilter}
         onIndustryQuickFilter={handleIndustryFilterChange}
         featured={FEATURED_CASE_STUDIES[0]}
+        headline={headline}
+        supportingCopy={supportingCopy}
       />
 
       {FEATURED_CASE_STUDIES.length > 0 && (

@@ -12,5 +12,9 @@ export interface WorkHeroProps {
   industryFilter: string | null;
   onIndustryQuickFilter: (industry: string | null) => void;
   featured?: CaseStudy;
+  /** Overrides the default "Engineering Stories, Not Portfolios." headline. */
+  headline?: string;
+  /** Overrides the default supporting copy below the headline. */
+  supportingCopy?: string;
   className?: string;
 }

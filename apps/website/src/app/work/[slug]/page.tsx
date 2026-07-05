@@ -8,6 +8,8 @@ import {
   CaseStudyChallenges,
   CaseStudyDiscovery,
   CaseStudyEngineeringProcess,
+  CaseStudyFaqSection,
+  CaseStudyFinalCta,
   CaseStudyHero,
   CaseStudyLessonsLearned,
   CaseStudyOverview,
@@ -15,6 +17,7 @@ import {
   CaseStudyRelatedKnowledge,
   CaseStudyRelatedSolutions,
   CaseStudyResults,
+  CaseStudySidebar,
   CaseStudyTechnologyDecisions,
   FICTIONAL_COMPANIES,
 } from "@/features/case-studies";
@@ -50,11 +53,13 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
 /**
  * One shared template driven entirely by `CASE_STUDIES` data — every case
  * study page has the same section order (CLAUDE.md Part 21: "Every case
- * study follows the same architecture"). Built incrementally across
- * Milestone 5's phases: every section through Related Knowledge is real
- * as of this phase (the AI Companion and BuildPath are already wired in
- * via `CaseStudyHero`). The remaining sections (FAQ, final CTA) and the
- * filter/search routes land in later phases.
+ * study follows the same architecture"). Every section is now real: Hero,
+ * Executive Summary, Business Challenge, Discovery, Product Thinking,
+ * Architecture, Technology Decisions, Engineering Process, Challenges,
+ * Results, Lessons Learned, Related Solutions, Related Knowledge, FAQ,
+ * and the final CTA. A sticky sidebar (desktop only) provides scrollspy
+ * navigation across the middle sections; the hero and final CTA span full
+ * width, mirroring the Solutions Platform's page template.
  */
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
@@ -67,19 +72,25 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     <Container size="content" className="space-y-16 py-16">
       <CaseStudyHero caseStudy={caseStudy} company={company} />
 
-      <div className="mx-auto max-w-3xl space-y-16">
-        <CaseStudyOverview caseStudy={caseStudy} />
-        <CaseStudyDiscovery caseStudy={caseStudy} />
-        <CaseStudyProductThinking caseStudy={caseStudy} />
-        <CaseStudyArchitecture caseStudy={caseStudy} />
-        <CaseStudyTechnologyDecisions caseStudy={caseStudy} />
-        <CaseStudyEngineeringProcess caseStudy={caseStudy} />
-        <CaseStudyChallenges caseStudy={caseStudy} />
-        <CaseStudyResults caseStudy={caseStudy} />
-        <CaseStudyLessonsLearned caseStudy={caseStudy} />
-        <CaseStudyRelatedSolutions caseStudy={caseStudy} />
-        <CaseStudyRelatedKnowledge caseStudy={caseStudy} />
+      <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
+        <CaseStudySidebar className="hidden lg:block" />
+        <div className="max-w-3xl space-y-16">
+          <CaseStudyOverview caseStudy={caseStudy} />
+          <CaseStudyDiscovery caseStudy={caseStudy} />
+          <CaseStudyProductThinking caseStudy={caseStudy} />
+          <CaseStudyArchitecture caseStudy={caseStudy} />
+          <CaseStudyTechnologyDecisions caseStudy={caseStudy} />
+          <CaseStudyEngineeringProcess caseStudy={caseStudy} />
+          <CaseStudyChallenges caseStudy={caseStudy} />
+          <CaseStudyResults caseStudy={caseStudy} />
+          <CaseStudyLessonsLearned caseStudy={caseStudy} />
+          <CaseStudyRelatedSolutions caseStudy={caseStudy} />
+          <CaseStudyRelatedKnowledge caseStudy={caseStudy} />
+          <CaseStudyFaqSection caseStudy={caseStudy} />
+        </div>
       </div>
+
+      <CaseStudyFinalCta caseStudy={caseStudy} />
     </Container>
   );
 }

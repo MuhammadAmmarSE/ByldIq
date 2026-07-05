@@ -92,4 +92,27 @@ describe("WorkExplorer", () => {
     await user.click(screen.getByRole("button", { name: /ask byld/i }));
     expect(mockOpen).toHaveBeenCalled();
   });
+
+  it("preseeds the search box, filters, and hero copy from the initial* and headline props", () => {
+    render(
+      <WorkExplorer
+        initialQuery="Fieldnote"
+        initialIndustryFilter="field-services"
+        headline="Field Services engineering stories."
+        supportingCopy="Case studies from field services teams."
+      />,
+    );
+
+    expect(screen.getByRole("searchbox", { name: /search case studies/i })).toHaveValue(
+      "Fieldnote",
+    );
+    expect(screen.getByRole("button", { name: "Field Services" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(
+      screen.getByRole("heading", { name: "Field Services engineering stories." }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Case studies from field services teams.")).toBeInTheDocument();
+  });
 });
