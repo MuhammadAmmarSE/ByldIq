@@ -1,0 +1,49 @@
+"use client";
+
+import { useAnalytics } from "@/providers/AnalyticsProvider";
+import { cn } from "@/utils/cn";
+
+import "./analytics";
+
+import { ArticleCard } from "./ArticleCard";
+import { KNOWLEDGE_ARTICLES } from "./data/articles";
+import { FeaturedGuideCard } from "./FeaturedGuideCard";
+import type { KnowledgeCenterPreviewProps } from "./KnowledgeCenterPreview.types";
+
+/**
+ * CLAUDE.md Part 18's Knowledge Center, previewed on the homepage: one
+ * featured guide plus a grid of articles spanning strategy, architecture,
+ * AI, accessibility, and commerce — each with an "Ask Byld" expandable
+ * summary. Content is local typed data (`data/articles.ts`), not a real
+ * CMS — that's deferred to a future Knowledge Center milestone.
+ */
+export function KnowledgeCenterPreview({ className }: KnowledgeCenterPreviewProps) {
+  const analytics = useAnalytics();
+  const featured = KNOWLEDGE_ARTICLES.find((article) => article.featured);
+  const rest = KNOWLEDGE_ARTICLES.filter((article) => !article.featured);
+
+  function handleSelect(slug: string) {
+    analytics.track("knowledge_article_clicked", { slug });
+  }
+
+  function handleExpandAiSummary(slug: string) {
+    analytics.track("knowledge_ai_summary_expanded", { slug });
+  }
+
+  return (
+    <div className={cn("space-y-8", className)}>
+      {featured && <FeaturedGuideCard article={featured} onSelect={handleSelect} />}
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {rest.map((article) => (
+          <ArticleCard
+            key={article.slug}
+            article={article}
+            onSelect={handleSelect}
+            onExpandAiSummary={handleExpandAiSummary}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
