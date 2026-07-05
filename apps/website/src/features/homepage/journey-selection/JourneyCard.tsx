@@ -51,7 +51,9 @@ export function JourneyCard({
       </span>
 
       <div className="space-y-1.5">
-        <Heading variant="h5">{journey.title}</Heading>
+        <Heading variant="h5" as="h2">
+          {journey.title}
+        </Heading>
         <Text variant="caption">{journey.description}</Text>
       </div>
 

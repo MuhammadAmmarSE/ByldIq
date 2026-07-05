@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { Heading } from "@/components/Heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/Tabs";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
@@ -38,6 +39,11 @@ export function ProductThinkingTimeline({ className }: ProductThinkingTimelinePr
 
   return (
     <div className={cn(className)}>
+      {/* Verbatim from CLAUDE.md Part 12's Core Message. */}
+      <Heading variant="h2" className="mb-8">
+        Great products are not coded. They are engineered.
+      </Heading>
+
       <Tabs value={activeStage} onValueChange={handleChange}>
         <TabsList
           aria-label="Product thinking stages"

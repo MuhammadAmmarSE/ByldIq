@@ -28,8 +28,11 @@ export function EngineeringExcellenceEngine({ className }: EngineeringExcellence
 
   return (
     <div className={cn("space-y-10", className)}>
+      {/* Headline option from CLAUDE.md Part 15. */}
+      <Heading variant="h2">Engineering Built For Scale.</Heading>
+
       <div>
-        <Heading variant="h4" className="mb-4">
+        <Heading variant="h4" as="h3" className="mb-4">
           Every change follows the same pipeline
         </Heading>
         <PipelineVisualizer

@@ -17,7 +17,7 @@ export function QuestionnaireTaste({
 }: QuestionnaireTasteProps) {
   return (
     <div className={cn(className)}>
-      <Heading variant="h5" className="mb-3">
+      <Heading variant="h5" as="h3" className="mb-3">
         What are you trying to achieve?
       </Heading>
       <div

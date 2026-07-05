@@ -1,67 +1,81 @@
-"use client";
+import { cookies } from "next/headers";
 
-import { useTheme } from "next-themes";
+import { AdaptiveHero } from "@/features/homepage/adaptive-hero";
+import { ArrivalExperience, INTRO_SEEN_COOKIE, ScrollIndicator } from "@/features/homepage/arrival";
+import { BuildPathPreview } from "@/features/homepage/buildpath-preview";
+import { ConversionExperience } from "@/features/homepage/conversion-experience";
+import { EngineeringExcellenceEngine } from "@/features/homepage/engineering-excellence";
+import { JourneySelector } from "@/features/homepage/journey-selection";
+import { KnowledgeCenterPreview } from "@/features/homepage/knowledge-center-preview";
+import { ProductShowcase } from "@/features/homepage/product-showcase";
+import { ProductThinkingTimeline } from "@/features/homepage/product-thinking-timeline";
+import { ProofEngine } from "@/features/homepage/proof-engine";
+import { HomepageSection, ScrollDepthTracker } from "@/features/homepage/shared";
 
-import { useAppStore } from "@/providers/StoreProvider";
-import { JOURNEYS } from "@/types/journey";
-import { THEMES } from "@/types/theme";
+// Reading the intro-seen cookie makes this route request-dependent, which
+// Next.js already infers from the `cookies()` call below — declared
+// explicitly per CLAUDE.md Part 26: "Every route must explicitly choose
+// [a rendering strategy]... no hidden defaults." The tradeoff (no static
+// prerender for `/`) buys the zero-flash skip Part 9 requires for
+// returning visitors ("Returning visitors: 0 seconds").
+export const dynamic = "force-dynamic";
 
 /**
- * Milestone 1 placeholder — verifies the foundation (design tokens, theme
- * engine, providers, store) boots end to end. Not the marketing homepage;
- * replaced entirely in Milestone 4.
+ * The homepage — CLAUDE.md Part 9's eleven modules, in the order the spec
+ * documents them. A Server Component (per Part 26: "Server Components
+ * first") purely so it can read the intro-seen cookie for a zero-flash
+ * skip on return visits; every module it composes is itself a client
+ * component, since interaction is the point of each one.
+ *
+ * Module 8 (Byld AI Companion) isn't rendered here — it's a persistent
+ * floating overlay mounted once in `AppProviders` and available on every
+ * route, not a section of this page.
  */
-export default function FoundationCheckPage() {
-  const { theme, setTheme } = useTheme();
-  const journey = useAppStore((state) => state.journey);
-  const setJourney = useAppStore((state) => state.setJourney);
+export default async function HomePage() {
+  const cookieStore = await cookies();
+  const hasSeenIntro = cookieStore.get(INTRO_SEEN_COOKIE)?.value === "1";
 
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-8 px-6 py-16">
-      <div className="space-y-2">
-        <p className="text-muted font-mono text-sm">Milestone 1</p>
-        <h1 className="text-foreground text-3xl font-semibold">Engineering foundation</h1>
-        <p className="text-muted">
-          This placeholder confirms the design tokens, theme engine, and providers are wired
-          correctly. It is replaced by the real homepage in Milestone 4.
-        </p>
-      </div>
+    <>
+      <ArrivalExperience initialHasSeenIntro={hasSeenIntro} />
+      <ScrollDepthTracker />
+      <ScrollIndicator className="fixed inset-x-0 bottom-6 z-10" />
 
-      <section className="border-border bg-surface-raised rounded-lg border p-6">
-        <h2 className="text-foreground text-lg font-medium">Theme</h2>
-        <p className="text-muted mt-1 text-sm">Current: {theme ?? "loading"}</p>
-        <div className="mt-4 flex gap-2">
-          {THEMES.map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => setTheme(option)}
-              className="border-border text-foreground hover:bg-surface rounded-md border px-3 py-1.5 text-sm transition-[background-color] duration-[var(--duration-fast)]"
-              aria-pressed={theme === option}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      </section>
+      <HomepageSection id="journey-selection" containerSize="wide">
+        <JourneySelector />
+      </HomepageSection>
 
-      <section className="border-border bg-surface-raised rounded-lg border p-6">
-        <h2 className="text-foreground text-lg font-medium">Journey store (Zustand)</h2>
-        <p className="text-muted mt-1 text-sm">Selected: {journey ?? "none"}</p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {JOURNEYS.map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => setJourney(option)}
-              className="border-border text-foreground hover:bg-surface rounded-md border px-3 py-1.5 text-sm transition-[background-color] duration-[var(--duration-fast)]"
-              aria-pressed={journey === option}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      </section>
-    </div>
+      <HomepageSection id="adaptive-hero" containerSize="wide">
+        <AdaptiveHero />
+      </HomepageSection>
+
+      <HomepageSection id="product-thinking" containerSize="wide">
+        <ProductThinkingTimeline />
+      </HomepageSection>
+
+      <HomepageSection id="proof-engine" containerSize="wide">
+        <ProofEngine />
+      </HomepageSection>
+
+      <HomepageSection id="product-showcase" containerSize="wide">
+        <ProductShowcase />
+      </HomepageSection>
+
+      <HomepageSection id="engineering-excellence" containerSize="wide">
+        <EngineeringExcellenceEngine />
+      </HomepageSection>
+
+      <HomepageSection id="buildpath-preview">
+        <BuildPathPreview />
+      </HomepageSection>
+
+      <HomepageSection id="knowledge-center" containerSize="wide">
+        <KnowledgeCenterPreview />
+      </HomepageSection>
+
+      <HomepageSection id="conversion-experience">
+        <ConversionExperience />
+      </HomepageSection>
+    </>
   );
 }

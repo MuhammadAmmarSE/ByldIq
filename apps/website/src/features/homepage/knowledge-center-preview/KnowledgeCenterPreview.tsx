@@ -1,5 +1,6 @@
 "use client";
 
+import { Heading } from "@/components/Heading";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
 
@@ -32,6 +33,9 @@ export function KnowledgeCenterPreview({ className }: KnowledgeCenterPreviewProp
 
   return (
     <div className={cn("space-y-8", className)}>
+      {/* Headline option from CLAUDE.md Part 18. */}
+      <Heading variant="h2">Engineering Knowledge That Lasts.</Heading>
+
       {featured && <FeaturedGuideCard article={featured} onSelect={handleSelect} />}
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

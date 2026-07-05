@@ -49,7 +49,12 @@ export function AdaptiveHero({ className }: AdaptiveHeroProps) {
         className="space-y-6"
       >
         <motion.div variants={staggerItem}>
-          <Heading variant="display">{content.headline}</Heading>
+          {/* Journey Selection (which precedes this section) owns the
+              page's `h1`; this is visually the biggest headline on the
+              page but semantically the second-level section title. */}
+          <Heading variant="display" as="h2">
+            {content.headline}
+          </Heading>
         </motion.div>
 
         <motion.div variants={staggerItem}>

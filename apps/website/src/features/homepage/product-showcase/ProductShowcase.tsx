@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import type { ComponentType } from "react";
 
+import { Heading } from "@/components/Heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/Tabs";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
@@ -53,6 +54,11 @@ export function ProductShowcase({ className }: ProductShowcaseProps) {
 
   return (
     <div className={cn(className)}>
+      {/* Verbatim from CLAUDE.md Part 14's Purpose. */}
+      <Heading variant="h2" className="mb-8">
+        The website itself becomes the portfolio.
+      </Heading>
+
       <Tabs
         defaultValue={firstPod?.id}
         onValueChange={(pod) => analytics.track("showcase_pod_viewed", { pod })}

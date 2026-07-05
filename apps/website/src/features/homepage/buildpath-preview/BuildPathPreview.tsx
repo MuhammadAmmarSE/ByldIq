@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
+import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
@@ -34,33 +35,43 @@ export function BuildPathPreview({ className }: BuildPathPreviewProps) {
   }
 
   return (
-    <Card className={cn("grid gap-8 p-6 lg:grid-cols-2 lg:p-10", className)}>
-      <div className="space-y-6">
-        <QuestionnaireTaste selectedGoalId={selectedGoalId} onSelectGoal={handleSelectGoal} />
-        <RoadmapPreview selectedGoalId={selectedGoalId} />
+    <div className={cn("space-y-8", className)}>
+      {/* Headline and description verbatim from CLAUDE.md Part 17 Stage 1. */}
+      <div className="space-y-2">
+        <Heading variant="h2">Let&apos;s plan your product together.</Heading>
+        <Text variant="subtitle">
+          In about three minutes we&apos;ll help you understand your product roadmap.
+        </Text>
       </div>
 
-      <div className="space-y-6">
-        <div>
-          <Text variant="caption" className="font-medium">
-            Representative technology
-          </Text>
-          <Text variant="body" className="mt-1">
-            BuildPath explains why a technology fits your product, not just that it exists.
-          </Text>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {PREVIEW_TECHNOLOGIES.map((technology) => (
-              <Badge key={technology} variant="outline">
-                {technology}
-              </Badge>
-            ))}
-          </div>
+      <Card className="grid gap-8 p-6 lg:grid-cols-2 lg:p-10">
+        <div className="space-y-6">
+          <QuestionnaireTaste selectedGoalId={selectedGoalId} onSelectGoal={handleSelectGoal} />
+          <RoadmapPreview selectedGoalId={selectedGoalId} />
         </div>
 
-        <Button asChild onClick={() => analytics.track("buildpath_preview_cta_clicked", {})}>
-          <Link href="/buildpath">Continue in BuildPath</Link>
-        </Button>
-      </div>
-    </Card>
+        <div className="space-y-6">
+          <div>
+            <Text variant="caption" className="font-medium">
+              Representative technology
+            </Text>
+            <Text variant="body" className="mt-1">
+              BuildPath explains why a technology fits your product, not just that it exists.
+            </Text>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {PREVIEW_TECHNOLOGIES.map((technology) => (
+                <Badge key={technology} variant="outline">
+                  {technology}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          <Button asChild onClick={() => analytics.track("buildpath_preview_cta_clicked", {})}>
+            <Link href="/buildpath">Continue in BuildPath</Link>
+          </Button>
+        </div>
+      </Card>
+    </div>
   );
 }

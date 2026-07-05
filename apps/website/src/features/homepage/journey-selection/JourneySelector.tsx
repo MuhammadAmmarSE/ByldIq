@@ -4,7 +4,9 @@ import { useCallback } from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 
 import { Button } from "@/components/Button";
+import { Heading } from "@/components/Heading";
 import { Reveal } from "@/components/Reveal";
+import { Text } from "@/components/Text";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { useAppStore } from "@/providers/StoreProvider";
 import type { Journey } from "@/types/journey";
@@ -50,7 +52,21 @@ export function JourneySelector({ className }: JourneySelectorProps) {
   }, [analytics, journey, setJourney]);
 
   return (
-    <div className={cn(className)}>
+    <div className={cn("space-y-8", className)}>
+      <div className="space-y-2 text-center">
+        {/* The first heading on the composed homepage (CLAUDE.md Part 10:
+            "Byld IQ asks 'What are you building?'") — journey selection
+            comes before the hero in the documented flow, so it owns the
+            page's `h1`. */}
+        <Heading variant="h2" as="h1">
+          What are you building?
+        </Heading>
+        <Text variant="subtitle">
+          Choose the path that matches where you are today — we&apos;ll personalize the rest of the
+          page around it.
+        </Text>
+      </div>
+
       <RadioGroupPrimitive.Root
         value={journey ?? ""}
         onValueChange={handleSelect}

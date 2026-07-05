@@ -2,6 +2,7 @@ export { HomepageSection } from "./HomepageSection";
 export type { HomepageSectionProps } from "./HomepageSection";
 export { useSectionAnalytics } from "./useSectionAnalytics";
 export { useScrollDepth } from "./useScrollDepth";
+export { ScrollDepthTracker } from "./ScrollDepthTracker";
 export { useJourneyContent } from "./useJourneyContent";
 export type { JourneyContentMap } from "./useJourneyContent";
 export { FICTIONAL_COMPANIES } from "./data/fictional-companies";

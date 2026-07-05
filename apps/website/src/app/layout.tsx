@@ -7,10 +7,10 @@ import { fontVariables } from "@/lib/fonts";
 import { jsonLdScriptProps, organizationJsonLd } from "@/lib/json-ld";
 import { AppProviders } from "@/providers/AppProviders";
 
-// Placeholder copy — real SEO content lands with the homepage (Milestone 4+).
-// The framework (OG/Twitter/canonical/JSON-LD wiring) is the Milestone 1
-// deliverable; this description is a structurally-valid stand-in for it.
-const description = "Engineering foundation in progress.";
+const description =
+  "Byld IQ is an Intelligent Product Engineering Company. We partner with founders and " +
+  "enterprises to engineer digital products that create measurable business value — " +
+  "combining product strategy, design, engineering, and AI into one process.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),

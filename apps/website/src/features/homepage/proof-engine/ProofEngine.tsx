@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 
+import { Heading } from "@/components/Heading";
 import { FICTIONAL_COMPANIES } from "@/features/homepage/shared";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import type { Journey } from "@/types/journey";
@@ -65,6 +66,9 @@ export function ProofEngine({ className }: ProofEngineProps) {
 
   return (
     <div className={cn("space-y-10", className)}>
+      {/* Headline option from CLAUDE.md Part 13. */}
+      <Heading variant="h2">Engineering Success Stories.</Heading>
+
       {FEATURED_CASE_STUDY && featuredCompany && (
         <FeaturedProjectStory caseStudy={FEATURED_CASE_STUDY} company={featuredCompany} />
       )}
