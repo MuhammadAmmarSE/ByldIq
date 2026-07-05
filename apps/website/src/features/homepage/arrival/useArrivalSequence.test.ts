@@ -20,6 +20,25 @@ describe("useArrivalSequence", () => {
     expect(onComplete).toHaveBeenCalledWith("bypassed");
   });
 
+  it("resolves to complete if skipIntro flips to true after mount", () => {
+    // Reproduces a real hydration timing gap: `useReducedMotion` always
+    // reports `false` during SSR, so a reduced-motion visitor with no
+    // "seen intro" cookie mounts with `skipIntro: false` and only flips to
+    // `true` once the client media query resolves post-hydration.
+    const onComplete = vi.fn();
+    const { result, rerender } = renderHook(
+      ({ skipIntro }) => useArrivalSequence({ skipIntro, onComplete }),
+      { initialProps: { skipIntro: false } },
+    );
+
+    expect(result.current.stage).toBe("initial");
+
+    rerender({ skipIntro: true });
+
+    expect(result.current.stage).toBe("complete");
+    expect(onComplete).toHaveBeenCalledWith("bypassed");
+  });
+
   it("advances through every stage on its own timeline and completes once", () => {
     const onComplete = vi.fn();
     const { result } = renderHook(() => useArrivalSequence({ skipIntro: false, onComplete }));

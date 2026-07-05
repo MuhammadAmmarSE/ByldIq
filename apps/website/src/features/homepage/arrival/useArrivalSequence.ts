@@ -54,6 +54,14 @@ export function useArrivalSequence({
 
   useEffect(() => {
     if (skipIntro) {
+      // `skipIntro` can flip from `false` to `true` after mount: the
+      // cookie-derived half is known at first render, but `useReducedMotion`
+      // always reports `false` during SSR/hydration (see its
+      // `getServerSnapshot`) and only reflects the real media query
+      // afterward. Without this, a reduced-motion visitor with no cookie
+      // would be stuck at `stage: "initial"` forever — the normal timeline
+      // below never got scheduled either, since this branch ran instead.
+      setStage("complete");
       if (!hasCompletedRef.current) {
         hasCompletedRef.current = true;
       }
