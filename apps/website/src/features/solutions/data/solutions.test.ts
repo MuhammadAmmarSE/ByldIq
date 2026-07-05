@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { CASE_STUDIES } from "@/features/homepage/proof-engine";
+import { CASE_STUDIES } from "@/features/case-studies";
 import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
 
 import { solutionSchema } from "./solution.schema";

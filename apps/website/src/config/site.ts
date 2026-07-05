@@ -11,14 +11,13 @@ export const siteConfig = {
 /**
  * Static top-level nav entries with no dropdown — only routes that exist
  * today (CLAUDE.md Part 8: "No page should ever become a dead end").
- * CLAUDE.md Part 8's full nav also names Work, Process, Technology, About,
- * and Contact, but those pages don't exist yet (no `/case-studies` index,
- * no Technology Explorer, etc.) — adding them now would just be dead
- * links. The Solutions entry (a dropdown) is assembled separately in
- * `app/layout.tsx`, which can reach `SOLUTIONS` data — this file stays
- * feature-free per CLAUDE.md Part 27's dependency direction (Shared
- * components like `PageShell`, which reads this config, must not depend
- * on Features).
+ * CLAUDE.md Part 8's full nav also names Process, Technology, About, and
+ * Contact, but those pages don't exist yet — adding them now would just be
+ * dead links. The Solutions and Work entries (both dropdowns) are
+ * assembled separately in `app/layout.tsx`, which can reach `SOLUTIONS`
+ * and `CASE_STUDIES` data — this file stays feature-free per CLAUDE.md
+ * Part 27's dependency direction (Shared components like `PageShell`,
+ * which reads this config, must not depend on Features).
  */
 export const primaryNav: NavItem[] = [
   { label: "Knowledge", href: "/knowledge" },

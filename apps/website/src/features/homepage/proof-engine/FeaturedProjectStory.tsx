@@ -23,7 +23,7 @@ export function FeaturedProjectStory({ caseStudy, company, className }: Featured
           <Text variant="caption">{company.name}</Text>
           <Text variant="body">{caseStudy.challenge}</Text>
           <Button asChild>
-            <Link href={`/case-studies/${caseStudy.slug}`}>Read the full story</Link>
+            <Link href={`/work/${caseStudy.slug}`}>Read the full story</Link>
           </Button>
         </div>
 

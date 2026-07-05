@@ -152,7 +152,7 @@ test.describe("Solutions navigation", () => {
     // route calling `notFound()` for a param outside `generateStaticParams()`
     // renders the correct not-found UI but Next.js 15 serves it with a 200
     // status in this configuration — reproduced identically on the
-    // pre-existing `/case-studies/[slug]` route, so it's a framework-level
+    // pre-existing `/work/[slug]` route, so it's a framework-level
     // behavior, not a Solutions-specific regression, and out of scope to
     // change here.
     await page.goto("/solutions/this-solution-does-not-exist");

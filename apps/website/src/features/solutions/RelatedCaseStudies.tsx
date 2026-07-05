@@ -1,8 +1,8 @@
 "use client";
 
 import { Heading } from "@/components/Heading";
-import { CASE_STUDIES, ProjectCard } from "@/features/homepage/proof-engine";
-import { FICTIONAL_COMPANIES } from "@/features/homepage/shared";
+import { CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
+import { ProjectCard } from "@/features/homepage/proof-engine";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
 

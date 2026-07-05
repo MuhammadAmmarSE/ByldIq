@@ -5,6 +5,4 @@ export { useScrollDepth } from "./useScrollDepth";
 export { ScrollDepthTracker } from "./ScrollDepthTracker";
 export { useJourneyContent } from "./useJourneyContent";
 export type { JourneyContentMap } from "./useJourneyContent";
-export { FICTIONAL_COMPANIES } from "./data/fictional-companies";
-export type { FictionalCompany } from "./data/fictional-companies";
 export * from "./analytics";

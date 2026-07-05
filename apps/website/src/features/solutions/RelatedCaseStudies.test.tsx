@@ -8,7 +8,7 @@ vi.mock("@/providers/AnalyticsProvider", () => ({
   useAnalytics: () => ({ track: mockTrack }),
 }));
 
-import { CASE_STUDIES } from "@/features/homepage/proof-engine";
+import { CASE_STUDIES } from "@/features/case-studies";
 
 import { SOLUTIONS } from "./data/solutions";
 import { RelatedCaseStudies } from "./RelatedCaseStudies";
@@ -39,7 +39,7 @@ describe("RelatedCaseStudies", () => {
       const caseStudy = requireCaseStudy(slug);
       expect(screen.getByRole("link", { name: caseStudy.headline })).toHaveAttribute(
         "href",
-        `/case-studies/${slug}`,
+        `/work/${slug}`,
       );
     }
   });

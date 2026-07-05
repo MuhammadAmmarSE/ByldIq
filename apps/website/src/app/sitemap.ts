@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/config/site";
+import { CASE_STUDIES } from "@/features/case-studies";
 import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
-import { CASE_STUDIES } from "@/features/homepage/proof-engine";
 import { SOLUTIONS } from "@/features/solutions";
 
 /**
@@ -33,6 +33,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${siteConfig.url}/work`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    ...CASE_STUDIES.map((caseStudy): MetadataRoute.Sitemap[number] => ({
+      url: `${siteConfig.url}/work/${caseStudy.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    })),
+    {
       url: `${siteConfig.url}/solutions`,
       lastModified: new Date(),
       changeFrequency: "weekly",
@@ -43,12 +55,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
-    })),
-    ...CASE_STUDIES.map((caseStudy): MetadataRoute.Sitemap[number] => ({
-      url: `${siteConfig.url}/case-studies/${caseStudy.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
     })),
     ...KNOWLEDGE_ARTICLES.map((article): MetadataRoute.Sitemap[number] => ({
       url: `${siteConfig.url}/knowledge/${article.slug}`,

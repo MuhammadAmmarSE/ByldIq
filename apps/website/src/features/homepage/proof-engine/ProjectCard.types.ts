@@ -1,6 +1,4 @@
-import type { FictionalCompany } from "@/features/homepage/shared";
-
-import type { CaseStudy } from "./data/case-study.schema";
+import type { CaseStudy, FictionalCompany } from "@/features/case-studies";
 
 export interface ProjectCardProps {
   caseStudy: CaseStudy;

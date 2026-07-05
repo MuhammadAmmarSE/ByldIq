@@ -3,14 +3,13 @@
 import { useMemo, useState } from "react";
 
 import { Heading } from "@/components/Heading";
-import { FICTIONAL_COMPANIES } from "@/features/homepage/shared";
+import { CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import type { Journey } from "@/types/journey";
 import { cn } from "@/utils/cn";
 
 import "./analytics";
 
-import { CASE_STUDIES } from "./data/case-studies";
 import { FeaturedProjectStory } from "./FeaturedProjectStory";
 import { ProjectFilterBar } from "./ProjectFilterBar";
 import { ProjectGrid } from "./ProjectGrid";

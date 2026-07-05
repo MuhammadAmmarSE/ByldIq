@@ -5,14 +5,13 @@ import { Badge } from "@/components/Badge";
 import { Container } from "@/components/Container";
 import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
-import { CASE_STUDIES } from "@/features/homepage/proof-engine";
-import { FICTIONAL_COMPANIES } from "@/features/homepage/shared";
+import { CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
 
 interface CaseStudyPageProps {
   params: Promise<{ slug: string }>;
 }
 
-/** Pre-renders every known case study at build time — unknown slugs fall through to `notFound()`. */
+/** Pre-renders every known case study at build time (CLAUDE.md Part 21) — unknown slugs fall through to `notFound()`. */
 export function generateStaticParams() {
   return CASE_STUDIES.map((caseStudy) => ({ slug: caseStudy.slug }));
 }
@@ -32,15 +31,18 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
 
   return {
     title: found.caseStudy.headline,
-    description: found.caseStudy.challenge,
+    description: found.caseStudy.executiveSummary,
   };
 }
 
 /**
- * A minimal case study page (CLAUDE.md Part 13 explicitly calls for a
- * dedicated page, not a modal). Fictional companies and outcomes, per Part
- * 14's "realistic fictional companies" convention — Byld IQ has no real
- * client history yet to publish here.
+ * One shared template driven entirely by `CASE_STUDIES` data — every case
+ * study page has the same section order (CLAUDE.md Part 21: "Every case
+ * study follows the same architecture"). Built incrementally across
+ * Milestone 5's phases; this is the routing skeleton only — executive
+ * summary, results, and technology are real so far, using the richer data
+ * model built in this phase. The remaining twelve sections land in later
+ * phases.
  */
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
@@ -73,22 +75,23 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         </div>
 
         <section className="space-y-2">
-          <Heading variant="h4">The challenge</Heading>
-          <Text variant="body">{caseStudy.challenge}</Text>
+          <Heading variant="h3" as="h2">
+            Executive summary
+          </Heading>
+          <Text variant="body">{caseStudy.executiveSummary}</Text>
         </section>
 
         <section className="space-y-2">
-          <Heading variant="h4">Our approach</Heading>
-          <Text variant="body">{caseStudy.approach}</Text>
-        </section>
-
-        <section className="space-y-2">
-          <Heading variant="h4">The outcome</Heading>
+          <Heading variant="h3" as="h2">
+            The outcome
+          </Heading>
           <Text variant="body">{caseStudy.outcome}</Text>
         </section>
 
         <section className="space-y-2">
-          <Heading variant="h4">Technology</Heading>
+          <Heading variant="h3" as="h2">
+            Technology
+          </Heading>
           <div className="flex flex-wrap gap-1.5">
             {caseStudy.technologies.map((technology) => (
               <Badge key={technology} variant="outline">

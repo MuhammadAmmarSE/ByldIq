@@ -8,7 +8,8 @@ vi.mock("@/providers/AnalyticsProvider", () => ({
   useAnalytics: () => ({ track: mockTrack }),
 }));
 
-import { CASE_STUDIES } from "./data/case-studies";
+import { CASE_STUDIES } from "@/features/case-studies";
+
 import { ProofEngine } from "./ProofEngine";
 
 describe("ProofEngine", () => {

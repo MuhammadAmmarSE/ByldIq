@@ -30,7 +30,7 @@ export function ProjectCard({ caseStudy, company, onSelect, className }: Project
             visual size a grid card needs. */}
         <Heading variant="h5" as="h3" className="mt-2">
           <Link
-            href={`/case-studies/${caseStudy.slug}`}
+            href={`/work/${caseStudy.slug}`}
             onClick={() => onSelect?.(caseStudy.slug)}
             className="hover:text-accent focus-visible:ring-focus-ring rounded-sm transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >

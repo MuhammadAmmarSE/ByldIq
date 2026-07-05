@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { CASE_STUDIES } from "./data/case-studies";
+import { CASE_STUDIES } from "@/features/case-studies";
+
 import { ProjectCard } from "./ProjectCard";
 
 const caseStudy = CASE_STUDIES.find((cs) => cs.slug === "nova-commerce-checkout");
@@ -19,7 +20,7 @@ describe("ProjectCard", () => {
     render(<ProjectCard caseStudy={caseStudy} company={company} />);
 
     const link = screen.getByRole("link", { name: caseStudy.headline });
-    expect(link).toHaveAttribute("href", `/case-studies/${caseStudy.slug}`);
+    expect(link).toHaveAttribute("href", `/work/${caseStudy.slug}`);
   });
 
   it("calls onSelect with the slug when clicked", () => {

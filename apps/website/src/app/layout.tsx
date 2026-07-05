@@ -3,16 +3,20 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { PageShell } from "@/components/PageShell";
 import { primaryNav, siteConfig } from "@/config/site";
+import { CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
 import { SOLUTIONS } from "@/features/solutions";
 import { fontVariables } from "@/lib/fonts";
 import { jsonLdScriptProps, organizationJsonLd } from "@/lib/json-ld";
 import { AppProviders } from "@/providers/AppProviders";
 import type { NavItem } from "@/types/navigation";
 
+const COMPANIES_BY_ID = new Map(FICTIONAL_COMPANIES.map((company) => [company.id, company]));
+
 /**
- * The Solutions dropdown is built here (the Pages layer, which is allowed
- * to depend on Features) rather than in `config/site.ts` (Shared-layer
- * config that `PageShell` reads) — see `config/site.ts`'s comment.
+ * The Solutions and Work dropdowns are built here (the Pages layer, which
+ * is allowed to depend on Features) rather than in `config/site.ts`
+ * (Shared-layer config that `PageShell` reads) — see `config/site.ts`'s
+ * comment.
  */
 const navItems: NavItem[] = [
   {
@@ -21,6 +25,14 @@ const navItems: NavItem[] = [
     children: SOLUTIONS.map((solution) => ({
       label: solution.navLabel,
       href: `/solutions/${solution.slug}`,
+    })),
+  },
+  {
+    label: "Work",
+    href: "/work",
+    children: CASE_STUDIES.map((caseStudy) => ({
+      label: COMPANIES_BY_ID.get(caseStudy.companyId)?.name ?? caseStudy.headline,
+      href: `/work/${caseStudy.slug}`,
     })),
   },
   ...primaryNav,
