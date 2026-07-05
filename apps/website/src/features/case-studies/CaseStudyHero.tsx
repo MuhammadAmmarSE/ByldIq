@@ -25,9 +25,9 @@ const KEY_FACTS = [
 /**
  * Every case study's hero (CLAUDE.md Part 21): breadcrumb back to `/work`,
  * industry/business-problem/AI badges, headline, key facts, and two
- * CTAs — BuildPath (prefilled once Phase 6 wires `/buildpath` to read
- * `?caseStudy=`) and the AI Companion. Mirrors `SolutionHero`'s structure
- * so the two platforms feel like one system.
+ * CTAs — BuildPath (linking to `/buildpath?caseStudy={slug}`, which
+ * acknowledges the referring case study) and the AI Companion. Mirrors
+ * `SolutionHero`'s structure so the two platforms feel like one system.
  */
 export function CaseStudyHero({ caseStudy, company, className }: CaseStudyHeroProps) {
   const analytics = useAnalytics();
@@ -40,10 +40,10 @@ export function CaseStudyHero({ caseStudy, company, className }: CaseStudyHeroPr
   }, [caseStudy.slug]);
 
   useEffect(() => {
-    setPageContext({ label: caseStudy.headline, slug: caseStudy.slug });
+    setPageContext({ label: `the ${company.name} case study`, slug: caseStudy.slug });
     return () => setPageContext(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [caseStudy.slug, caseStudy.headline]);
+  }, [caseStudy.slug, company.name]);
 
   const businessProblemLabel =
     BUSINESS_PROBLEMS.find((problem) => problem.slug === caseStudy.businessProblem)?.label ??

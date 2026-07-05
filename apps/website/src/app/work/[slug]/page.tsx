@@ -12,6 +12,8 @@ import {
   CaseStudyLessonsLearned,
   CaseStudyOverview,
   CaseStudyProductThinking,
+  CaseStudyRelatedKnowledge,
+  CaseStudyRelatedSolutions,
   CaseStudyResults,
   CaseStudyTechnologyDecisions,
   FICTIONAL_COMPANIES,
@@ -49,9 +51,10 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
  * One shared template driven entirely by `CASE_STUDIES` data — every case
  * study page has the same section order (CLAUDE.md Part 21: "Every case
  * study follows the same architecture"). Built incrementally across
- * Milestone 5's phases: every section through Lessons Learned is real as
- * of this phase. The remaining sections (related content, AI/BuildPath
- * integration, FAQ, final CTA) land in later phases.
+ * Milestone 5's phases: every section through Related Knowledge is real
+ * as of this phase (the AI Companion and BuildPath are already wired in
+ * via `CaseStudyHero`). The remaining sections (FAQ, final CTA) and the
+ * filter/search routes land in later phases.
  */
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
@@ -74,6 +77,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         <CaseStudyChallenges caseStudy={caseStudy} />
         <CaseStudyResults caseStudy={caseStudy} />
         <CaseStudyLessonsLearned caseStudy={caseStudy} />
+        <CaseStudyRelatedSolutions caseStudy={caseStudy} />
+        <CaseStudyRelatedKnowledge caseStudy={caseStudy} />
       </div>
     </Container>
   );

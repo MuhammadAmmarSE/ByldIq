@@ -6,10 +6,22 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
+import { BUSINESS_PROBLEMS, CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
 import { SOLUTIONS } from "@/features/solutions";
 
 interface BuildPathPageProps {
-  searchParams: Promise<{ solution?: string }>;
+  searchParams: Promise<{ solution?: string; caseStudy?: string }>;
+}
+
+function getReferringCaseStudy(slug: string | undefined) {
+  const caseStudy = CASE_STUDIES.find((candidate) => candidate.slug === slug);
+  if (!caseStudy) return undefined;
+  const company = FICTIONAL_COMPANIES.find((candidate) => candidate.id === caseStudy.companyId);
+  if (!company) return undefined;
+  const businessProblem =
+    BUSINESS_PROBLEMS.find((problem) => problem.slug === caseStudy.businessProblem)?.label ??
+    caseStudy.businessProblem;
+  return { caseStudy, company, businessProblem };
 }
 
 export const metadata: Metadata = {
@@ -23,15 +35,19 @@ export const metadata: Metadata = {
  * BuildPath wizard (11-stage questionnaire, AI recommendation engine, PDF
  * export) is out of scope for this milestone; this explains the vision
  * honestly rather than dead-ending the homepage preview's CTA. Solution
- * pages link here with `?solution={slug}` (CLAUDE.md Part 20: "BuildPath
- * automatically remembers... journey selected, solution selected") — since
- * there's no live questionnaire to prefill yet, this page instead
- * acknowledges the referring solution honestly rather than fabricating a
- * prefilled form that doesn't exist.
+ * pages link here with `?solution={slug}`, case study pages with
+ * `?caseStudy={slug}` (CLAUDE.md Part 20: "BuildPath automatically
+ * remembers... journey selected, solution selected"; Part 21: BuildPath
+ * Integration "with industry/technologies/business challenge prefilled")
+ * — since there's no live questionnaire to prefill yet, this page instead
+ * acknowledges the referring context honestly, naming the specific
+ * industry, business challenge, and technologies BuildPath would start
+ * from, rather than fabricating a prefilled form that doesn't exist.
  */
 export default async function BuildPathPage({ searchParams }: BuildPathPageProps) {
-  const { solution: solutionSlug } = await searchParams;
+  const { solution: solutionSlug, caseStudy: caseStudySlug } = await searchParams;
   const solution = SOLUTIONS.find((candidate) => candidate.slug === solutionSlug);
+  const referringCaseStudy = getReferringCaseStudy(caseStudySlug);
 
   return (
     <Container size="content" className="py-16">
@@ -41,6 +57,13 @@ export default async function BuildPathPage({ searchParams }: BuildPathPageProps
         {solution && (
           <Text variant="body" className="text-accent">
             Continuing from {solution.title}
+          </Text>
+        )}
+        {referringCaseStudy && (
+          <Text variant="body" className="text-accent">
+            Continuing from {referringCaseStudy.company.name}&apos;s story — we&apos;d start from{" "}
+            {referringCaseStudy.businessProblem} in {referringCaseStudy.company.industry}, with{" "}
+            {referringCaseStudy.caseStudy.technologies.join(", ")} as a reference point.
           </Text>
         )}
         <Text variant="subtitle">
@@ -56,6 +79,12 @@ export default async function BuildPathPage({ searchParams }: BuildPathPageProps
           {solution ? (
             <Button asChild>
               <Link href={`/solutions/${solution.slug}`}>Back to {solution.navLabel}</Link>
+            </Button>
+          ) : referringCaseStudy ? (
+            <Button asChild>
+              <Link href={`/work/${referringCaseStudy.caseStudy.slug}`}>
+                Back to {referringCaseStudy.company.name}
+              </Link>
             </Button>
           ) : (
             <Button asChild>

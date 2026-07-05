@@ -17,14 +17,15 @@ Case Studies platforms feel like one system.
 ## Behavior
 
 - Tracks `case_study_viewed` once on mount.
-- Sets the AI Companion's page context to this case study on mount, and
-  clears it on unmount so leaving the page falls back to the
-  journey-based greeting.
-- The primary CTA links to `/buildpath?caseStudy={slug}` and fires
-  `case_study_cta_selected` + `case_study_buildpath_started`. The
-  `/buildpath` page doesn't read this param yet — Phase 6 wires that up,
-  the same way `SolutionHero`'s `?solution=` link predates full BuildPath
-  integration.
+- Sets the AI Companion's page context to `the {company.name} case
+study` on mount (a noun phrase, not the full-sentence headline — it
+  completes `getPageContextGreeting`'s "Looks like you're exploring
+  ___." template), and clears it on unmount so leaving the page falls
+  back to the journey-based greeting.
+- The primary CTA links to `/buildpath?caseStudy={slug}`, fires
+  `case_study_cta_selected` + `case_study_buildpath_started`, and the
+  `/buildpath` page acknowledges the referring case study by name (see
+  `app/buildpath/page.tsx`).
 
 ## Heading hierarchy
 
