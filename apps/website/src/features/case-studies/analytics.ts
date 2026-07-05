@@ -3,9 +3,14 @@
  * for the whole feature, mirroring the Solutions Platform's approach.
  * "AI questions" is covered by the AI Companion's own events
  * (`features/homepage/ai-companion/analytics.ts`); case study pages only
- * need to record that context. "Time on page" and "scroll depth" reuse the
- * homepage's existing `useScrollDepth`/`useSectionAnalytics` rather than
- * duplicating generic tracking infrastructure here.
+ * need to record that context. "Scroll depth" reuses the homepage's
+ * existing `scroll_depth_reached` event — every `/work` route mounts the
+ * shared `ScrollDepthTracker` (see `features/homepage/shared`) rather than
+ * duplicating that infrastructure here. "Time on page" has no tracker
+ * anywhere in the codebase yet (not even on the homepage) — it isn't
+ * fabricated here; it should land as its own generic addition to
+ * `features/homepage/shared` when a real need for it is scoped, not as
+ * one-off case-study-only code.
  */
 declare module "@/types/analytics" {
   interface AnalyticsEventMap {

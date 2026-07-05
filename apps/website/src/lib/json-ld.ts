@@ -48,6 +48,25 @@ export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
 }
 
 /**
+ * Article schema for long-form content pages (CLAUDE.md Part 21's case
+ * studies). Schema.org has no dedicated "CaseStudy" type, so `Article` is
+ * the closest valid type. `datePublished`/`dateModified` are deliberately
+ * omitted — the content model has no real authored dates, and CLAUDE.md
+ * Part 7's "never fabricate numbers" applies equally to fabricated dates.
+ */
+export function articleJsonLd(article: { headline: string; description: string; url: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.headline,
+    description: article.description,
+    url: article.url,
+    author: { "@type": "Organization", name: siteConfig.name },
+    publisher: { "@type": "Organization", name: siteConfig.name },
+  };
+}
+
+/**
  * FAQPage schema for any page whose FAQ accordion mirrors real, visible
  * page content (CLAUDE.md Part 20's solution pages) — never for FAQ
  * content that isn't actually rendered, which Google's guidelines treat as

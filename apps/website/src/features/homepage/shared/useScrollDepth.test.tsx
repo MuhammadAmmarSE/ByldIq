@@ -9,8 +9,8 @@ vi.mock("@/providers/AnalyticsProvider", () => ({
 
 import { useScrollDepth } from "./useScrollDepth";
 
-function Harness() {
-  useScrollDepth();
+function Harness({ page }: { page?: string } = {}) {
+  useScrollDepth(page);
   return null;
 }
 
@@ -49,5 +49,13 @@ describe("useScrollDepth", () => {
 
     const hundredCalls = mockTrack.mock.calls.filter(([, payload]) => payload.depth === 100);
     expect(hundredCalls).toHaveLength(1);
+  });
+
+  it("includes the given page identifier so events from different pages are distinguishable", () => {
+    render(<Harness page="work" />);
+
+    mockScroll({ scrollY: 200, scrollHeight: 1000, innerHeight: 200 }); // 25%
+
+    expect(mockTrack).toHaveBeenCalledWith("scroll_depth_reached", { depth: 25, page: "work" });
   });
 });

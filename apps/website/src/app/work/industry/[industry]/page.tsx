@@ -2,7 +2,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
+import { siteConfig } from "@/config/site";
 import { INDUSTRIES, WorkExplorer } from "@/features/case-studies";
+import { ScrollDepthTracker } from "@/features/homepage/shared";
+import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 interface IndustryWorkPageProps {
   params: Promise<{ industry: string }>;
@@ -22,9 +25,23 @@ export async function generateMetadata({ params }: IndustryWorkPageProps): Promi
   const industry = getIndustry(industrySlug);
   if (!industry) return {};
 
+  const description = `Engineering stories from ${industry.label} — the business challenge, decisions, and results behind each project.`;
+
   return {
     title: `${industry.label} case studies`,
-    description: `Engineering stories from ${industry.label} — the business challenge, decisions, and results behind each project.`,
+    description,
+    alternates: { canonical: `/work/industry/${industry.slug}` },
+    openGraph: {
+      title: `${industry.label} case studies`,
+      description,
+      url: `/work/industry/${industry.slug}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${industry.label} case studies`,
+      description,
+    },
   };
 }
 
@@ -42,6 +59,16 @@ export default async function IndustryWorkPage({ params }: IndustryWorkPageProps
 
   return (
     <Container size="wide" className="py-16">
+      <ScrollDepthTracker page={`work/industry/${industry.slug}`} />
+      <script
+        {...jsonLdScriptProps(
+          breadcrumbJsonLd([
+            { name: "Home", url: siteConfig.url },
+            { name: "Work", url: `${siteConfig.url}/work` },
+            { name: industry.label, url: `${siteConfig.url}/work/industry/${industry.slug}` },
+          ]),
+        )}
+      />
       <WorkExplorer
         initialIndustryFilter={industry.slug}
         headline={`${industry.label} engineering stories.`}

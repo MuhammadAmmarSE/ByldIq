@@ -2,7 +2,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
+import { siteConfig } from "@/config/site";
 import { BUSINESS_PROBLEMS, WorkExplorer } from "@/features/case-studies";
+import { ScrollDepthTracker } from "@/features/homepage/shared";
+import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 interface BusinessProblemWorkPageProps {
   params: Promise<{ problem: string }>;
@@ -24,9 +27,24 @@ export async function generateMetadata({
   const problem = getBusinessProblem(problemSlug);
   if (!problem) return {};
 
+  const title = `${problem.label} case studies`;
+  const description = `Engineering stories about ${problem.label.toLowerCase()} — the business challenge, decisions, and results behind each project.`;
+
   return {
-    title: `${problem.label} case studies`,
-    description: `Engineering stories about ${problem.label.toLowerCase()} — the business challenge, decisions, and results behind each project.`,
+    title,
+    description,
+    alternates: { canonical: `/work/business-problem/${problem.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `/work/business-problem/${problem.slug}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 
@@ -42,6 +60,19 @@ export default async function BusinessProblemWorkPage({ params }: BusinessProble
 
   return (
     <Container size="wide" className="py-16">
+      <ScrollDepthTracker page={`work/business-problem/${problem.slug}`} />
+      <script
+        {...jsonLdScriptProps(
+          breadcrumbJsonLd([
+            { name: "Home", url: siteConfig.url },
+            { name: "Work", url: `${siteConfig.url}/work` },
+            {
+              name: problem.label,
+              url: `${siteConfig.url}/work/business-problem/${problem.slug}`,
+            },
+          ]),
+        )}
+      />
       <WorkExplorer
         initialBusinessProblemFilter={problem.slug}
         headline={`${problem.label} engineering stories.`}

@@ -2,7 +2,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
+import { siteConfig } from "@/config/site";
 import { TECHNOLOGIES, WorkExplorer } from "@/features/case-studies";
+import { ScrollDepthTracker } from "@/features/homepage/shared";
+import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 interface TechnologyWorkPageProps {
   params: Promise<{ technology: string }>;
@@ -22,9 +25,24 @@ export async function generateMetadata({ params }: TechnologyWorkPageProps): Pro
   const technology = getTechnology(technologySlug);
   if (!technology) return {};
 
+  const title = `Case studies built with ${technology.label}`;
+  const description = `Engineering stories that used ${technology.label} — why it was chosen, the trade-offs, and the results.`;
+
   return {
-    title: `Case studies built with ${technology.label}`,
-    description: `Engineering stories that used ${technology.label} — why it was chosen, the trade-offs, and the results.`,
+    title,
+    description,
+    alternates: { canonical: `/work/technology/${technology.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `/work/technology/${technology.slug}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 
@@ -40,6 +58,19 @@ export default async function TechnologyWorkPage({ params }: TechnologyWorkPageP
 
   return (
     <Container size="wide" className="py-16">
+      <ScrollDepthTracker page={`work/technology/${technology.slug}`} />
+      <script
+        {...jsonLdScriptProps(
+          breadcrumbJsonLd([
+            { name: "Home", url: siteConfig.url },
+            { name: "Work", url: `${siteConfig.url}/work` },
+            {
+              name: technology.label,
+              url: `${siteConfig.url}/work/technology/${technology.slug}`,
+            },
+          ]),
+        )}
+      />
       <WorkExplorer
         initialTechnologyFilter={technology.slug}
         headline={`Built with ${technology.label}.`}

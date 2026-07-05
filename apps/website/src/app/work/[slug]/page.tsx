@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
+import { siteConfig } from "@/config/site";
 import {
   CASE_STUDIES,
   CaseStudyArchitecture,
@@ -21,6 +22,8 @@ import {
   CaseStudyTechnologyDecisions,
   FICTIONAL_COMPANIES,
 } from "@/features/case-studies";
+import { ScrollDepthTracker } from "@/features/homepage/shared";
+import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 interface CaseStudyPageProps {
   params: Promise<{ slug: string }>;
@@ -47,6 +50,18 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
   return {
     title: found.caseStudy.headline,
     description: found.caseStudy.executiveSummary,
+    alternates: { canonical: `/work/${found.caseStudy.slug}` },
+    openGraph: {
+      title: found.caseStudy.headline,
+      description: found.caseStudy.executiveSummary,
+      url: `/work/${found.caseStudy.slug}`,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: found.caseStudy.headline,
+      description: found.caseStudy.executiveSummary,
+    },
   };
 }
 
@@ -70,6 +85,26 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   return (
     <Container size="content" className="space-y-16 py-16">
+      <ScrollDepthTracker page={`work/${caseStudy.slug}`} />
+      <script
+        {...jsonLdScriptProps(
+          breadcrumbJsonLd([
+            { name: "Home", url: siteConfig.url },
+            { name: "Work", url: `${siteConfig.url}/work` },
+            { name: company.name, url: `${siteConfig.url}/work/${caseStudy.slug}` },
+          ]),
+        )}
+      />
+      <script
+        {...jsonLdScriptProps(
+          articleJsonLd({
+            headline: caseStudy.headline,
+            description: caseStudy.executiveSummary,
+            url: `${siteConfig.url}/work/${caseStudy.slug}`,
+          }),
+        )}
+      />
+      <script {...jsonLdScriptProps(faqPageJsonLd(caseStudy.faqs))} />
       <CaseStudyHero caseStudy={caseStudy} company={company} />
 
       <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">

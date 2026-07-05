@@ -3,11 +3,12 @@
 import { useScrollDepth } from "./useScrollDepth";
 
 /**
- * Mounts `useScrollDepth` once at the homepage root. Exists only because
- * the root page is a Server Component (it reads the intro-seen cookie);
- * this is the client boundary that lets it call a client-only hook.
+ * Mounts `useScrollDepth` once at a page's root. Exists because most
+ * pages that use it are Server Components; this is the client boundary
+ * that lets them call a client-only hook. `page` identifies which page
+ * fired the resulting `scroll_depth_reached` events.
  */
-export function ScrollDepthTracker(): null {
-  useScrollDepth();
+export function ScrollDepthTracker({ page }: { page?: string } = {}): null {
+  useScrollDepth(page);
   return null;
 }

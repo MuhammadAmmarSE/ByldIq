@@ -2,7 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import { siteConfig } from "@/config/site";
 
-import { breadcrumbJsonLd, faqPageJsonLd, jsonLdScriptProps, organizationJsonLd } from "./json-ld";
+import {
+  articleJsonLd,
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  jsonLdScriptProps,
+  organizationJsonLd,
+} from "./json-ld";
 
 describe("jsonLdScriptProps", () => {
   it("serializes data as an application/ld+json script prop", () => {
@@ -62,6 +68,28 @@ describe("breadcrumbJsonLd", () => {
         },
       ],
     });
+  });
+});
+
+describe("articleJsonLd", () => {
+  it("builds an Article schema without fabricating publish dates", () => {
+    const result = articleJsonLd({
+      headline: "From idea to a funded MVP in nine weeks.",
+      description: "How Fieldnote validated an MVP under a funding deadline.",
+      url: "https://example.com/work/fieldnote-mvp",
+    });
+
+    expect(result).toEqual({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: "From idea to a funded MVP in nine weeks.",
+      description: "How Fieldnote validated an MVP under a funding deadline.",
+      url: "https://example.com/work/fieldnote-mvp",
+      author: { "@type": "Organization", name: siteConfig.name },
+      publisher: { "@type": "Organization", name: siteConfig.name },
+    });
+    expect(result).not.toHaveProperty("datePublished");
+    expect(result).not.toHaveProperty("dateModified");
   });
 });
 

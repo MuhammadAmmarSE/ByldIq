@@ -38,7 +38,7 @@ export default async function HomePage() {
   return (
     <>
       <ArrivalExperience initialHasSeenIntro={hasSeenIntro} />
-      <ScrollDepthTracker />
+      <ScrollDepthTracker page="home" />
       <ScrollIndicator className="fixed inset-x-0 bottom-6 z-10" />
 
       <HomepageSection id="journey-selection" containerSize="wide">
