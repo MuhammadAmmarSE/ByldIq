@@ -5,9 +5,11 @@ import { Container } from "@/components/Container";
 import {
   ArchitectureExplorer,
   CapabilityExplorer,
+  DeliveryFramework,
   SOLUTIONS,
   SolutionHero,
   SolutionOverview,
+  SuccessMetrics,
   TechnologyExplorer,
 } from "@/features/solutions";
 
@@ -40,9 +42,10 @@ export async function generateMetadata({ params }: SolutionPageProps): Promise<M
  * page has the same section order (CLAUDE.md Part 20: "all pages must
  * share the same architecture"). Built incrementally across Milestone 4's
  * phases; Hero, Business Problem, Business Outcomes, Engineering
- * Philosophy, Capability Explorer, Architecture Explorer, and Technology
- * Explorer are real so far — the remaining sections (delivery, metrics,
- * related content, FAQ, final CTA) land in later phases.
+ * Philosophy, Capability Explorer, Architecture Explorer, Technology
+ * Explorer, Delivery Framework, and Success Metrics are real so far — the
+ * remaining sections (related content, FAQ, final CTA) land in later
+ * phases.
  */
 export default async function SolutionPage({ params }: SolutionPageProps) {
   const { slug } = await params;
@@ -56,6 +59,8 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
       <CapabilityExplorer solution={solution} />
       <ArchitectureExplorer solution={solution} />
       <TechnologyExplorer solution={solution} />
+      <DeliveryFramework solution={solution} />
+      <SuccessMetrics solution={solution} />
     </Container>
   );
 }

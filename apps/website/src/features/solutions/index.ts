@@ -18,4 +18,6 @@ export { SolutionOverview } from "./SolutionOverview";
 export { CapabilityExplorer } from "./CapabilityExplorer";
 export { ArchitectureExplorer } from "./ArchitectureExplorer";
 export { TechnologyExplorer } from "./TechnologyExplorer";
+export { DeliveryFramework } from "./DeliveryFramework";
+export { SuccessMetrics } from "./SuccessMetrics";
 export * from "./analytics";
