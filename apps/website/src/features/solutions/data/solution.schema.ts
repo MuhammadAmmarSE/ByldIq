@@ -62,6 +62,10 @@ export const solutionSchema = z.object({
   heroSupportingCopy: z.string().min(1),
   primaryCtaLabel: z.string().min(1),
   who: z.string().min(1),
+  /** Landing page selector card field (CLAUDE.md Part 20): example company profiles this solution fits, not literal case-study company names. */
+  typicalCompanies: z.array(z.string().min(1)).min(1),
+  /** Landing page selector card field: example product types this solution produces. */
+  exampleProducts: z.array(z.string().min(1)).min(1),
   businessProblem: z.string().min(1),
   businessOutcomes: z.array(z.string().min(1)).min(1),
   engineeringPhilosophy: z.string().min(1),

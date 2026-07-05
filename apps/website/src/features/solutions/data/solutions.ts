@@ -1,3 +1,5 @@
+import type { Journey } from "@/types/journey";
+
 import type { Solution } from "./solution.schema";
 
 /**
@@ -36,6 +38,12 @@ export const SOLUTIONS: Solution[] = [
       "From validation to launch, we help startups reduce uncertainty and build scalable digital products.",
     primaryCtaLabel: "Plan My Product Roadmap",
     who: "Founders and early product teams turning an idea into something people will pay for.",
+    typicalCompanies: [
+      "Pre-seed and seed-stage startups",
+      "Solo founders without a technical co-founder",
+      "Small teams preparing to raise",
+    ],
+    exampleProducts: ["MVPs", "Investor demo products", "Waitlist-to-launch experiences"],
     businessProblem:
       "Most startups don't fail because they built the wrong technology. They fail because they built the wrong product, validated too late, or ran out of runway before finding product-market fit.",
     businessOutcomes: [
@@ -233,6 +241,16 @@ export const SOLUTIONS: Solution[] = [
       "We help enterprises replace legacy risk with secure, maintainable architecture — incrementally, not through a risky full rewrite.",
     primaryCtaLabel: "Plan Enterprise Transformation",
     who: "Engineering and product leaders modernizing systems that can't afford downtime.",
+    typicalCompanies: [
+      "Mid-size to large enterprises",
+      "Regulated industries (finance, healthcare, logistics)",
+      "Companies with decade-old core systems",
+    ],
+    exampleProducts: [
+      "Legacy system replatforming",
+      "Internal operations tools",
+      "Compliance-driven system upgrades",
+    ],
     businessProblem:
       "Legacy systems accumulate risk quietly: security gaps, single points of failure, and institutional knowledge that lives in one engineer's head. Replacing everything at once is usually more dangerous than the risk you're trying to fix.",
     businessOutcomes: [
@@ -436,6 +454,12 @@ export const SOLUTIONS: Solution[] = [
       "Create high-performance Shopify experiences that increase conversions while simplifying operations.",
     primaryCtaLabel: "Explore Commerce Solutions",
     who: "Commerce teams whose growth is being limited by checkout performance or operational overhead.",
+    typicalCompanies: [
+      "High-growth D2C retailers",
+      "Multi-brand commerce operators",
+      "Wholesale/B2B commerce businesses",
+    ],
+    exampleProducts: ["Headless storefronts", "Checkout optimization", "Custom commerce apps"],
     businessProblem:
       "Commerce platforms are judged on conversion rate and reliability during peak traffic — but most stores accumulate app sprawl and technical debt that quietly erodes both over time.",
     businessOutcomes: [
@@ -623,6 +647,16 @@ export const SOLUTIONS: Solution[] = [
       "Design AI-powered products that create measurable business value rather than chasing trends.",
     primaryCtaLabel: "Design My AI Product",
     who: "Product and engineering teams evaluating where AI genuinely improves their product, not just where it can be added.",
+    typicalCompanies: [
+      "SaaS products adding AI-assisted features",
+      "Support/operations teams drowning in repetitive requests",
+      "Teams with a large body of unstructured internal data",
+    ],
+    exampleProducts: [
+      "AI support assistants",
+      "Internal knowledge search",
+      "Document processing pipelines",
+    ],
     businessProblem:
       "Most AI features are added because AI is available, not because they solve a specific problem — which produces expensive novelty rather than business value.",
     businessOutcomes: [
@@ -828,6 +862,16 @@ export const SOLUTIONS: Solution[] = [
       "Build developer platforms, internal systems and cloud-native products designed for long-term growth.",
     primaryCtaLabel: "Plan Platform Architecture",
     who: "Engineering leaders building internal platforms, developer tools, or APIs that other teams depend on.",
+    typicalCompanies: [
+      "Scale-ups with multiple product engineering teams",
+      "Companies building a public developer API",
+      "Organizations standardizing deployment across teams",
+    ],
+    exampleProducts: [
+      "Internal developer platforms",
+      "Public/partner APIs",
+      "Developer dashboards and tooling",
+    ],
     businessProblem:
       "As a company grows, every team building its own infrastructure patterns creates duplicated effort and inconsistent reliability. A platform exists to fix that — but a badly built one becomes its own bottleneck.",
     businessOutcomes: [
@@ -1022,6 +1066,16 @@ export const SOLUTIONS: Solution[] = [
       "Cloud architecture, sized and secured for where your product is going, not just where it is today.",
     primaryCtaLabel: "Plan My Cloud Architecture",
     who: "Teams whose infrastructure costs, reliability, or scalability have become a genuine business constraint.",
+    typicalCompanies: [
+      "Growth-stage companies outgrowing early infrastructure choices",
+      "Teams facing unpredictable cloud costs",
+      "Businesses preparing for a known high-traffic event",
+    ],
+    exampleProducts: [
+      "Cloud architecture redesigns",
+      "Cost optimization audits",
+      "Load and reliability testing",
+    ],
     businessProblem:
       "Infrastructure decisions made for an early-stage product often don't hold up under real growth — and by the time it's a visible problem, it's usually an expensive one to fix under pressure.",
     businessOutcomes: [
@@ -1230,6 +1284,16 @@ export const SOLUTIONS: Solution[] = [
       "We design automation that removes repetitive operational work, without hiding failures behind a black box.",
     primaryCtaLabel: "Find What to Automate",
     who: "Operations and engineering teams spending real hours on repetitive, rules-based, or data-entry work.",
+    typicalCompanies: [
+      "Operations-heavy businesses (logistics, healthcare, financial services)",
+      "Teams manually bridging disconnected internal tools",
+      "Companies scaling headcount to match manual process volume",
+    ],
+    exampleProducts: [
+      "Workflow automation",
+      "Document/data extraction pipelines",
+      "Internal process tooling",
+    ],
     businessProblem:
       "Manual processes don't just cost time — they introduce inconsistency and don't scale with growth. But automation built without visibility into failure states just moves the problem, rather than solving it.",
     businessOutcomes: [
@@ -1420,6 +1484,16 @@ export const SOLUTIONS: Solution[] = [
       "Interfaces and design systems built so users — and the engineers who build on them — never have to guess.",
     primaryCtaLabel: "Start With Design",
     who: "Teams whose product works but is hard to use, or whose design and engineering are out of sync.",
+    typicalCompanies: [
+      "Products with declining activation or retention",
+      "Teams whose design and engineering have drifted apart",
+      "Companies without a formal design system yet",
+    ],
+    exampleProducts: [
+      "Design systems",
+      "UX research and usability testing",
+      "Accessibility remediation",
+    ],
     businessProblem:
       "Confusing interfaces cost conversions, support tickets, and trust — but design work that isn't systemized creates inconsistency that compounds as a product grows.",
     businessOutcomes: [
@@ -1613,6 +1687,16 @@ export const SOLUTIONS: Solution[] = [
       "When the right solution requires building something specific to your business, not configuring something generic.",
     primaryCtaLabel: "Discuss My Project",
     who: "Teams with a genuinely specific engineering problem that off-the-shelf software can't solve.",
+    typicalCompanies: [
+      "Enterprises with domain-specific workflows",
+      "Companies whose competitive advantage is a proprietary process",
+      "Organizations bridging several legacy systems no off-the-shelf tool connects",
+    ],
+    exampleProducts: [
+      "Bespoke internal systems",
+      "Cross-system integrations",
+      "Domain-specific business logic engines",
+    ],
     businessProblem:
       "Some business problems are specific enough that no off-the-shelf tool — or combination of them — actually fits, and forcing one to work becomes its own ongoing cost.",
     businessOutcomes: [
@@ -1804,3 +1888,26 @@ export const SOLUTIONS: Solution[] = [
     ],
   },
 ];
+
+/**
+ * The single canonical solution to highlight for a given journey, for the
+ * Solutions landing page's adaptive hero/CTA (CLAUDE.md Part 20: "adaptive
+ * hero, journey-aware messaging... context-aware CTA"). An explicit map
+ * rather than deriving from `Solution.journey`, since several solutions
+ * share a journey (e.g. both `platform-engineering` and
+ * `cloud-infrastructure` map to "platform") — this map picks the one
+ * whose name most directly matches the journey itself.
+ */
+const RECOMMENDED_SOLUTION_BY_JOURNEY: Record<Journey, string> = {
+  startup: "startup",
+  enterprise: "enterprise",
+  commerce: "commerce",
+  ai: "artificial-intelligence",
+  platform: "platform-engineering",
+};
+
+export function getRecommendedSolution(journey: Journey | null): Solution | undefined {
+  if (!journey) return undefined;
+  const slug = RECOMMENDED_SOLUTION_BY_JOURNEY[journey];
+  return SOLUTIONS.find((solution) => solution.slug === slug);
+}

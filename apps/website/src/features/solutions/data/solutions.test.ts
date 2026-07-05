@@ -4,7 +4,7 @@ import { CASE_STUDIES } from "@/features/homepage/proof-engine";
 import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
 
 import { solutionSchema } from "./solution.schema";
-import { SOLUTIONS } from "./solutions";
+import { getRecommendedSolution, SOLUTIONS } from "./solutions";
 
 const SOLUTION_SLUGS = [
   "startup",
@@ -64,5 +64,19 @@ describe("SOLUTIONS", () => {
       const nodeIds = solution.architecture.map((node) => node.id);
       expect(new Set(nodeIds).size).toBe(nodeIds.length);
     }
+  });
+});
+
+describe("getRecommendedSolution", () => {
+  it("returns undefined when no journey is selected", () => {
+    expect(getRecommendedSolution(null)).toBeUndefined();
+  });
+
+  it("returns the canonically matching solution for each journey", () => {
+    expect(getRecommendedSolution("startup")?.slug).toBe("startup");
+    expect(getRecommendedSolution("enterprise")?.slug).toBe("enterprise");
+    expect(getRecommendedSolution("commerce")?.slug).toBe("commerce");
+    expect(getRecommendedSolution("ai")?.slug).toBe("artificial-intelligence");
+    expect(getRecommendedSolution("platform")?.slug).toBe("platform-engineering");
   });
 });
