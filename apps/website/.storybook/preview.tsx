@@ -6,6 +6,14 @@ import { StorybookProviders } from "../src/providers/StorybookProviders";
 
 const preview: Preview = {
   parameters: {
+    // The app is App Router only (CLAUDE.md Part 26). Without this,
+    // Storybook's Next.js mock provides a Pages Router context, so any
+    // component calling `useRouter()` from `next/navigation` throws
+    // "invariant expected app router to be mounted".
+    nextjs: {
+      appDirectory: true,
+    },
+
     controls: {
       matchers: {
         color: /(background|color)$/i,
