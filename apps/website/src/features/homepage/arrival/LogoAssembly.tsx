@@ -12,23 +12,23 @@ export interface LogoAssemblyProps {
 
 const pieceTransition = { duration: duration.slow, ease: ease.decelerate };
 
-const diagonal: Variants = {
-  hidden: { opacity: 0, x: -16, y: -16 },
-  visible: { opacity: 1, x: 0, y: 0, transition: pieceTransition },
+const spineVariants: Variants = {
+  hidden: { opacity: 0, y: -14 },
+  visible: { opacity: 1, y: 0, transition: pieceTransition },
 };
 
-const vertical: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { ...pieceTransition, delay: 0.12 } },
+const upperFoldVariants: Variants = {
+  hidden: { opacity: 0, x: 18, y: -14 },
+  visible: { opacity: 1, x: 0, y: 0, transition: { ...pieceTransition, delay: 0.12 } },
 };
 
-const horizontal: Variants = {
-  hidden: { opacity: 0, x: 16 },
-  visible: { opacity: 1, x: 0, transition: { ...pieceTransition, delay: 0.24 } },
+const lowerFoldVariants: Variants = {
+  hidden: { opacity: 0, x: 18, y: 14 },
+  visible: { opacity: 1, x: 0, y: 0, transition: { ...pieceTransition, delay: 0.24 } },
 };
 
-const innerCut: Variants = {
-  hidden: { opacity: 0, scale: 0.6 },
+const shadowVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.5 },
   visible: { opacity: 1, scale: 1, transition: { ...pieceTransition, delay: 0.36 } },
 };
 
@@ -36,66 +36,58 @@ const innerCut: Variants = {
  * The arrival sequence's "logo assembles from geometric pieces" moment
  * (CLAUDE.md Part 9, Stage 2: "Diagonal piece -> Vertical -> Horizontal ->
  * Inner cut -> Final lock... Motion should communicate precision, not
- * magic."). There's no shipped brand mark in this repo yet, so this is a
- * deliberately simple abstract geometric assembly (three angled strokes plus
- * a cut corner) rather than a literal logo — it only needs to read as
- * "engineered," per Part 2's "The logo represents construction... an
- * engineering symbol."
+ * magic."), traced to Byld IQ's actual mark: a dark navy spine plus a
+ * folded blue-gradient ribbon forming the two bumps of the "B," with a
+ * dark triangular reveal where the fold tucks behind itself. Assembly
+ * order follows how the mark actually reads — spine (foundation) first,
+ * then the upper fold, then the lower fold, then the inner shadow that
+ * only makes sense once both folds are in place.
  */
 export function LogoAssembly({ assembled, className }: LogoAssemblyProps) {
   const state = assembled ? "visible" : "hidden";
 
   return (
     <svg
-      viewBox="0 0 64 64"
+      viewBox="0 0 100 136"
       className={className}
-      width={64}
-      height={64}
+      width={72}
+      height={98}
       role="img"
       aria-label="Byld IQ"
     >
-      <motion.rect
-        x="8"
-        y="8"
-        width="20"
-        height="8"
-        rx="1"
-        className="fill-accent"
-        transform="skewX(-12)"
-        variants={diagonal}
+      <defs>
+        <linearGradient id="logo-ribbon-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#1b2fb5" />
+          <stop offset="50%" stopColor="#46c6ff" />
+          <stop offset="100%" stopColor="#2f6de8" />
+        </linearGradient>
+      </defs>
+
+      <motion.path
+        d="M10 34 L32 28 L32 122 L10 126 Z"
+        fill="#101a35"
+        variants={spineVariants}
         initial="hidden"
         animate={state}
       />
-      <motion.rect
-        x="8"
-        y="20"
-        width="8"
-        height="36"
-        rx="1"
-        className="fill-accent"
-        variants={vertical}
+      <motion.path
+        d="M46 10 L94 44 L60 68 L32 38 Z"
+        fill="url(#logo-ribbon-gradient)"
+        variants={upperFoldVariants}
         initial="hidden"
         animate={state}
       />
-      <motion.rect
-        x="20"
-        y="48"
-        width="36"
-        height="8"
-        rx="1"
-        className="fill-accent"
-        variants={horizontal}
+      <motion.path
+        d="M46 126 L94 92 L60 68 L32 98 Z"
+        fill="url(#logo-ribbon-gradient)"
+        variants={lowerFoldVariants}
         initial="hidden"
         animate={state}
       />
-      <motion.rect
-        x="44"
-        y="20"
-        width="12"
-        height="12"
-        rx="1"
-        className="fill-foreground"
-        variants={innerCut}
+      <motion.path
+        d="M60 68 L32 38 L32 98 Z"
+        fill="#101a35"
+        variants={shadowVariants}
         initial="hidden"
         animate={state}
       />

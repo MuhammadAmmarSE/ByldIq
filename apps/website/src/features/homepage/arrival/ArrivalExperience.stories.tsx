@@ -12,7 +12,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/** Plays the full first-time sequence: background, logo assembly, wordmark, tagline, then dissolves after ~1.8s. */
+/** Plays the full first-time sequence: background, logo assembly, wordmark, tagline, then dissolves after ~3s. */
 export const FirstVisit: Story = {
   args: { initialHasSeenIntro: false },
 };
