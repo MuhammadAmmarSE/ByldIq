@@ -22,4 +22,6 @@ export { CaseStudyOverview } from "./CaseStudyOverview";
 export { CaseStudyDiscovery } from "./CaseStudyDiscovery";
 export { CaseStudyProductThinking } from "./CaseStudyProductThinking";
 export { CaseStudyArchitecture } from "./CaseStudyArchitecture";
+export { CaseStudyTechnologyDecisions } from "./CaseStudyTechnologyDecisions";
+export { CaseStudyEngineeringProcess } from "./CaseStudyEngineeringProcess";
 export * from "./analytics";

@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { Badge } from "@/components/Badge";
 import { Container } from "@/components/Container";
 import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
@@ -9,9 +8,11 @@ import {
   CASE_STUDIES,
   CaseStudyArchitecture,
   CaseStudyDiscovery,
+  CaseStudyEngineeringProcess,
   CaseStudyHero,
   CaseStudyOverview,
   CaseStudyProductThinking,
+  CaseStudyTechnologyDecisions,
   FICTIONAL_COMPANIES,
 } from "@/features/case-studies";
 
@@ -48,11 +49,11 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
  * study page has the same section order (CLAUDE.md Part 21: "Every case
  * study follows the same architecture"). Built incrementally across
  * Milestone 5's phases: the hero, executive summary, business challenge,
- * discovery, product thinking, and architecture are real as of this phase;
- * results and technology remain a lightweight preview until Phases 4 and 5
- * build their dedicated explorers. The remaining sections (engineering
- * process, challenges, lessons learned, related content, FAQ, final CTA)
- * land in later phases.
+ * discovery, product thinking, architecture, technology decisions, and
+ * engineering process are real as of this phase; results remain a
+ * lightweight preview until Phase 5 builds its dedicated section. The
+ * remaining sections (challenges, lessons learned, related content, FAQ,
+ * final CTA) land in later phases.
  */
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
@@ -82,25 +83,14 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         <CaseStudyDiscovery caseStudy={caseStudy} />
         <CaseStudyProductThinking caseStudy={caseStudy} />
         <CaseStudyArchitecture caseStudy={caseStudy} />
+        <CaseStudyTechnologyDecisions caseStudy={caseStudy} />
+        <CaseStudyEngineeringProcess caseStudy={caseStudy} />
 
-        <section className="space-y-2">
+        <section id="outcome" className="space-y-2">
           <Heading variant="h3" as="h2">
             The outcome
           </Heading>
           <Text variant="body">{caseStudy.outcome}</Text>
-        </section>
-
-        <section className="space-y-2">
-          <Heading variant="h3" as="h2">
-            Technology
-          </Heading>
-          <div className="flex flex-wrap gap-1.5">
-            {caseStudy.technologies.map((technology) => (
-              <Badge key={technology} variant="outline">
-                {technology}
-              </Badge>
-            ))}
-          </div>
         </section>
       </div>
     </Container>
