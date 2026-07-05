@@ -20,4 +20,7 @@ export { ArchitectureExplorer } from "./ArchitectureExplorer";
 export { TechnologyExplorer } from "./TechnologyExplorer";
 export { DeliveryFramework } from "./DeliveryFramework";
 export { SuccessMetrics } from "./SuccessMetrics";
+export { RelatedCaseStudies } from "./RelatedCaseStudies";
+export { RelatedKnowledge } from "./RelatedKnowledge";
+export { SolutionFaqSection } from "./SolutionFaqSection";
 export * from "./analytics";

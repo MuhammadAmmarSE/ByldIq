@@ -6,7 +6,10 @@ import {
   ArchitectureExplorer,
   CapabilityExplorer,
   DeliveryFramework,
+  RelatedCaseStudies,
+  RelatedKnowledge,
   SOLUTIONS,
+  SolutionFaqSection,
   SolutionHero,
   SolutionOverview,
   SuccessMetrics,
@@ -43,9 +46,9 @@ export async function generateMetadata({ params }: SolutionPageProps): Promise<M
  * share the same architecture"). Built incrementally across Milestone 4's
  * phases; Hero, Business Problem, Business Outcomes, Engineering
  * Philosophy, Capability Explorer, Architecture Explorer, Technology
- * Explorer, Delivery Framework, and Success Metrics are real so far — the
- * remaining sections (related content, FAQ, final CTA) land in later
- * phases.
+ * Explorer, Delivery Framework, Success Metrics, Related Case Studies,
+ * Related Knowledge, and FAQ are real so far — only the final CTA remains
+ * for a later phase.
  */
 export default async function SolutionPage({ params }: SolutionPageProps) {
   const { slug } = await params;
@@ -61,6 +64,9 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
       <TechnologyExplorer solution={solution} />
       <DeliveryFramework solution={solution} />
       <SuccessMetrics solution={solution} />
+      <RelatedCaseStudies solution={solution} />
+      <RelatedKnowledge solution={solution} />
+      <SolutionFaqSection solution={solution} />
     </Container>
   );
 }
