@@ -5,7 +5,13 @@ import { Badge } from "@/components/Badge";
 import { Container } from "@/components/Container";
 import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
-import { CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
+import {
+  CASE_STUDIES,
+  CaseStudyDiscovery,
+  CaseStudyHero,
+  CaseStudyOverview,
+  FICTIONAL_COMPANIES,
+} from "@/features/case-studies";
 
 interface CaseStudyPageProps {
   params: Promise<{ slug: string }>;
@@ -39,10 +45,12 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
  * One shared template driven entirely by `CASE_STUDIES` data — every case
  * study page has the same section order (CLAUDE.md Part 21: "Every case
  * study follows the same architecture"). Built incrementally across
- * Milestone 5's phases; this is the routing skeleton only — executive
- * summary, results, and technology are real so far, using the richer data
- * model built in this phase. The remaining twelve sections land in later
- * phases.
+ * Milestone 5's phases: the hero, executive summary, business challenge,
+ * and discovery are real as of this phase; results and technology remain a
+ * lightweight preview until Phases 4 and 5 build their dedicated
+ * explorers. The remaining sections (product thinking, architecture,
+ * engineering process, challenges, lessons learned, related content,
+ * FAQ, final CTA) land in later phases.
  */
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
@@ -52,16 +60,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { caseStudy, company } = found;
 
   return (
-    <Container size="content" className="py-16">
-      <div className="mx-auto max-w-3xl space-y-8">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <Badge variant="neutral">{company.industry}</Badge>
-            <Text variant="caption">{company.name}</Text>
-          </div>
-          <Heading variant="display">{caseStudy.headline}</Heading>
-        </div>
+    <Container size="content" className="space-y-16 py-16">
+      <CaseStudyHero caseStudy={caseStudy} company={company} />
 
+      <div className="mx-auto max-w-3xl space-y-16">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
           {caseStudy.metrics.map((metric) => (
             <div
@@ -74,12 +76,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           ))}
         </div>
 
-        <section className="space-y-2">
-          <Heading variant="h3" as="h2">
-            Executive summary
-          </Heading>
-          <Text variant="body">{caseStudy.executiveSummary}</Text>
-        </section>
+        <CaseStudyOverview caseStudy={caseStudy} />
+        <CaseStudyDiscovery caseStudy={caseStudy} />
 
         <section className="space-y-2">
           <Heading variant="h3" as="h2">

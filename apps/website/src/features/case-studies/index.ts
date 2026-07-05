@@ -17,4 +17,7 @@ export type { BusinessProblemCategory } from "./data/business-problems";
 export { WorkExplorer } from "./WorkExplorer";
 export { WorkHero } from "./WorkHero";
 export { WorkFilterBar } from "./WorkFilterBar";
+export { CaseStudyHero } from "./CaseStudyHero";
+export { CaseStudyOverview } from "./CaseStudyOverview";
+export { CaseStudyDiscovery } from "./CaseStudyDiscovery";
 export * from "./analytics";
