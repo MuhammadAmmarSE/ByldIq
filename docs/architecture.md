@@ -80,7 +80,10 @@ src/
                (Tokens.stories.tsx).
 
   content/     MDX content collections (articles, guides, case studies).
-               Empty until Milestone 5 defines the actual content types.
+               Empty until a future Knowledge Center milestone defines the
+               actual content types — Milestone 3's homepage Knowledge
+               Center preview uses local typed data instead (see
+               `docs/homepage.md`).
 ```
 
 ## State management: which tool, when
@@ -131,9 +134,12 @@ duration/easing as defaults, so any `motion.*` component automatically
 respects `prefers-reduced-motion` and matches the rest of the design system
 without repeating transition props everywhere. Per CLAUDE.md Part 27,
 animation logic stays isolated in motion-specific components rather than
-scattered through business code. GSAP is still the tool for complex
-scroll-driven sequences (Milestone 4+); it isn't provider-scoped and should
-read the same `--duration-*`/`--ease-*` tokens directly.
+scattered through business code. GSAP remains the tool for complex
+scroll-driven sequences beyond what `motion`'s `whileInView` covers (none
+of the homepage's Milestone 3 sections needed it — every scroll-triggered
+reveal is a `Reveal`/stagger fade, per `docs/homepage.md`); it isn't
+provider-scoped and should read the same `--duration-*`/`--ease-*` tokens
+directly whenever it's introduced.
 
 ## Component folder rules
 
@@ -260,5 +266,6 @@ marks primitives built on top of a lower-level dependency (Radix UI,
 
 `config/site.ts`'s `primaryNav` stays empty until a later milestone
 defines real information architecture — every component above renders
-correctly with zero items in the meantime; `apps/website/src/app/page.tsx`
-stays the Milestone 1 placeholder, now rendered inside `PageShell`.
+correctly with zero items in the meantime. `apps/website/src/app/page.tsx`
+is now the real homepage (Milestone 3, CLAUDE.md Part 9's eleven modules),
+rendered inside `PageShell`; see `docs/homepage.md` for its architecture.

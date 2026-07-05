@@ -1,9 +1,11 @@
 import { Skeleton } from "@/components/Skeleton";
 
 /**
- * Shown by the App Router while a route segment streams in. Mirrors the
- * current placeholder page's shape loosely — revisit once Milestone 4
- * replaces it with the real homepage.
+ * Shown by the App Router while a route segment streams in — mainly the
+ * brief gap during client-side navigation back to `/` (e.g. from the
+ * not-found page), since the homepage itself has no suspending data
+ * fetches. A generic skeleton shape rather than one that mirrors the
+ * homepage's own layout, since it can't know which route it's covering.
  */
 export default function Loading() {
   return (

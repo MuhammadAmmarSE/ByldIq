@@ -28,6 +28,7 @@ src/
   app/         # routes, layouts — composition only, no business logic
   components/  # presentational UI — ~40 primitives + navigation shell (Milestone 2)
   features/    # domain UI + logic, composed from components
+               # (features/homepage/ — the 11 homepage modules, Milestone 3)
   providers/   # app-wide React context providers
   store/       # Zustand store factories (per-request, not module singletons)
   services/    # data access / API calls — never called directly from UI
@@ -37,7 +38,7 @@ src/
   config/      # structural config (no marketing copy)
   types/       # shared TypeScript types
   styles/      # design tokens (tokens.css)
-  content/     # MDX content collections (Milestone 5+)
+  content/     # MDX content collections (a future Knowledge Center milestone)
 ```
 
 Design tokens live in `src/styles/tokens.css` as CSS custom properties and
@@ -46,5 +47,6 @@ must use the generated Tailwind utilities (`bg-surface`, `text-muted`, …) or
 `var(--token)` directly — never a raw hex value or magic number.
 
 See `/docs/architecture.md` at the repo root for the full layering
-contract and `/CLAUDE.md` for the product/brand/engineering rules
-everything here must follow.
+contract, `/docs/homepage.md` for the homepage's component hierarchy and
+scope boundaries, and `/CLAUDE.md` for the product/brand/engineering
+rules everything here must follow.
