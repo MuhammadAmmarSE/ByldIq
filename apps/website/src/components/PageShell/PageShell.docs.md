@@ -8,11 +8,13 @@ neither component should know about the other directly.
 
 ## Usage
 
-Already wired into `app/layout.tsx`:
+Already wired into `app/layout.tsx`, which assembles the real nav (a
+Solutions dropdown built from `SOLUTIONS` data, plus `config/site.ts`'s
+static entries) and passes it down:
 
 ```tsx
 <AppProviders>
-  <PageShell>{children}</PageShell>
+  <PageShell navItems={navItems}>{children}</PageShell>
 </AppProviders>
 ```
 
@@ -21,14 +23,19 @@ automatically via the root layout.
 
 ## Props
 
-| Prop       | Type        | Notes                   |
-| ---------- | ----------- | ----------------------- |
-| `children` | `ReactNode` | The page's own content. |
+| Prop       | Type                   | Notes                                               |
+| ---------- | ---------------------- | --------------------------------------------------- |
+| `children` | `ReactNode`            | The page's own content.                             |
+| `navItems` | `NavItem[]` (optional) | Rendered by `Navbar` and `MobileNav`. Default `[]`. |
 
 ## Notes
 
-`primaryNav` (from `config/site.ts`) is empty until a later milestone
-defines real information architecture — `Navbar`, `Footer`, and
-`MobileNav` all render gracefully with no items in the meantime. Must
-render inside `AppProviders` (for `CommandPaletteProvider`, which
-`Navbar`/`MobileNav`'s search triggers depend on).
+`navItems` isn't read from `config/site.ts` directly inside this
+component — `config/site.ts` only holds nav entries with no dropdown
+(routes with no feature data behind them), since it's config that
+Shared-layer components like this one can depend on. Anything needing
+feature data (the Solutions dropdown) is composed in `app/layout.tsx`
+instead, per CLAUDE.md Part 27's dependency direction (Shared must not
+depend on Features). Must render inside `AppProviders` (for
+`CommandPaletteProvider`, which `Navbar`/`MobileNav`'s search triggers
+depend on).

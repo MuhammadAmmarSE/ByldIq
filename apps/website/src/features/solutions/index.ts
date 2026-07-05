@@ -23,4 +23,6 @@ export { SuccessMetrics } from "./SuccessMetrics";
 export { RelatedCaseStudies } from "./RelatedCaseStudies";
 export { RelatedKnowledge } from "./RelatedKnowledge";
 export { SolutionFaqSection } from "./SolutionFaqSection";
+export { SolutionSidebar } from "./SolutionSidebar";
+export { SolutionFinalCta } from "./SolutionFinalCta";
 export * from "./analytics";

@@ -31,6 +31,12 @@ describe("MegaMenu", () => {
     );
   });
 
+  it("gives the panel an accessible name", async () => {
+    render(<MegaMenu item={solutionsItem} />);
+    await userEvent.click(screen.getByRole("button", { name: "Solutions" }));
+    expect(screen.getByRole("dialog", { name: "Solutions menu" })).toBeInTheDocument();
+  });
+
   it("closes on Escape", async () => {
     render(<MegaMenu item={solutionsItem} />);
     await userEvent.click(screen.getByRole("button", { name: "Solutions" }));

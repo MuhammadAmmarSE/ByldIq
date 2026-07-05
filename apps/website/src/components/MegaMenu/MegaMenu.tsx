@@ -34,6 +34,7 @@ export function MegaMenu({ item, className }: MegaMenuProps) {
         <PopoverPrimitive.Content
           align="start"
           sideOffset={8}
+          aria-label={`${item.label} menu`}
           className="bg-surface border-border z-dropdown grid w-[min(90vw,32rem)] grid-cols-2 gap-1 rounded-lg border p-3 shadow-lg"
         >
           {children.map((child) => (

@@ -10,8 +10,10 @@ import {
   RelatedKnowledge,
   SOLUTIONS,
   SolutionFaqSection,
+  SolutionFinalCta,
   SolutionHero,
   SolutionOverview,
+  SolutionSidebar,
   SuccessMetrics,
   TechnologyExplorer,
 } from "@/features/solutions";
@@ -43,12 +45,12 @@ export async function generateMetadata({ params }: SolutionPageProps): Promise<M
 /**
  * One shared template driven entirely by `SOLUTIONS` data — every solution
  * page has the same section order (CLAUDE.md Part 20: "all pages must
- * share the same architecture"). Built incrementally across Milestone 4's
- * phases; Hero, Business Problem, Business Outcomes, Engineering
- * Philosophy, Capability Explorer, Architecture Explorer, Technology
- * Explorer, Delivery Framework, Success Metrics, Related Case Studies,
- * Related Knowledge, and FAQ are real so far — only the final CTA remains
- * for a later phase.
+ * share the same architecture"). All sections are now real: Hero, Business
+ * Problem, Business Outcomes, Engineering Philosophy, Capability Explorer,
+ * Architecture Explorer, Technology Explorer, Delivery Framework, Success
+ * Metrics, Related Case Studies, Related Knowledge, FAQ, and the final CTA.
+ * A sticky sidebar (desktop only) provides scrollspy navigation across the
+ * middle sections; the hero and final CTA span full width.
  */
 export default async function SolutionPage({ params }: SolutionPageProps) {
   const { slug } = await params;
@@ -58,15 +60,21 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
   return (
     <Container size="content" className="space-y-16 py-16">
       <SolutionHero solution={solution} />
-      <SolutionOverview solution={solution} />
-      <CapabilityExplorer solution={solution} />
-      <ArchitectureExplorer solution={solution} />
-      <TechnologyExplorer solution={solution} />
-      <DeliveryFramework solution={solution} />
-      <SuccessMetrics solution={solution} />
-      <RelatedCaseStudies solution={solution} />
-      <RelatedKnowledge solution={solution} />
-      <SolutionFaqSection solution={solution} />
+      <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
+        <SolutionSidebar className="hidden lg:block" />
+        <div className="space-y-16">
+          <SolutionOverview solution={solution} />
+          <CapabilityExplorer solution={solution} />
+          <ArchitectureExplorer solution={solution} />
+          <TechnologyExplorer solution={solution} />
+          <DeliveryFramework solution={solution} />
+          <SuccessMetrics solution={solution} />
+          <RelatedCaseStudies solution={solution} />
+          <RelatedKnowledge solution={solution} />
+          <SolutionFaqSection solution={solution} />
+        </div>
+      </div>
+      <SolutionFinalCta solution={solution} />
     </Container>
   );
 }

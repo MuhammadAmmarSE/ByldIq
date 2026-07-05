@@ -9,10 +9,21 @@ export const siteConfig = {
 } as const;
 
 /**
- * Populated by Milestone 2 (navigation component) / the sitemap milestones —
- * left empty here since nav content is product IA, not architecture.
+ * Static top-level nav entries with no dropdown — only routes that exist
+ * today (CLAUDE.md Part 8: "No page should ever become a dead end").
+ * CLAUDE.md Part 8's full nav also names Work, Process, Technology, About,
+ * and Contact, but those pages don't exist yet (no `/case-studies` index,
+ * no Technology Explorer, etc.) — adding them now would just be dead
+ * links. The Solutions entry (a dropdown) is assembled separately in
+ * `app/layout.tsx`, which can reach `SOLUTIONS` data — this file stays
+ * feature-free per CLAUDE.md Part 27's dependency direction (Shared
+ * components like `PageShell`, which reads this config, must not depend
+ * on Features).
  */
-export const primaryNav: NavItem[] = [];
+export const primaryNav: NavItem[] = [
+  { label: "Knowledge", href: "/knowledge" },
+  { label: "BuildPath", href: "/buildpath" },
+];
 
 /**
  * Extend as real feature flags are needed. Kept empty now rather than

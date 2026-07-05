@@ -2,10 +2,29 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import { PageShell } from "@/components/PageShell";
-import { siteConfig } from "@/config/site";
+import { primaryNav, siteConfig } from "@/config/site";
+import { SOLUTIONS } from "@/features/solutions";
 import { fontVariables } from "@/lib/fonts";
 import { jsonLdScriptProps, organizationJsonLd } from "@/lib/json-ld";
 import { AppProviders } from "@/providers/AppProviders";
+import type { NavItem } from "@/types/navigation";
+
+/**
+ * The Solutions dropdown is built here (the Pages layer, which is allowed
+ * to depend on Features) rather than in `config/site.ts` (Shared-layer
+ * config that `PageShell` reads) — see `config/site.ts`'s comment.
+ */
+const navItems: NavItem[] = [
+  {
+    label: "Solutions",
+    href: "/solutions",
+    children: SOLUTIONS.map((solution) => ({
+      label: solution.navLabel,
+      href: `/solutions/${solution.slug}`,
+    })),
+  },
+  ...primaryNav,
+];
 
 const description =
   "Byld IQ is an Intelligent Product Engineering Company. We partner with founders and " +
@@ -43,7 +62,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="flex min-h-full flex-col antialiased">
         <script {...jsonLdScriptProps(organizationJsonLd())} />
         <AppProviders>
-          <PageShell>{children}</PageShell>
+          <PageShell navItems={navItems}>{children}</PageShell>
         </AppProviders>
       </body>
     </html>
