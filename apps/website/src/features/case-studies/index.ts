@@ -20,4 +20,6 @@ export { WorkFilterBar } from "./WorkFilterBar";
 export { CaseStudyHero } from "./CaseStudyHero";
 export { CaseStudyOverview } from "./CaseStudyOverview";
 export { CaseStudyDiscovery } from "./CaseStudyDiscovery";
+export { CaseStudyProductThinking } from "./CaseStudyProductThinking";
+export { CaseStudyArchitecture } from "./CaseStudyArchitecture";
 export * from "./analytics";
