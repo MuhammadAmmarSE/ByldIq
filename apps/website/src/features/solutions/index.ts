@@ -13,4 +13,6 @@ export type { SolutionsHeroContent } from "./data/hero-content";
 export { SolutionsHero } from "./SolutionsHero";
 export { SolutionSelector } from "./SolutionSelector";
 export { SolutionCard } from "./SolutionCard";
+export { SolutionHero } from "./SolutionHero";
+export { SolutionOverview } from "./SolutionOverview";
 export * from "./analytics";

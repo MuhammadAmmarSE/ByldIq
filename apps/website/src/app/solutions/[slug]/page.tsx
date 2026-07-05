@@ -2,9 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
-import { Heading } from "@/components/Heading";
-import { Text } from "@/components/Text";
-import { SOLUTIONS } from "@/features/solutions";
+import { SOLUTIONS, SolutionHero, SolutionOverview } from "@/features/solutions";
 
 interface SolutionPageProps {
   params: Promise<{ slug: string }>;
@@ -34,7 +32,10 @@ export async function generateMetadata({ params }: SolutionPageProps): Promise<M
  * One shared template driven entirely by `SOLUTIONS` data — every solution
  * page has the same section order (CLAUDE.md Part 20: "all pages must
  * share the same architecture"). Built incrementally across Milestone 4's
- * phases; this is the routing/data-wiring skeleton, not the finished page.
+ * phases; Hero, Business Problem, Business Outcomes, and Engineering
+ * Philosophy are real so far — the remaining sections (capabilities,
+ * architecture, technology, delivery, metrics, related content, FAQ,
+ * final CTA) land in later phases.
  */
 export default async function SolutionPage({ params }: SolutionPageProps) {
   const { slug } = await params;
@@ -42,12 +43,9 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
   if (!solution) notFound();
 
   return (
-    <Container size="content" className="py-16">
-      <div className="mx-auto max-w-3xl space-y-6">
-        <Heading variant="display">{solution.heroHeadline}</Heading>
-        <Text variant="subtitle">{solution.heroSupportingCopy}</Text>
-        <Text variant="body">{solution.businessProblem}</Text>
-      </div>
+    <Container size="content" className="space-y-16 py-16">
+      <SolutionHero solution={solution} />
+      <SolutionOverview solution={solution} />
     </Container>
   );
 }
