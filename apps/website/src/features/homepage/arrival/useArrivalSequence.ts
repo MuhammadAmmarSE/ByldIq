@@ -16,14 +16,22 @@ export type ArrivalStage = (typeof ARRIVAL_STAGES)[number];
 
 export type ArrivalCompletionReason = "finished" | "skipped" | "bypassed";
 
-/** Milliseconds from mount, per CLAUDE.md Part 9's stage timeline (kept under the 2s budget). */
+/**
+ * Milliseconds from mount. CLAUDE.md Part 9 suggests a tighter timeline
+ * (background 200 / logo 600 / wordmark 1000 / tagline 1200 / navigation
+ * 1400 / complete 1800) that keeps the whole sequence under a 2s budget —
+ * in practice that left the wordmark and tagline on screen for only
+ * ~200-400ms each, too brief to actually read. Slowed down deliberately
+ * (per direct product feedback) so each stage gets real dwell time before
+ * the next one starts, at the cost of exceeding Part 9's 2s ceiling.
+ */
 const STAGE_TIMINGS: Record<Exclude<ArrivalStage, "initial">, number> = {
-  background: 200,
-  logo: 600,
-  wordmark: 1000,
-  tagline: 1200,
-  navigation: 1400,
-  complete: 1800,
+  background: 300,
+  logo: 900,
+  wordmark: 1500,
+  tagline: 2200,
+  navigation: 2600,
+  complete: 3000,
 };
 
 export interface UseArrivalSequenceOptions {

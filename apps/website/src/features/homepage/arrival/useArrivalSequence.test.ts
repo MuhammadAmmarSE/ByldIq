@@ -45,22 +45,22 @@ describe("useArrivalSequence", () => {
 
     expect(result.current.stage).toBe("initial");
 
-    act(() => vi.advanceTimersByTime(200));
+    act(() => vi.advanceTimersByTime(300));
     expect(result.current.stage).toBe("background");
 
-    act(() => vi.advanceTimersByTime(400)); // 600ms total
+    act(() => vi.advanceTimersByTime(600)); // 900ms total
     expect(result.current.stage).toBe("logo");
 
-    act(() => vi.advanceTimersByTime(400)); // 1000ms total
+    act(() => vi.advanceTimersByTime(600)); // 1500ms total
     expect(result.current.stage).toBe("wordmark");
 
-    act(() => vi.advanceTimersByTime(200)); // 1200ms total
+    act(() => vi.advanceTimersByTime(700)); // 2200ms total
     expect(result.current.stage).toBe("tagline");
 
-    act(() => vi.advanceTimersByTime(200)); // 1400ms total
+    act(() => vi.advanceTimersByTime(400)); // 2600ms total
     expect(result.current.stage).toBe("navigation");
 
-    act(() => vi.advanceTimersByTime(400)); // 1800ms total
+    act(() => vi.advanceTimersByTime(400)); // 3000ms total
     expect(result.current.stage).toBe("complete");
     expect(onComplete).toHaveBeenCalledTimes(1);
     expect(onComplete).toHaveBeenCalledWith("finished");
@@ -70,7 +70,7 @@ describe("useArrivalSequence", () => {
     const onComplete = vi.fn();
     const { result } = renderHook(() => useArrivalSequence({ skipIntro: false, onComplete }));
 
-    act(() => vi.advanceTimersByTime(600));
+    act(() => vi.advanceTimersByTime(900));
     expect(result.current.stage).toBe("logo");
 
     act(() => result.current.skip());
@@ -79,7 +79,7 @@ describe("useArrivalSequence", () => {
     expect(onComplete).toHaveBeenCalledWith("skipped");
 
     // Further time passing must not fire the natural completion too.
-    act(() => vi.advanceTimersByTime(2000));
+    act(() => vi.advanceTimersByTime(3000));
     expect(onComplete).toHaveBeenCalledTimes(1);
   });
 });
