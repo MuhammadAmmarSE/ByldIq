@@ -24,4 +24,7 @@ export { CaseStudyProductThinking } from "./CaseStudyProductThinking";
 export { CaseStudyArchitecture } from "./CaseStudyArchitecture";
 export { CaseStudyTechnologyDecisions } from "./CaseStudyTechnologyDecisions";
 export { CaseStudyEngineeringProcess } from "./CaseStudyEngineeringProcess";
+export { CaseStudyChallenges } from "./CaseStudyChallenges";
+export { CaseStudyResults } from "./CaseStudyResults";
+export { CaseStudyLessonsLearned } from "./CaseStudyLessonsLearned";
 export * from "./analytics";
