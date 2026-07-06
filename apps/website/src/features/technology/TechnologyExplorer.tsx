@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 
+import { Button } from "@/components/Button";
 import { Heading } from "@/components/Heading";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
@@ -14,17 +16,22 @@ import { TechnologyGrid } from "./TechnologyGrid";
 import { TechnologyHero } from "./TechnologyHero";
 import type { TechnologyExplorerProps } from "./TechnologyExplorer.types";
 
+const POPULAR_COMPARISONS = [
+  { href: "/technology/compare?a=next-js&b=remix", label: "Next.js vs Remix" },
+  { href: "/technology/compare?a=postgresql&b=mongodb", label: "PostgreSQL vs MongoDB" },
+] as const;
+
 /**
  * The `/technology` landing page's full experience (CLAUDE.md Part 22):
- * hero, category filtering, and search — all client-side over the small,
- * fully-loaded technology dataset.
+ * hero, category filtering, search, and popular comparisons — all
+ * client-side over the small, fully-loaded technology dataset.
  *
- * "Popular comparisons," the Architecture Explorer, and the Decision
- * Wizard (also named in the landing page spec) aren't linked from here
- * yet — those routes (`/technology/compare`, `/technology/architecture`,
- * `/technology/decision-framework`) land in later Milestone 6 phases, and
- * linking to them before they exist would create the dead links CLAUDE.md
- * Part 8 warns against. They're added to this page once real.
+ * The Architecture Explorer and Decision Wizard (also named in the
+ * landing page spec) aren't linked from here yet — those routes
+ * (`/technology/architecture`, `/technology/decision-framework`) land in
+ * later Milestone 6 phases, and linking to them before they exist would
+ * create the dead links CLAUDE.md Part 8 warns against. They're added to
+ * this page once real.
  *
  * The `initial*`/`headline`/`supportingCopy` props let a future
  * `/technology/category/[category]` route reuse this exact component
@@ -86,6 +93,22 @@ export function TechnologyExplorer({
         headline={headline}
         supportingCopy={supportingCopy}
       />
+
+      <section className="space-y-4" aria-labelledby="technology-comparisons-heading">
+        <Heading variant="h3" as="h2" id="technology-comparisons-heading">
+          Popular comparisons
+        </Heading>
+        <div className="flex flex-wrap items-center gap-2">
+          {POPULAR_COMPARISONS.map((comparison) => (
+            <Button key={comparison.href} asChild variant="outline" size="sm">
+              <Link href={comparison.href}>{comparison.label}</Link>
+            </Button>
+          ))}
+          <Button asChild variant="ghost" size="sm">
+            <Link href="/technology/compare">Compare any two &rarr;</Link>
+          </Button>
+        </div>
+      </section>
 
       <section className="space-y-4" aria-labelledby="technology-all-heading">
         <Heading variant="h3" as="h2" id="technology-all-heading">

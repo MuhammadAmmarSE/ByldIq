@@ -77,6 +77,23 @@ describe("TechnologyExplorer", () => {
     expect(mockOpen).toHaveBeenCalled();
   });
 
+  it("links to the popular comparisons and a generic compare page", () => {
+    render(<TechnologyExplorer />);
+
+    expect(screen.getByRole("link", { name: "Next.js vs Remix" })).toHaveAttribute(
+      "href",
+      "/technology/compare?a=next-js&b=remix",
+    );
+    expect(screen.getByRole("link", { name: "PostgreSQL vs MongoDB" })).toHaveAttribute(
+      "href",
+      "/technology/compare?a=postgresql&b=mongodb",
+    );
+    expect(screen.getByRole("link", { name: /compare any two/i })).toHaveAttribute(
+      "href",
+      "/technology/compare",
+    );
+  });
+
   it("tracks card clicks", async () => {
     const user = userEvent.setup();
     render(<TechnologyExplorer />);
