@@ -75,6 +75,15 @@ describe("KnowledgeExplorer", () => {
     expect(mockOpen).toHaveBeenCalled();
   });
 
+  it("links to the Learning Paths landing page", () => {
+    render(<KnowledgeExplorer />);
+
+    expect(screen.getByRole("link", { name: "Explore Learning Paths" })).toHaveAttribute(
+      "href",
+      "/knowledge/learning-paths",
+    );
+  });
+
   it("tracks card clicks", async () => {
     const user = userEvent.setup();
     render(<KnowledgeExplorer />);

@@ -9,12 +9,15 @@ export interface AppState {
   hasSeenIntro: boolean;
   /** Knowledge Center article slugs a visitor has bookmarked (CLAUDE.md Part 18: "Bookmarking"). */
   bookmarkedArticleSlugs: string[];
+  /** Knowledge Center article slugs a visitor has marked complete within a Learning Path (CLAUDE.md Part 18: Learning Paths' "progress, completion"). */
+  completedArticleSlugs: string[];
 }
 
 export interface AppActions {
   setJourney: (journey: Journey | null) => void;
   markIntroSeen: () => void;
   toggleBookmark: (slug: string) => void;
+  toggleArticleCompleted: (slug: string) => void;
 }
 
 export type AppStore = AppState & AppActions;
@@ -23,6 +26,7 @@ export const defaultAppState: AppState = {
   journey: null,
   hasSeenIntro: false,
   bookmarkedArticleSlugs: [],
+  completedArticleSlugs: [],
 };
 
 /**
@@ -83,6 +87,12 @@ export function createAppStore(initState: AppState = defaultAppState) {
               ? state.bookmarkedArticleSlugs.filter((candidate) => candidate !== slug)
               : [...state.bookmarkedArticleSlugs, slug],
           })),
+        toggleArticleCompleted: (slug) =>
+          set((state) => ({
+            completedArticleSlugs: state.completedArticleSlugs.includes(slug)
+              ? state.completedArticleSlugs.filter((candidate) => candidate !== slug)
+              : [...state.completedArticleSlugs, slug],
+          })),
       }),
       {
         name: "byld-iq-app-store",
@@ -91,6 +101,7 @@ export function createAppStore(initState: AppState = defaultAppState) {
           journey: state.journey,
           hasSeenIntro: state.hasSeenIntro,
           bookmarkedArticleSlugs: state.bookmarkedArticleSlugs,
+          completedArticleSlugs: state.completedArticleSlugs,
         }),
         skipHydration: true,
       },

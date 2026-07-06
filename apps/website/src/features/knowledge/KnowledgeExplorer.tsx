@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 
+import { Button } from "@/components/Button";
 import { Heading } from "@/components/Heading";
 import { FeaturedGuideCard } from "@/features/homepage/knowledge-center-preview";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
@@ -25,11 +27,11 @@ const FEATURED_ARTICLE = KNOWLEDGE_ARTICLES.find((article) => article.featured);
  * rather than a second card implementation for the same content, the same
  * "one card, not two" precedent `WorkExplorer` follows for case studies.
  *
- * Learning Paths and Playbooks (also named in the landing page spec)
- * aren't linked from here yet — those routes don't exist yet, and linking
- * to them before they exist would create the dead links CLAUDE.md Part 8
- * warns against. They're added to this page once real (later phases of
- * this milestone).
+ * Playbooks (also named in the landing page spec) isn't linked from here
+ * yet — that route doesn't exist yet, and linking to it before it exists
+ * would create the dead links CLAUDE.md Part 8 warns against. It's added
+ * to this page once real (a later phase of this milestone). Learning
+ * Paths is linked below the hero.
  *
  * The `initial*`/`headline`/`supportingCopy` props let a future
  * `/knowledge/category/[category]` and `/knowledge/search` route reuse
@@ -91,6 +93,17 @@ export function KnowledgeExplorer({
         headline={headline}
         supportingCopy={supportingCopy}
       />
+
+      <section className="space-y-4" aria-labelledby="knowledge-learning-paths-heading">
+        <Heading variant="h3" as="h2" id="knowledge-learning-paths-heading">
+          Prefer a guided path?
+        </Heading>
+        <div>
+          <Button asChild variant="outline">
+            <Link href="/knowledge/learning-paths">Explore Learning Paths</Link>
+          </Button>
+        </div>
+      </section>
 
       {FEATURED_ARTICLE && (
         <section className="space-y-4" aria-labelledby="knowledge-featured-heading">

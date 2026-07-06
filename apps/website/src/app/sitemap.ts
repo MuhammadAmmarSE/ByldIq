@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 import { BUSINESS_PROBLEMS, CASE_STUDIES, INDUSTRIES, TECHNOLOGIES } from "@/features/case-studies";
 import {
   KNOWLEDGE_ARTICLES,
+  LEARNING_PATHS,
   POPULATED_CATEGORIES as KNOWLEDGE_CATEGORIES,
 } from "@/features/knowledge";
 import { SOLUTIONS } from "@/features/solutions";
@@ -89,6 +90,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...KNOWLEDGE_CATEGORIES.map((category): MetadataRoute.Sitemap[number] => ({
       url: `${siteConfig.url}/knowledge/category/${category.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    })),
+    {
+      url: `${siteConfig.url}/knowledge/learning-paths`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    ...LEARNING_PATHS.map((path): MetadataRoute.Sitemap[number] => ({
+      url: `${siteConfig.url}/knowledge/learning-paths/${path.slug}`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,

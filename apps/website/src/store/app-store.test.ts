@@ -79,4 +79,32 @@ describe("createAppStore", () => {
 
     expect(storeB.getState().bookmarkedArticleSlugs).toEqual(["validating-an-mvp"]);
   });
+
+  it("defaults completedArticleSlugs to empty", () => {
+    const store = createAppStore();
+    expect(store.getState().completedArticleSlugs).toEqual([]);
+  });
+
+  it("adds a slug to completedArticleSlugs via toggleArticleCompleted", () => {
+    const store = createAppStore();
+    store.getState().toggleArticleCompleted("validating-an-mvp");
+    expect(store.getState().completedArticleSlugs).toEqual(["validating-an-mvp"]);
+  });
+
+  it("removes a slug from completedArticleSlugs when toggled again", () => {
+    const store = createAppStore();
+    store.getState().toggleArticleCompleted("validating-an-mvp");
+    store.getState().toggleArticleCompleted("validating-an-mvp");
+    expect(store.getState().completedArticleSlugs).toEqual([]);
+  });
+
+  it("persists completedArticleSlugs to storage after rehydration", async () => {
+    const storeA = createAppStore();
+    storeA.getState().toggleArticleCompleted("validating-an-mvp");
+
+    const storeB = createAppStore();
+    await storeB.persist.rehydrate();
+
+    expect(storeB.getState().completedArticleSlugs).toEqual(["validating-an-mvp"]);
+  });
 });

@@ -12,15 +12,15 @@ in the "All articles" grid below if it matches the active filter — it
 isn't excluded, matching `WorkExplorer`'s exact behavior for
 `FEATURED_CASE_STUDIES`.
 
-## Scope note: Learning Paths and Playbooks aren't linked yet
+## Scope note: Playbooks isn't linked yet
 
-The landing page spec also names Learning Paths and Playbooks entry
-points. Those routes (`/knowledge/learning-paths`, `/knowledge/playbooks`)
-don't exist yet — they land in later phases of this milestone — so
-linking to them now would create the dead links CLAUDE.md Part 8 warns
-against. They're added to this page once real, the same way the
-Technology Explorer's Architecture Explorer link was added once that
-route existed.
+The landing page spec also names a Playbooks entry point. That route
+(`/knowledge/playbooks`) doesn't exist yet — it lands in a later phase of
+this milestone — so linking to it now would create the dead link
+CLAUDE.md Part 8 warns against. It's added to this page once real, the
+same way the Technology Explorer's Architecture Explorer link was added
+once that route existed. Learning Paths is linked below the hero now
+that `/knowledge/learning-paths` is real.
 
 ## Filtering
 
