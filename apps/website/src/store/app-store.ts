@@ -7,11 +7,14 @@ export interface AppState {
   journey: Journey | null;
   /** Drives the Arrival Experience's returning-visitor detection (CLAUDE.md Part 9: "Returning visitors -> 0 seconds"). */
   hasSeenIntro: boolean;
+  /** Knowledge Center article slugs a visitor has bookmarked (CLAUDE.md Part 18: "Bookmarking"). */
+  bookmarkedArticleSlugs: string[];
 }
 
 export interface AppActions {
   setJourney: (journey: Journey | null) => void;
   markIntroSeen: () => void;
+  toggleBookmark: (slug: string) => void;
 }
 
 export type AppStore = AppState & AppActions;
@@ -19,6 +22,7 @@ export type AppStore = AppState & AppActions;
 export const defaultAppState: AppState = {
   journey: null,
   hasSeenIntro: false,
+  bookmarkedArticleSlugs: [],
 };
 
 /**
@@ -73,11 +77,21 @@ export function createAppStore(initState: AppState = defaultAppState) {
         ...initState,
         setJourney: (journey) => set({ journey }),
         markIntroSeen: () => set({ hasSeenIntro: true }),
+        toggleBookmark: (slug) =>
+          set((state) => ({
+            bookmarkedArticleSlugs: state.bookmarkedArticleSlugs.includes(slug)
+              ? state.bookmarkedArticleSlugs.filter((candidate) => candidate !== slug)
+              : [...state.bookmarkedArticleSlugs, slug],
+          })),
       }),
       {
         name: "byld-iq-app-store",
         storage: createJSONStorage(() => createSafeStorage()),
-        partialize: (state) => ({ journey: state.journey, hasSeenIntro: state.hasSeenIntro }),
+        partialize: (state) => ({
+          journey: state.journey,
+          hasSeenIntro: state.hasSeenIntro,
+          bookmarkedArticleSlugs: state.bookmarkedArticleSlugs,
+        }),
         skipHydration: true,
       },
     ),

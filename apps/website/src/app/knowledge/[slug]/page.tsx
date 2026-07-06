@@ -10,9 +10,12 @@ import {
   KnowledgeCommonMistakes,
   KnowledgeCoreConcepts,
   KnowledgeExecutiveSummary,
+  KnowledgeReadingProgress,
   KnowledgeRealExamples,
   KnowledgeRelatedCaseStudies,
+  KnowledgeRelatedLearning,
   KnowledgeRelatedTechnologies,
+  KnowledgeSidebar,
   KnowledgeWalkthrough,
   KnowledgeWhyItMatters,
 } from "@/features/knowledge";
@@ -56,10 +59,10 @@ export async function generateMetadata({ params }: KnowledgeArticlePageProps): P
 
 /**
  * One shared template driven entirely by `KNOWLEDGE_ARTICLES` data — every
- * article page has the same section order (CLAUDE.md Part 18). Currently
- * covers the article template's first ten sections (through Related Case
- * Studies, AI Companion, and BuildPath integration via the hero); Related
- * Learning and the sticky sidebar land in a later phase of this milestone.
+ * article page has the same eleven-section order (CLAUDE.md Part 18), plus
+ * a reading progress bar and a sticky sidebar with scrollspy across the
+ * middle sections, the same "hero and final content span full width"
+ * layout the Technology Explorer's detail page uses.
  */
 export default async function KnowledgeArticlePage({ params }: KnowledgeArticlePageProps) {
   const { slug } = await params;
@@ -79,16 +82,21 @@ export default async function KnowledgeArticlePage({ params }: KnowledgeArticleP
           ]),
         )}
       />
+      <KnowledgeReadingProgress />
       <KnowledgeArticleHero article={article} categoryLabel={category?.label} />
-      <div className="space-y-16">
-        <KnowledgeExecutiveSummary article={article} />
-        <KnowledgeWhyItMatters article={article} />
-        <KnowledgeCoreConcepts article={article} />
-        <KnowledgeWalkthrough article={article} />
-        <KnowledgeRealExamples article={article} />
-        <KnowledgeCommonMistakes article={article} />
-        <KnowledgeRelatedTechnologies article={article} />
-        <KnowledgeRelatedCaseStudies article={article} />
+      <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
+        <KnowledgeSidebar className="hidden lg:block" />
+        <div className="space-y-16">
+          <KnowledgeExecutiveSummary article={article} />
+          <KnowledgeWhyItMatters article={article} />
+          <KnowledgeCoreConcepts article={article} />
+          <KnowledgeWalkthrough article={article} />
+          <KnowledgeRealExamples article={article} />
+          <KnowledgeCommonMistakes article={article} />
+          <KnowledgeRelatedTechnologies article={article} />
+          <KnowledgeRelatedCaseStudies article={article} />
+          <KnowledgeRelatedLearning article={article} />
+        </div>
       </div>
     </Container>
   );

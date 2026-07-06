@@ -2,8 +2,9 @@
 
 CLAUDE.md Part 18's article page hero: a breadcrumb back to `/knowledge`,
 the article's category/difficulty/reading time at a glance, its title,
-its summary, and two CTAs — the same "BuildPath or AI Companion" pairing
-`TechnologyDetailHero`/`SolutionHero`/`CaseStudyHero` use.
+its summary, "Plan Your Roadmap"/"Talk to Byld" — the same "BuildPath or
+AI Companion" pairing `TechnologyDetailHero`/`SolutionHero`/`CaseStudyHero`
+use — and `KnowledgeBookmarkButton`.
 
 ## AI Companion integration
 

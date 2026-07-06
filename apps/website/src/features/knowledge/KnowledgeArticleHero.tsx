@@ -14,15 +14,17 @@ import { cn } from "@/utils/cn";
 
 import "./analytics";
 
+import { KnowledgeBookmarkButton } from "./KnowledgeBookmarkButton";
 import type { KnowledgeArticleHeroProps } from "./KnowledgeArticleHero.types";
 
 /**
  * Every article page's hero (CLAUDE.md Part 18): a breadcrumb back to
  * `/knowledge`, the article's category/difficulty/reading time at a
- * glance, its title, its summary, and two CTAs — the same "BuildPath or AI
- * Companion" pairing `TechnologyDetailHero`/`SolutionHero`/`CaseStudyHero`
- * use. Also sets the AI Companion's `pageContext` (CLAUDE.md Part 16: "AI
- * automatically knows... current article") and links BuildPath to
+ * glance, its title, its summary, and its CTAs — "Plan Your Roadmap"/"Talk
+ * to Byld" (the same pairing `TechnologyDetailHero`/`SolutionHero`/
+ * `CaseStudyHero` use) plus `KnowledgeBookmarkButton`. Also sets the AI
+ * Companion's `pageContext` (CLAUDE.md Part 16: "AI automatically
+ * knows... current article") and links BuildPath to
  * `/buildpath?article={slug}` (Part 17: "BuildPath automatically
  * remembers... viewed case studies," applied here to articles).
  */
@@ -79,6 +81,7 @@ export function KnowledgeArticleHero({
           <Button variant="outline" size="lg" onClick={handleTalkToByld}>
             Talk to Byld
           </Button>
+          <KnowledgeBookmarkButton slug={article.slug} />
         </div>
       </div>
     </div>

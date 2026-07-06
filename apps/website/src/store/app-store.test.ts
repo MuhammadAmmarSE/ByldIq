@@ -51,4 +51,32 @@ describe("createAppStore", () => {
     const storeB = createAppStore();
     expect(storeB.getState().journey).toBeNull();
   });
+
+  it("defaults bookmarkedArticleSlugs to empty", () => {
+    const store = createAppStore();
+    expect(store.getState().bookmarkedArticleSlugs).toEqual([]);
+  });
+
+  it("adds a slug to bookmarkedArticleSlugs via toggleBookmark", () => {
+    const store = createAppStore();
+    store.getState().toggleBookmark("validating-an-mvp");
+    expect(store.getState().bookmarkedArticleSlugs).toEqual(["validating-an-mvp"]);
+  });
+
+  it("removes a slug from bookmarkedArticleSlugs when toggled again", () => {
+    const store = createAppStore();
+    store.getState().toggleBookmark("validating-an-mvp");
+    store.getState().toggleBookmark("validating-an-mvp");
+    expect(store.getState().bookmarkedArticleSlugs).toEqual([]);
+  });
+
+  it("persists bookmarkedArticleSlugs to storage after rehydration", async () => {
+    const storeA = createAppStore();
+    storeA.getState().toggleBookmark("validating-an-mvp");
+
+    const storeB = createAppStore();
+    await storeB.persist.rehydrate();
+
+    expect(storeB.getState().bookmarkedArticleSlugs).toEqual(["validating-an-mvp"]);
+  });
 });
