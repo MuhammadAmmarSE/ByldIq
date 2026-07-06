@@ -264,12 +264,12 @@ marks primitives built on top of a lower-level dependency (Radix UI,
 | `ThemeToggle`          | `next-themes`                     | Quick light/dark switch (not the full light/dark/system choice).          |
 | `PageShell`            | `Navbar` + `Footer` + `MobileNav` | Wired into `app/layout.tsx`; owns the mobile drawer's shared open state.  |
 
-`config/site.ts`'s `primaryNav` held real information architecture as of
-Milestone 4 (`Knowledge`, `BuildPath`); the Solutions, Work (Milestone 5),
-and Technology (Milestone 6) mega menus are composed separately in
-`app/layout.tsx` since they need feature data that `config/site.ts` (read
-by the Shared-layer `PageShell`) must not depend on — see
-`docs/solutions.md`, `docs/case-studies.md`, and `docs/technology.md`.
+`config/site.ts`'s `primaryNav` holds only `BuildPath` now — Solutions,
+Work (Milestone 5), Technology (Milestone 6), and Knowledge (Milestone 7)
+are all mega menus, composed separately in `app/layout.tsx` since they
+need feature data that `config/site.ts` (read by the Shared-layer
+`PageShell`) must not depend on — see `docs/solutions.md`,
+`docs/case-studies.md`, `docs/technology.md`, and `docs/knowledge.md`.
 Every component above still renders correctly with zero items, for any
 future route that doesn't need the full nav.
 `apps/website/src/app/page.tsx` is the real homepage (Milestone 3,
