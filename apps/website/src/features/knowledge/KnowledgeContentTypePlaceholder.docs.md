@@ -15,13 +15,13 @@ placeholder entries to make the pages look populated, each route states
 the gap honestly and points to the Knowledge Center content that
 actually exists today: articles, Playbooks, and Learning Paths.
 
-## Not yet linked from navigation
+## Not linked from navigation
 
-These routes aren't linked from `KnowledgeExplorer` or any nav yet —
-that's Phase 10 (Knowledge mega menu navigation), which decides how (or
-whether) to surface an intentionally-empty content type without
-implying it's populated. They exist now so that work has something real
-to link to.
+`app/layout.tsx`'s Knowledge mega menu deliberately excludes these
+three routes — putting an empty section in primary navigation next to
+populated ones (categories, Learning Paths, Playbooks) would misrepresent
+the collection. They're reachable directly and will join the menu once
+real content exists behind them.
 
 ## Excluded from the sitemap
 
