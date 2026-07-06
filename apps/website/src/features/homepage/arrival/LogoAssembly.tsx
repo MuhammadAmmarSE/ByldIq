@@ -33,15 +33,22 @@ const shadowVariants: Variants = {
 };
 
 /**
- * The arrival sequence's "logo assembles from geometric pieces" moment
- * (CLAUDE.md Part 9, Stage 2: "Diagonal piece -> Vertical -> Horizontal ->
- * Inner cut -> Final lock... Motion should communicate precision, not
- * magic."), traced to Byld IQ's actual mark: a dark navy spine plus a
- * folded blue-gradient ribbon forming the two bumps of the "B," with a
- * dark triangular reveal where the fold tucks behind itself. Assembly
- * order follows how the mark actually reads — spine (foundation) first,
- * then the upper fold, then the lower fold, then the inner shadow that
- * only makes sense once both folds are in place.
+ * PLACEHOLDER pending CLAUDE.md Part 28 (Brand Asset Governance): this
+ * hand-authored path data is exactly what Part 28 prohibits — a
+ * procedurally reconstructed approximation of the logo, not the official
+ * master SVG. It exists because no official asset exists yet in
+ * `apps/website/public/brand/` (see that folder's README). Replace this
+ * component with one that imports and animates the real
+ * `byldiq-icon-master-transparent.svg` as soon as it's added; do not
+ * extend or "improve" this approximation in the meantime.
+ *
+ * Until replaced, this renders the arrival sequence's "logo assembles
+ * from geometric pieces" moment (CLAUDE.md Part 9, Stage 2): a dark navy
+ * spine plus a folded blue-gradient ribbon forming the two bumps of the
+ * "B," with a dark triangular reveal where the fold tucks behind itself.
+ * Assembly order follows how the mark actually reads — spine (foundation)
+ * first, then the upper fold, then the lower fold, then the inner shadow
+ * that only makes sense once both folds are in place.
  */
 export function LogoAssembly({ assembled, className }: LogoAssemblyProps) {
   const state = assembled ? "visible" : "hidden";

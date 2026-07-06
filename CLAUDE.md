@@ -20145,3 +20145,166 @@ It is the one whose purpose is immediately obvious.
 #######################################################################
 END OF PART 27
 #######################################################################
+
+PART 28
+
+BRAND ASSET GOVERNANCE
+
+Version: 1.0
+
+Status:
+Engineering Constitution
+
+Priority:
+Critical
+
+Dependencies:
+Part 1
+Part 2
+Part 5
+Part 24
+Part 27
+
+#######################################################################
+
+Purpose
+
+The Byld IQ logo is a protected brand asset.
+
+It is not a shape Claude Code is free to interpret.
+
+It is not something Claude Code approximates, redraws, or reconstructs from memory.
+
+The mark represents construction, precision, and engineering discipline (Part 2, Logo Philosophy).
+
+A logo that changes slightly every time it is touched communicates the opposite of that.
+
+This document exists so the logo stays exactly one thing, everywhere it appears.
+
+Core Rule
+
+Claude Code must never redraw, reinterpret, approximate, simplify, or reconstruct the Byld IQ logo using arbitrary SVG paths, shapes, or CSS.
+
+Every logo that appears anywhere in the product must originate from an official master asset.
+
+The master asset is the source of truth.
+
+Not Claude's memory of what the logo looks like.
+
+Not a close visual approximation.
+
+Not a simplified redraw that "looks right."
+
+The Official Asset Folder
+
+/public/brand/ is the single source of truth for every logo, icon, and wordmark asset used across the website.
+
+Every page, every animation, every favicon, every loading screen, and every future product must reference an asset from this folder.
+
+Never a locally invented substitute.
+
+Before implementing anything logo-related, Claude Code must check /public/brand/ for the relevant official file.
+
+If the required asset does not exist in /public/brand/, Claude Code must stop and ask for it.
+
+Claude Code must never generate a stand-in logo to fill the gap, even temporarily, even for a prototype, even labeled as a placeholder.
+
+A fabricated placeholder has a way of quietly becoming permanent.
+
+What Claude Code May Do With The Master Asset
+
+Import the official SVG directly.
+
+Manipulate only what already exists inside it: paths, masks, gradients, transforms, and opacity.
+
+Animate reveal, timing, easing, glow, and color treatment.
+
+Trace existing paths for a "drawing" effect using stroke-dasharray/stroke-dashoffset on the real path data.
+
+Composite the real asset with blueprint lines, glass, gradients, and ambient light, per Part 5's visual language.
+
+What Claude Code Must Never Do
+
+Never hand-author new path data that approximates the mark.
+
+Never change the mark's proportions, angles, or geometry for animation convenience.
+
+Never simplify the mark into fewer shapes to make an animation easier to build.
+
+Never build a "close enough" version and ship it.
+
+If an animation genuinely requires a simplified variant of the mark, that variant must be created by a designer and delivered as its own official file in /public/brand/, then referenced like any other official asset. Claude Code does not generate simplified variants itself.
+
+Arrival Experience Application
+
+The Arrival Experience's logo moment (Part 9, Stage 2) is built from the official master SVG in /public/brand/, never from procedurally generated shapes.
+
+A representative sequence:
+
+Screen starts dark.
+
+Thin blueprint construction lines appear.
+
+The official SVG's outline is traced (stroke reveal along the real path data).
+
+The interior fills with gradient or glass, using the real path as the fill boundary.
+
+Ambient glow appears around the real geometry.
+
+The "BYLD IQ" wordmark fades in.
+
+Hero content reveals.
+
+The geometry never changes across this sequence.
+
+Only its appearance does: opacity, stroke reveal, fill, glow, scale, position.
+
+Everywhere Else This Applies
+
+Navbar logo.
+
+Footer logo.
+
+Favicon and app icons.
+
+Loading and skeleton states that reference the brand mark.
+
+OG images and social cards.
+
+Any future product surface (Client Portal, BuildPath, Design System site) that needs the Byld IQ mark.
+
+All of these reference the same files in /public/brand/.
+
+None of them get their own hand-drawn version.
+
+Review Checklist
+
+Before shipping anything that touches the logo, ask:
+
+Did this come from an official file in /public/brand/?
+
+Did the geometry change at all?
+
+Would a designer looking at this recognize it as the exact same mark, pixel for pixel in its unanimated state?
+
+If a required asset was missing, did Claude Code ask for it instead of inventing one?
+
+If any answer is wrong,
+
+stop and fix it before shipping.
+
+Definition of Done
+
+Brand asset governance is working when every logo appearance on the website traces back to the same handful of official files, when no component contains hand-authored path data attempting to recreate the mark, and when adding a new page or product surface never requires deciding what the logo should look like, because that decision was never Claude Code's to make.
+
+Final Principle
+
+Consistency of a brand mark is not a visual nicety.
+
+It is proof that a company treats its own identity with the same discipline it asks clients to trust it with.
+
+Byld IQ's logo should look like one object, engineered once, reused everywhere, forever.
+
+#######################################################################
+END OF PART 28
+#######################################################################
