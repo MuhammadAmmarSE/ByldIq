@@ -1,16 +1,23 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { Badge } from "@/components/Badge";
 import { Container } from "@/components/Container";
-import { Heading } from "@/components/Heading";
-import { Text } from "@/components/Text";
-import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
+import { siteConfig } from "@/config/site";
+import {
+  CATEGORIES_BY_SLUG,
+  KNOWLEDGE_ARTICLES,
+  KnowledgeArticleHero,
+  KnowledgeCoreConcepts,
+  KnowledgeExecutiveSummary,
+  KnowledgeWhyItMatters,
+} from "@/features/knowledge";
+import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 interface KnowledgeArticlePageProps {
   params: Promise<{ slug: string }>;
 }
 
+/** Pre-renders every known article at build time (CLAUDE.md Part 18) — unknown slugs fall through to `notFound()`. */
 export function generateStaticParams() {
   return KNOWLEDGE_ARTICLES.map((article) => ({ slug: article.slug }));
 }
@@ -23,35 +30,56 @@ export async function generateMetadata({ params }: KnowledgeArticlePageProps): P
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) return {};
-  return { title: article.title, description: article.summary };
+
+  return {
+    title: article.title,
+    description: article.summary,
+    alternates: { canonical: `/knowledge/${article.slug}` },
+    openGraph: {
+      title: article.title,
+      description: article.summary,
+      url: `/knowledge/${article.slug}`,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.summary,
+    },
+  };
 }
 
 /**
- * A minimal article page — the full Knowledge Center reading experience
- * (bookmarking, AI summaries, related content, learning paths per
- * CLAUDE.md Part 18) is a future milestone. This exists so the homepage
- * preview's links go somewhere real rather than a dead end.
+ * One shared template driven entirely by `KNOWLEDGE_ARTICLES` data — every
+ * article page has the same section order (CLAUDE.md Part 18). Currently
+ * covers the article template's first three sections (Executive Summary,
+ * Why It Matters, Core Concepts); the Interactive Learning walkthrough,
+ * examples, common mistakes, related content, AI/BuildPath integration,
+ * and the sticky sidebar land in later phases of this milestone.
  */
 export default async function KnowledgeArticlePage({ params }: KnowledgeArticlePageProps) {
   const { slug } = await params;
   const article = getArticle(slug);
   if (!article) notFound();
 
-  return (
-    <Container size="content" className="py-16">
-      <div className="mx-auto max-w-2xl space-y-6">
-        <div className="space-y-3">
-          <div className="flex items-center gap-2">
-            <Badge variant="neutral">{article.category}</Badge>
-            <Text variant="caption">
-              {article.difficulty} · {article.readingTime}
-            </Text>
-          </div>
-          <Heading variant="display">{article.title}</Heading>
-        </div>
+  const category = CATEGORIES_BY_SLUG.get(article.category);
 
-        <Text variant="subtitle">{article.summary}</Text>
-        <Text variant="body">{article.aiSummary}</Text>
+  return (
+    <Container size="content" className="space-y-16 py-16">
+      <script
+        {...jsonLdScriptProps(
+          breadcrumbJsonLd([
+            { name: "Home", url: siteConfig.url },
+            { name: "Knowledge Center", url: `${siteConfig.url}/knowledge` },
+            { name: article.title, url: `${siteConfig.url}/knowledge/${article.slug}` },
+          ]),
+        )}
+      />
+      <KnowledgeArticleHero article={article} categoryLabel={category?.label} />
+      <div className="space-y-16">
+        <KnowledgeExecutiveSummary article={article} />
+        <KnowledgeWhyItMatters article={article} />
+        <KnowledgeCoreConcepts article={article} />
       </div>
     </Container>
   );

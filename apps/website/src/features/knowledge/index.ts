@@ -19,4 +19,8 @@ export { CATEGORIES_BY_SLUG, POPULATED_CATEGORIES } from "./data/facets";
 export { KnowledgeHero } from "./KnowledgeHero";
 export { KnowledgeGrid } from "./KnowledgeGrid";
 export { KnowledgeExplorer } from "./KnowledgeExplorer";
+export { KnowledgeArticleHero } from "./KnowledgeArticleHero";
+export { KnowledgeExecutiveSummary } from "./KnowledgeExecutiveSummary";
+export { KnowledgeWhyItMatters } from "./KnowledgeWhyItMatters";
+export { KnowledgeCoreConcepts } from "./KnowledgeCoreConcepts";
 export * from "./analytics";
