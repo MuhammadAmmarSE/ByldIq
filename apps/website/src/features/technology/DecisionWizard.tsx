@@ -77,7 +77,7 @@ export function DecisionWizard({ className }: DecisionWizardProps) {
   return (
     <div className={cn("space-y-10", className)}>
       <div className="max-w-2xl space-y-3">
-        <Heading variant="h2">Find the right technology</Heading>
+        <Heading variant="display">Find the right technology</Heading>
         <Text variant="body" className="text-muted">
           Two questions, real answers — not a generated score. Every result links back to the full
           reasoning on that technology&apos;s own page.
@@ -85,7 +85,7 @@ export function DecisionWizard({ className }: DecisionWizardProps) {
       </div>
 
       <div className="space-y-3">
-        <Heading variant="h4" as="h3">
+        <Heading variant="h4" as="h2">
           What are you building?
         </Heading>
         <div className="flex flex-wrap gap-2" role="group" aria-label="What are you building?">
@@ -104,7 +104,7 @@ export function DecisionWizard({ className }: DecisionWizardProps) {
       </div>
 
       <div className="space-y-3">
-        <Heading variant="h4" as="h3">
+        <Heading variant="h4" as="h2">
           What matters most right now?
         </Heading>
         <div
@@ -128,14 +128,14 @@ export function DecisionWizard({ className }: DecisionWizardProps) {
 
       {category && concern && (
         <div className="space-y-4">
-          <Heading variant="h4" as="h3">
+          <Heading variant="h4" as="h2">
             {results.length > 1 ? "Candidates to consider" : "Your candidate"}
           </Heading>
           <div className="grid gap-4 sm:grid-cols-2">
             {results.map((technology) => (
               <Card key={technology.slug}>
                 <Card.Header>
-                  <Heading variant="h5" as="h4">
+                  <Heading variant="h5" as="h3">
                     <Link href={`/technology/${technology.slug}`} className="hover:text-accent">
                       {technology.name}
                     </Link>

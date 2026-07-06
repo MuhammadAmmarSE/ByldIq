@@ -265,11 +265,13 @@ marks primitives built on top of a lower-level dependency (Radix UI,
 | `PageShell`            | `Navbar` + `Footer` + `MobileNav` | Wired into `app/layout.tsx`; owns the mobile drawer's shared open state.  |
 
 `config/site.ts`'s `primaryNav` held real information architecture as of
-Milestone 4 (`Knowledge`, `BuildPath`); the Solutions and (as of Milestone 5) Work mega menus are composed separately in `app/layout.tsx` since they
-need feature data that `config/site.ts` (read by the Shared-layer
-`PageShell`) must not depend on — see `docs/solutions.md` and
-`docs/case-studies.md`. Every component above still renders correctly
-with zero items, for any future route that doesn't need the full nav.
+Milestone 4 (`Knowledge`, `BuildPath`); the Solutions, Work (Milestone 5),
+and Technology (Milestone 6) mega menus are composed separately in
+`app/layout.tsx` since they need feature data that `config/site.ts` (read
+by the Shared-layer `PageShell`) must not depend on — see
+`docs/solutions.md`, `docs/case-studies.md`, and `docs/technology.md`.
+Every component above still renders correctly with zero items, for any
+future route that doesn't need the full nav.
 `apps/website/src/app/page.tsx` is the real homepage (Milestone 3,
 CLAUDE.md Part 9's eleven modules), rendered inside `PageShell`; see
 `docs/homepage.md` for its architecture.

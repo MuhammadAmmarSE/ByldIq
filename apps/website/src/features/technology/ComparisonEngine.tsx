@@ -66,7 +66,7 @@ export function ComparisonEngine({ initialSlugA, initialSlugB, className }: Comp
   return (
     <div className={cn("space-y-8", className)}>
       <div className="max-w-2xl space-y-3">
-        <Heading variant="h2">Compare technologies</Heading>
+        <Heading variant="display">Compare technologies</Heading>
         <Text variant="body" className="text-muted">
           There&apos;s no universal winner here — only which fits your team, timeline, and
           constraints better. Pick two technologies to compare across the same dimensions.
