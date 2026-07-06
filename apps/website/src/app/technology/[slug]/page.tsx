@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
+import { siteConfig } from "@/config/site";
 import {
   TECHNOLOGIES,
   TECHNOLOGY_CATEGORIES,
@@ -18,6 +19,7 @@ import {
   TechnologyStrengthsWeaknesses,
   TechnologyTradeOffExplorer,
 } from "@/features/technology";
+import { breadcrumbJsonLd, faqPageJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 interface TechnologyPageProps {
   params: Promise<{ slug: string }>;
@@ -40,6 +42,18 @@ export async function generateMetadata({ params }: TechnologyPageProps): Promise
   return {
     title: technology.name,
     description: technology.tagline,
+    alternates: { canonical: `/technology/${technology.slug}` },
+    openGraph: {
+      title: technology.name,
+      description: technology.tagline,
+      url: `/technology/${technology.slug}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: technology.name,
+      description: technology.tagline,
+    },
   };
 }
 
@@ -64,6 +78,16 @@ export default async function TechnologyDetailPage({ params }: TechnologyPagePro
 
   return (
     <Container size="content" className="space-y-16 py-16">
+      <script
+        {...jsonLdScriptProps(
+          breadcrumbJsonLd([
+            { name: "Home", url: siteConfig.url },
+            { name: "Technology", url: `${siteConfig.url}/technology` },
+            { name: technology.name, url: `${siteConfig.url}/technology/${technology.slug}` },
+          ]),
+        )}
+      />
+      <script {...jsonLdScriptProps(faqPageJsonLd(technology.faqs))} />
       <TechnologyDetailHero technology={technology} categoryLabel={category?.label} />
       <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
         <TechnologySidebar className="hidden lg:block" />
