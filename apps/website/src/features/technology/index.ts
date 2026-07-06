@@ -20,4 +20,5 @@ export { TechnologyBusinessValue } from "./TechnologyBusinessValue";
 export { TechnologyStrengthsWeaknesses } from "./TechnologyStrengthsWeaknesses";
 export { TechnologyTradeOffExplorer } from "./TechnologyTradeOffExplorer";
 export { TechnologyArchitecture } from "./TechnologyArchitecture";
+export { TechnologyDeepDive } from "./TechnologyDeepDive";
 export * from "./analytics";

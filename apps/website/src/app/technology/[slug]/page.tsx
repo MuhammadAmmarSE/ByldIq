@@ -7,6 +7,7 @@ import {
   TECHNOLOGY_CATEGORIES,
   TechnologyArchitecture,
   TechnologyBusinessValue,
+  TechnologyDeepDive,
   TechnologyDetailHero,
   TechnologyStrengthsWeaknesses,
   TechnologyTradeOffExplorer,
@@ -40,10 +41,10 @@ export async function generateMetadata({ params }: TechnologyPageProps): Promise
  * One shared template driven entirely by `TECHNOLOGIES` data — every
  * technology page has the same section order (CLAUDE.md Part 22). Built
  * incrementally across Milestone 6's phases; hero, business value,
- * strengths/weaknesses, the Trade-Off Explorer, and interactive
- * architecture are real so far. The remaining sections (performance,
- * security, accessibility, scalability, cost, comparisons, decision
- * wizard, related content) land in later phases.
+ * strengths/weaknesses, the Trade-Off Explorer, interactive architecture,
+ * and the performance/security/accessibility/scalability/cost deep dive
+ * are real so far. The remaining sections (comparisons, decision wizard,
+ * related content) land in later phases.
  */
 export default async function TechnologyDetailPage({ params }: TechnologyPageProps) {
   const { slug } = await params;
@@ -61,6 +62,7 @@ export default async function TechnologyDetailPage({ params }: TechnologyPagePro
       <TechnologyStrengthsWeaknesses technology={technology} />
       <TechnologyTradeOffExplorer technology={technology} />
       <TechnologyArchitecture technology={technology} />
+      <TechnologyDeepDive technology={technology} />
     </Container>
   );
 }
