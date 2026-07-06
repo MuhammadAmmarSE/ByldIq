@@ -22,4 +22,5 @@ export { TechnologyTradeOffExplorer } from "./TechnologyTradeOffExplorer";
 export { TechnologyArchitecture } from "./TechnologyArchitecture";
 export { TechnologyDeepDive } from "./TechnologyDeepDive";
 export { ComparisonEngine } from "./ComparisonEngine";
+export { DecisionWizard } from "./DecisionWizard";
 export * from "./analytics";

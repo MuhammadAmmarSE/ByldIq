@@ -23,15 +23,14 @@ const POPULAR_COMPARISONS = [
 
 /**
  * The `/technology` landing page's full experience (CLAUDE.md Part 22):
- * hero, category filtering, search, and popular comparisons — all
- * client-side over the small, fully-loaded technology dataset.
+ * hero, category filtering, search, popular comparisons, and the Decision
+ * Framework — all client-side over the small, fully-loaded technology
+ * dataset.
  *
- * The Architecture Explorer and Decision Wizard (also named in the
- * landing page spec) aren't linked from here yet — those routes
- * (`/technology/architecture`, `/technology/decision-framework`) land in
- * later Milestone 6 phases, and linking to them before they exist would
- * create the dead links CLAUDE.md Part 8 warns against. They're added to
- * this page once real.
+ * The Architecture Explorer (also named in the landing page spec) isn't
+ * linked from here yet — that route (`/technology/architecture`) doesn't
+ * exist yet, and linking to it before it exists would create the dead
+ * links CLAUDE.md Part 8 warns against. It's added to this page once real.
  *
  * The `initial*`/`headline`/`supportingCopy` props let a future
  * `/technology/category/[category]` route reuse this exact component
@@ -106,6 +105,17 @@ export function TechnologyExplorer({
           ))}
           <Button asChild variant="ghost" size="sm">
             <Link href="/technology/compare">Compare any two &rarr;</Link>
+          </Button>
+        </div>
+      </section>
+
+      <section className="space-y-4" aria-labelledby="technology-decision-heading">
+        <Heading variant="h3" as="h2" id="technology-decision-heading">
+          Not sure where to start?
+        </Heading>
+        <div>
+          <Button asChild variant="outline">
+            <Link href="/technology/decision-framework">Use the decision framework</Link>
           </Button>
         </div>
       </section>

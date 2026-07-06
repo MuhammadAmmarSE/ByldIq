@@ -94,6 +94,15 @@ describe("TechnologyExplorer", () => {
     );
   });
 
+  it("links to the decision framework", () => {
+    render(<TechnologyExplorer />);
+
+    expect(screen.getByRole("link", { name: "Use the decision framework" })).toHaveAttribute(
+      "href",
+      "/technology/decision-framework",
+    );
+  });
+
   it("tracks card clicks", async () => {
     const user = userEvent.setup();
     render(<TechnologyExplorer />);

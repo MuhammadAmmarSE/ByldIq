@@ -1,7 +1,8 @@
 # TechnologyExplorer
 
 CLAUDE.md Part 22's `/technology` landing page: composes `TechnologyHero`,
-a "Popular comparisons" section, and the filtered `TechnologyGrid`.
+a "Popular comparisons" section, a link to the Decision Framework, and the
+filtered `TechnologyGrid`.
 
 ## Popular comparisons
 
@@ -10,13 +11,12 @@ Links straight into `ComparisonEngine` with a pair preselected
 (`ComparisonEngine.docs.md`), plus a generic "Compare any two" link to the
 bare `/technology/compare`.
 
-## Scope note: the Architecture Explorer and Decision Wizard aren't linked yet
+## Scope note: the Architecture Explorer isn't linked yet
 
-The landing page spec also names an "Architecture Explorer" link and a
-"Decision Wizard" link. Those routes (`/technology/architecture`,
-`/technology/decision-framework`) don't exist yet — they land in later
-Milestone 6 phases — so linking to them now would create the dead links
-CLAUDE.md Part 8 warns against. They're added to this page once real.
+The landing page spec also names an "Architecture Explorer" link. That
+route (`/technology/architecture`) doesn't exist yet — it lands in a
+later Milestone 6 phase — so linking to it now would create the dead
+links CLAUDE.md Part 8 warns against. It's added to this page once real.
 
 ## Scope note: no "latest" ranking
 
