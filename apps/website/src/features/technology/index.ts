@@ -15,4 +15,7 @@ export { TechnologyCard } from "./TechnologyCard";
 export { TechnologyGrid } from "./TechnologyGrid";
 export { TechnologyHero } from "./TechnologyHero";
 export { TechnologyExplorer } from "./TechnologyExplorer";
+export { TechnologyDetailHero } from "./TechnologyDetailHero";
+export { TechnologyBusinessValue } from "./TechnologyBusinessValue";
+export { TechnologyStrengthsWeaknesses } from "./TechnologyStrengthsWeaknesses";
 export * from "./analytics";
