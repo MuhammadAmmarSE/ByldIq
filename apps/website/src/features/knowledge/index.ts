@@ -26,4 +26,6 @@ export { KnowledgeCoreConcepts } from "./KnowledgeCoreConcepts";
 export { KnowledgeWalkthrough } from "./KnowledgeWalkthrough";
 export { KnowledgeRealExamples } from "./KnowledgeRealExamples";
 export { KnowledgeCommonMistakes } from "./KnowledgeCommonMistakes";
+export { KnowledgeRelatedTechnologies } from "./KnowledgeRelatedTechnologies";
+export { KnowledgeRelatedCaseStudies } from "./KnowledgeRelatedCaseStudies";
 export * from "./analytics";

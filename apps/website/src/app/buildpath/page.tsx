@@ -7,11 +7,17 @@ import { Container } from "@/components/Container";
 import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
 import { BUSINESS_PROBLEMS, CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
+import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
 import { SOLUTIONS } from "@/features/solutions";
 import { TECHNOLOGIES } from "@/features/technology";
 
 interface BuildPathPageProps {
-  searchParams: Promise<{ solution?: string; caseStudy?: string; technology?: string }>;
+  searchParams: Promise<{
+    solution?: string;
+    caseStudy?: string;
+    technology?: string;
+    article?: string;
+  }>;
 }
 
 function getReferringCaseStudy(slug: string | undefined) {
@@ -37,24 +43,28 @@ export const metadata: Metadata = {
  * export) is out of scope for this milestone; this explains the vision
  * honestly rather than dead-ending the homepage preview's CTA. Solution
  * pages link here with `?solution={slug}`, case study pages with
- * `?caseStudy={slug}`, technology pages with `?technology={slug}`
- * (CLAUDE.md Part 20: "BuildPath automatically remembers... journey
- * selected, solution selected"; Part 22: "BuildPath automatically
- * remembers explored technologies") — since there's no live questionnaire
- * to prefill yet, this page instead acknowledges the referring context
- * honestly, naming the specific industry, business challenge, or
- * technology BuildPath would start from, rather than fabricating a
- * prefilled form that doesn't exist.
+ * `?caseStudy={slug}`, technology pages with `?technology={slug}`,
+ * knowledge articles with `?article={slug}` (CLAUDE.md Part 20: "BuildPath
+ * automatically remembers... journey selected, solution selected"; Part
+ * 22: "BuildPath automatically remembers explored technologies"; Part 18:
+ * "BuildPath automatically remembers explored technologies," applied here
+ * to articles) — since there's no live questionnaire to prefill yet, this
+ * page instead acknowledges the referring context honestly, naming the
+ * specific industry, business challenge, technology, or article BuildPath
+ * would start from, rather than fabricating a prefilled form that doesn't
+ * exist.
  */
 export default async function BuildPathPage({ searchParams }: BuildPathPageProps) {
   const {
     solution: solutionSlug,
     caseStudy: caseStudySlug,
     technology: technologySlug,
+    article: articleSlug,
   } = await searchParams;
   const solution = SOLUTIONS.find((candidate) => candidate.slug === solutionSlug);
   const referringCaseStudy = getReferringCaseStudy(caseStudySlug);
   const technology = TECHNOLOGIES.find((candidate) => candidate.slug === technologySlug);
+  const article = KNOWLEDGE_ARTICLES.find((candidate) => candidate.slug === articleSlug);
 
   return (
     <Container size="content" className="py-16">
@@ -77,6 +87,11 @@ export default async function BuildPathPage({ searchParams }: BuildPathPageProps
           <Text variant="body" className="text-accent">
             Continuing with {technology.name} — one reason it&apos;s often chosen:{" "}
             {technology.tradeOff.bestFor[0]}.
+          </Text>
+        )}
+        {article && (
+          <Text variant="body" className="text-accent">
+            Continuing from &ldquo;{article.title}&rdquo; — {article.importance}
           </Text>
         )}
         <Text variant="subtitle">
@@ -102,6 +117,10 @@ export default async function BuildPathPage({ searchParams }: BuildPathPageProps
           ) : technology ? (
             <Button asChild>
               <Link href={`/technology/${technology.slug}`}>Back to {technology.name}</Link>
+            </Button>
+          ) : article ? (
+            <Button asChild>
+              <Link href={`/knowledge/${article.slug}`}>Back to the article</Link>
             </Button>
           ) : (
             <Button asChild>

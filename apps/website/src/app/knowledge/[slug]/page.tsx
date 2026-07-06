@@ -11,6 +11,8 @@ import {
   KnowledgeCoreConcepts,
   KnowledgeExecutiveSummary,
   KnowledgeRealExamples,
+  KnowledgeRelatedCaseStudies,
+  KnowledgeRelatedTechnologies,
   KnowledgeWalkthrough,
   KnowledgeWhyItMatters,
 } from "@/features/knowledge";
@@ -55,10 +57,9 @@ export async function generateMetadata({ params }: KnowledgeArticlePageProps): P
 /**
  * One shared template driven entirely by `KNOWLEDGE_ARTICLES` data — every
  * article page has the same section order (CLAUDE.md Part 18). Currently
- * covers the article template's first six sections (Executive Summary,
- * Why It Matters, Core Concepts, Interactive Learning, Real Examples,
- * Common Mistakes); related content, AI/BuildPath integration, and the
- * sticky sidebar land in later phases of this milestone.
+ * covers the article template's first ten sections (through Related Case
+ * Studies, AI Companion, and BuildPath integration via the hero); Related
+ * Learning and the sticky sidebar land in a later phase of this milestone.
  */
 export default async function KnowledgeArticlePage({ params }: KnowledgeArticlePageProps) {
   const { slug } = await params;
@@ -86,6 +87,8 @@ export default async function KnowledgeArticlePage({ params }: KnowledgeArticleP
         <KnowledgeWalkthrough article={article} />
         <KnowledgeRealExamples article={article} />
         <KnowledgeCommonMistakes article={article} />
+        <KnowledgeRelatedTechnologies article={article} />
+        <KnowledgeRelatedCaseStudies article={article} />
       </div>
     </Container>
   );

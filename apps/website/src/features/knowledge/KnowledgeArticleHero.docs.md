@@ -2,16 +2,26 @@
 
 CLAUDE.md Part 18's article page hero: a breadcrumb back to `/knowledge`,
 the article's category/difficulty/reading time at a glance, its title,
-and its summary.
+its summary, and two CTAs — the same "BuildPath or AI Companion" pairing
+`TechnologyDetailHero`/`SolutionHero`/`CaseStudyHero` use.
 
-## Scope note: no AI/BuildPath CTAs yet
+## AI Companion integration
 
-Unlike `TechnologyDetailHero`/`SolutionHero`/`CaseStudyHero`, this hero
-doesn't set the AI Companion's page context or link to BuildPath yet —
-that integration lands in a later phase of this milestone (mirroring how
-the other detail pages' AI/BuildPath wiring landed in its own phase, not
-alongside the initial hero).
+Sets the AI Companion's `pageContext` to this article on mount and clears
+it on unmount, so a visitor asking Byld a question while reading gets a
+response grounded in the current article rather than a generic greeting
+(CLAUDE.md Part 16: "AI always knows... current article").
+
+## BuildPath integration
+
+Links to `/buildpath?article={slug}` — `/buildpath` reads the `article`
+query param and acknowledges the referring article by name, the same
+honest "acknowledge the referring context, don't fabricate a prefilled
+form" pattern already used for `?solution=`, `?caseStudy=`, and
+`?technology=`.
 
 ## Analytics
 
-Tracks `knowledge_viewed` once on mount — see `analytics.ts`.
+Tracks `knowledge_viewed` once on mount, `knowledge_cta_selected` for
+each CTA, and `knowledge_buildpath_started` when Plan Your Roadmap is
+selected — see `analytics.ts`.
