@@ -13,6 +13,8 @@ declare module "@/types/analytics" {
     technology_search: { query: string };
     /** `/technology` landing page or category route: a category selected. */
     technology_category_selected: { category: string };
+    /** `/technology` landing page: a technology card selected. */
+    technology_card_clicked: { slug: string };
     /** `/technology/compare`: a comparison pair viewed. */
     technology_comparison_viewed: { slugs: string[] };
     /** Selecting a node in a technology's Architecture Explorer. */

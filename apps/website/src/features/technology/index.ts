@@ -10,4 +10,9 @@ export type {
 } from "./data/technology.schema";
 export { TECHNOLOGY_CATEGORIES } from "./data/categories";
 export type { TechnologyCategory } from "./data/categories";
+export { CATEGORIES_BY_SLUG, POPULATED_CATEGORIES } from "./data/facets";
+export { TechnologyCard } from "./TechnologyCard";
+export { TechnologyGrid } from "./TechnologyGrid";
+export { TechnologyHero } from "./TechnologyHero";
+export { TechnologyExplorer } from "./TechnologyExplorer";
 export * from "./analytics";
