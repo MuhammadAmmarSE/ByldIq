@@ -84,6 +84,15 @@ describe("KnowledgeExplorer", () => {
     );
   });
 
+  it("links to the Playbooks landing page", () => {
+    render(<KnowledgeExplorer />);
+
+    expect(screen.getByRole("link", { name: "Explore Playbooks" })).toHaveAttribute(
+      "href",
+      "/knowledge/playbooks",
+    );
+  });
+
   it("tracks card clicks", async () => {
     const user = userEvent.setup();
     render(<KnowledgeExplorer />);

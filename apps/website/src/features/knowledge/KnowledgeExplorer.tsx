@@ -27,11 +27,8 @@ const FEATURED_ARTICLE = KNOWLEDGE_ARTICLES.find((article) => article.featured);
  * rather than a second card implementation for the same content, the same
  * "one card, not two" precedent `WorkExplorer` follows for case studies.
  *
- * Playbooks (also named in the landing page spec) isn't linked from here
- * yet — that route doesn't exist yet, and linking to it before it exists
- * would create the dead links CLAUDE.md Part 8 warns against. It's added
- * to this page once real (a later phase of this milestone). Learning
- * Paths is linked below the hero.
+ * Learning Paths and Playbooks are both linked below the hero, now that
+ * `/knowledge/learning-paths` and `/knowledge/playbooks` are real routes.
  *
  * The `initial*`/`headline`/`supportingCopy` props let a future
  * `/knowledge/category/[category]` and `/knowledge/search` route reuse
@@ -98,9 +95,12 @@ export function KnowledgeExplorer({
         <Heading variant="h3" as="h2" id="knowledge-learning-paths-heading">
           Prefer a guided path?
         </Heading>
-        <div>
+        <div className="flex flex-wrap gap-3">
           <Button asChild variant="outline">
             <Link href="/knowledge/learning-paths">Explore Learning Paths</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/knowledge/playbooks">Explore Playbooks</Link>
           </Button>
         </div>
       </section>

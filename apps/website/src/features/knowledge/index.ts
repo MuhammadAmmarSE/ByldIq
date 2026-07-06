@@ -38,4 +38,5 @@ export { KnowledgeSidebar } from "./KnowledgeSidebar";
 export { KnowledgeFinalCta } from "./KnowledgeFinalCta";
 export { KnowledgeLearningPaths } from "./KnowledgeLearningPaths";
 export { KnowledgeLearningPathDetail } from "./KnowledgeLearningPathDetail";
+export { KnowledgePlaybooks } from "./KnowledgePlaybooks";
 export * from "./analytics";
