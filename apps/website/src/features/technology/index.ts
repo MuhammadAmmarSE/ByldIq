@@ -18,4 +18,6 @@ export { TechnologyExplorer } from "./TechnologyExplorer";
 export { TechnologyDetailHero } from "./TechnologyDetailHero";
 export { TechnologyBusinessValue } from "./TechnologyBusinessValue";
 export { TechnologyStrengthsWeaknesses } from "./TechnologyStrengthsWeaknesses";
+export { TechnologyTradeOffExplorer } from "./TechnologyTradeOffExplorer";
+export { TechnologyArchitecture } from "./TechnologyArchitecture";
 export * from "./analytics";
