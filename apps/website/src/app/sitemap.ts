@@ -2,7 +2,10 @@ import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/config/site";
 import { BUSINESS_PROBLEMS, CASE_STUDIES, INDUSTRIES, TECHNOLOGIES } from "@/features/case-studies";
-import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
+import {
+  KNOWLEDGE_ARTICLES,
+  POPULATED_CATEGORIES as KNOWLEDGE_CATEGORIES,
+} from "@/features/knowledge";
 import { SOLUTIONS } from "@/features/solutions";
 import { POPULATED_CATEGORIES, TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/features/technology";
 
@@ -11,9 +14,10 @@ import { POPULATED_CATEGORIES, TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/fea
  * listed — inventing entries for pages that don't exist yet would just
  * produce 404s in search results. `/buildpath` and `/knowledge` are
  * included as real teaser/index pages; the full BuildPath and Knowledge
- * Center platforms are future milestones, not new routes. `/work/search`
- * and `/technology/search` are deliberately excluded — a query-driven
- * results page has no single canonical piece of content worth indexing.
+ * Center platforms are future milestones, not new routes. `/work/search`,
+ * `/technology/search`, and `/knowledge/search` are deliberately
+ * excluded — a query-driven results page has no single canonical piece of
+ * content worth indexing.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -79,6 +83,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...KNOWLEDGE_ARTICLES.map((article): MetadataRoute.Sitemap[number] => ({
       url: `${siteConfig.url}/knowledge/${article.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    })),
+    ...KNOWLEDGE_CATEGORIES.map((category): MetadataRoute.Sitemap[number] => ({
+      url: `${siteConfig.url}/knowledge/category/${category.slug}`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,

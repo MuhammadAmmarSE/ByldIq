@@ -10,6 +10,7 @@ import {
   KnowledgeCommonMistakes,
   KnowledgeCoreConcepts,
   KnowledgeExecutiveSummary,
+  KnowledgeFinalCta,
   KnowledgeReadingProgress,
   KnowledgeRealExamples,
   KnowledgeRelatedCaseStudies,
@@ -59,10 +60,10 @@ export async function generateMetadata({ params }: KnowledgeArticlePageProps): P
 
 /**
  * One shared template driven entirely by `KNOWLEDGE_ARTICLES` data — every
- * article page has the same eleven-section order (CLAUDE.md Part 18), plus
- * a reading progress bar and a sticky sidebar with scrollspy across the
- * middle sections, the same "hero and final content span full width"
- * layout the Technology Explorer's detail page uses.
+ * article page has the same eleven-section order (CLAUDE.md Part 18), a
+ * reading progress bar, a sticky sidebar with scrollspy across the middle
+ * sections, and a final CTA — the same "hero and final content span full
+ * width" layout the Technology Explorer's detail page uses.
  */
 export default async function KnowledgeArticlePage({ params }: KnowledgeArticlePageProps) {
   const { slug } = await params;
@@ -98,6 +99,7 @@ export default async function KnowledgeArticlePage({ params }: KnowledgeArticleP
           <KnowledgeRelatedLearning article={article} />
         </div>
       </div>
+      <KnowledgeFinalCta article={article} />
     </Container>
   );
 }

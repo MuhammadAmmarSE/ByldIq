@@ -33,4 +33,5 @@ export { KnowledgeBookmarkButton } from "./KnowledgeBookmarkButton";
 export { KnowledgeReadingProgress } from "./KnowledgeReadingProgress";
 export { useReadingProgress } from "./useReadingProgress";
 export { KnowledgeSidebar } from "./KnowledgeSidebar";
+export { KnowledgeFinalCta } from "./KnowledgeFinalCta";
 export * from "./analytics";
