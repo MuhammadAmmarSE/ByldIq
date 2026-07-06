@@ -9,6 +9,10 @@ import {
   TechnologyBusinessValue,
   TechnologyDeepDive,
   TechnologyDetailHero,
+  TechnologyFaqSection,
+  TechnologyRelatedCaseStudies,
+  TechnologyRelatedKnowledge,
+  TechnologyRelatedSolutions,
   TechnologyStrengthsWeaknesses,
   TechnologyTradeOffExplorer,
 } from "@/features/technology";
@@ -39,12 +43,11 @@ export async function generateMetadata({ params }: TechnologyPageProps): Promise
 
 /**
  * One shared template driven entirely by `TECHNOLOGIES` data — every
- * technology page has the same section order (CLAUDE.md Part 22). Built
- * incrementally across Milestone 6's phases; hero, business value,
- * strengths/weaknesses, the Trade-Off Explorer, interactive architecture,
- * and the performance/security/accessibility/scalability/cost deep dive
- * are real so far. The remaining sections (comparisons, decision wizard,
- * related content) land in later phases.
+ * technology page has the same section order (CLAUDE.md Part 22). Related
+ * solutions/case studies/knowledge sections render nothing when their
+ * curated slug array is empty (a genuine, intentional state — see
+ * `TechnologyRelatedSolutions.docs.md`) rather than a dead-end heading.
+ * The final CTA and breadcrumb/sidebar navigation land in a later phase.
  */
 export default async function TechnologyDetailPage({ params }: TechnologyPageProps) {
   const { slug } = await params;
@@ -63,6 +66,10 @@ export default async function TechnologyDetailPage({ params }: TechnologyPagePro
       <TechnologyTradeOffExplorer technology={technology} />
       <TechnologyArchitecture technology={technology} />
       <TechnologyDeepDive technology={technology} />
+      <TechnologyRelatedSolutions technology={technology} />
+      <TechnologyRelatedCaseStudies technology={technology} />
+      <TechnologyRelatedKnowledge technology={technology} />
+      <TechnologyFaqSection technology={technology} />
     </Container>
   );
 }

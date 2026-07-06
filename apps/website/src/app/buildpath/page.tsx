@@ -8,9 +8,10 @@ import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
 import { BUSINESS_PROBLEMS, CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
 import { SOLUTIONS } from "@/features/solutions";
+import { TECHNOLOGIES } from "@/features/technology";
 
 interface BuildPathPageProps {
-  searchParams: Promise<{ solution?: string; caseStudy?: string }>;
+  searchParams: Promise<{ solution?: string; caseStudy?: string; technology?: string }>;
 }
 
 function getReferringCaseStudy(slug: string | undefined) {
@@ -36,18 +37,24 @@ export const metadata: Metadata = {
  * export) is out of scope for this milestone; this explains the vision
  * honestly rather than dead-ending the homepage preview's CTA. Solution
  * pages link here with `?solution={slug}`, case study pages with
- * `?caseStudy={slug}` (CLAUDE.md Part 20: "BuildPath automatically
- * remembers... journey selected, solution selected"; Part 21: BuildPath
- * Integration "with industry/technologies/business challenge prefilled")
- * — since there's no live questionnaire to prefill yet, this page instead
- * acknowledges the referring context honestly, naming the specific
- * industry, business challenge, and technologies BuildPath would start
- * from, rather than fabricating a prefilled form that doesn't exist.
+ * `?caseStudy={slug}`, technology pages with `?technology={slug}`
+ * (CLAUDE.md Part 20: "BuildPath automatically remembers... journey
+ * selected, solution selected"; Part 22: "BuildPath automatically
+ * remembers explored technologies") — since there's no live questionnaire
+ * to prefill yet, this page instead acknowledges the referring context
+ * honestly, naming the specific industry, business challenge, or
+ * technology BuildPath would start from, rather than fabricating a
+ * prefilled form that doesn't exist.
  */
 export default async function BuildPathPage({ searchParams }: BuildPathPageProps) {
-  const { solution: solutionSlug, caseStudy: caseStudySlug } = await searchParams;
+  const {
+    solution: solutionSlug,
+    caseStudy: caseStudySlug,
+    technology: technologySlug,
+  } = await searchParams;
   const solution = SOLUTIONS.find((candidate) => candidate.slug === solutionSlug);
   const referringCaseStudy = getReferringCaseStudy(caseStudySlug);
+  const technology = TECHNOLOGIES.find((candidate) => candidate.slug === technologySlug);
 
   return (
     <Container size="content" className="py-16">
@@ -64,6 +71,12 @@ export default async function BuildPathPage({ searchParams }: BuildPathPageProps
             Continuing from {referringCaseStudy.company.name}&apos;s story — we&apos;d start from{" "}
             {referringCaseStudy.businessProblem} in {referringCaseStudy.company.industry}, with{" "}
             {referringCaseStudy.caseStudy.technologies.join(", ")} as a reference point.
+          </Text>
+        )}
+        {technology && (
+          <Text variant="body" className="text-accent">
+            Continuing with {technology.name} — one reason it&apos;s often chosen:{" "}
+            {technology.tradeOff.bestFor[0]}.
           </Text>
         )}
         <Text variant="subtitle">
@@ -85,6 +98,10 @@ export default async function BuildPathPage({ searchParams }: BuildPathPageProps
               <Link href={`/work/${referringCaseStudy.caseStudy.slug}`}>
                 Back to {referringCaseStudy.company.name}
               </Link>
+            </Button>
+          ) : technology ? (
+            <Button asChild>
+              <Link href={`/technology/${technology.slug}`}>Back to {technology.name}</Link>
             </Button>
           ) : (
             <Button asChild>

@@ -23,4 +23,8 @@ export { TechnologyArchitecture } from "./TechnologyArchitecture";
 export { TechnologyDeepDive } from "./TechnologyDeepDive";
 export { ComparisonEngine } from "./ComparisonEngine";
 export { DecisionWizard } from "./DecisionWizard";
+export { TechnologyRelatedSolutions } from "./TechnologyRelatedSolutions";
+export { TechnologyRelatedCaseStudies } from "./TechnologyRelatedCaseStudies";
+export { TechnologyRelatedKnowledge } from "./TechnologyRelatedKnowledge";
+export { TechnologyFaqSection } from "./TechnologyFaqSection";
 export * from "./analytics";
