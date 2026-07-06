@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 import { BUSINESS_PROBLEMS, CASE_STUDIES, INDUSTRIES, TECHNOLOGIES } from "@/features/case-studies";
 import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
 import { SOLUTIONS } from "@/features/solutions";
+import { TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/features/technology";
 
 /**
  * Grows as real routes land. Only routes with real, crawlable content are
@@ -81,6 +82,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.6,
+    })),
+    {
+      url: `${siteConfig.url}/technology`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    ...TECHNOLOGY_PROFILES.map((technology): MetadataRoute.Sitemap[number] => ({
+      url: `${siteConfig.url}/technology/${technology.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
     })),
   ];
 }

@@ -5,6 +5,7 @@ import { PageShell } from "@/components/PageShell";
 import { primaryNav, siteConfig } from "@/config/site";
 import { CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
 import { SOLUTIONS } from "@/features/solutions";
+import { TECHNOLOGIES } from "@/features/technology";
 import { fontVariables } from "@/lib/fonts";
 import { jsonLdScriptProps, organizationJsonLd } from "@/lib/json-ld";
 import { AppProviders } from "@/providers/AppProviders";
@@ -33,6 +34,14 @@ const navItems: NavItem[] = [
     children: CASE_STUDIES.map((caseStudy) => ({
       label: COMPANIES_BY_ID.get(caseStudy.companyId)?.name ?? caseStudy.headline,
       href: `/work/${caseStudy.slug}`,
+    })),
+  },
+  {
+    label: "Technology",
+    href: "/technology",
+    children: TECHNOLOGIES.map((technology) => ({
+      label: technology.name,
+      href: `/technology/${technology.slug}`,
     })),
   },
   ...primaryNav,
