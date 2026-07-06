@@ -6,7 +6,7 @@ import { Card } from "@/components/Card";
 import { Container } from "@/components/Container";
 import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
-import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
+import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
 
 export const metadata: Metadata = {
   title: "Knowledge Center",

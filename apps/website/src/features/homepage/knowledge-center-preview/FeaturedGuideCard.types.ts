@@ -1,4 +1,4 @@
-import type { KnowledgeArticle } from "./data/articles";
+import type { KnowledgeArticle } from "@/features/knowledge";
 
 export interface FeaturedGuideCardProps {
   article: KnowledgeArticle;

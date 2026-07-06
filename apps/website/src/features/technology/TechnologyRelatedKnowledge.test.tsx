@@ -5,7 +5,7 @@ vi.mock("@/providers/AnalyticsProvider", () => ({
   useAnalytics: () => ({ track: vi.fn() }),
 }));
 
-import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
+import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
 
 import { TECHNOLOGIES } from "./data/technologies";
 import { TechnologyRelatedKnowledge } from "./TechnologyRelatedKnowledge";

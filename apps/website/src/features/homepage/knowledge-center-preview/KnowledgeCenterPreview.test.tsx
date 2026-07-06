@@ -8,7 +8,8 @@ vi.mock("@/providers/AnalyticsProvider", () => ({
   useAnalytics: () => ({ track: mockTrack }),
 }));
 
-import { KNOWLEDGE_ARTICLES } from "./data/articles";
+import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
+
 import { KnowledgeCenterPreview } from "./KnowledgeCenterPreview";
 
 describe("KnowledgeCenterPreview", () => {

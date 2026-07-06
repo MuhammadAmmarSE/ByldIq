@@ -1,13 +1,13 @@
 "use client";
 
 import { Heading } from "@/components/Heading";
+import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
 
 import "./analytics";
 
 import { ArticleCard } from "./ArticleCard";
-import { KNOWLEDGE_ARTICLES } from "./data/articles";
 import { FeaturedGuideCard } from "./FeaturedGuideCard";
 import type { KnowledgeCenterPreviewProps } from "./KnowledgeCenterPreview.types";
 
@@ -15,8 +15,11 @@ import type { KnowledgeCenterPreviewProps } from "./KnowledgeCenterPreview.types
  * CLAUDE.md Part 18's Knowledge Center, previewed on the homepage: one
  * featured guide plus a grid of articles spanning strategy, architecture,
  * AI, accessibility, and commerce — each with an "Ask Byld" expandable
- * summary. Content is local typed data (`data/articles.ts`), not a real
- * CMS — that's deferred to a future Knowledge Center milestone.
+ * summary. `KNOWLEDGE_ARTICLES` moved to `features/knowledge/` in
+ * Milestone 7 once the full platform became a second real consumer
+ * (alongside Solutions/Case Studies/Technology's `RelatedKnowledge`
+ * components) — the same "promote only after multiple real use cases"
+ * move Milestone 5 made for `CASE_STUDIES`.
  */
 export function KnowledgeCenterPreview({ className }: KnowledgeCenterPreviewProps) {
   const analytics = useAnalytics();

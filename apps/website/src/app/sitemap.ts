@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { siteConfig } from "@/config/site";
 import { BUSINESS_PROBLEMS, CASE_STUDIES, INDUSTRIES, TECHNOLOGIES } from "@/features/case-studies";
-import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
+import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
 import { SOLUTIONS } from "@/features/solutions";
 import { POPULATED_CATEGORIES, TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/features/technology";
 

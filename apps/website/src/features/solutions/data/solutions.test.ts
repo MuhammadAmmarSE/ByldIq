@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { CASE_STUDIES } from "@/features/case-studies";
-import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
+import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
 
 import { solutionSchema } from "./solution.schema";
 import { getRecommendedSolution, SOLUTIONS } from "./solutions";

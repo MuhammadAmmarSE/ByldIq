@@ -1,7 +1,8 @@
 "use client";
 
 import { Heading } from "@/components/Heading";
-import { ArticleCard, KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
+import { ArticleCard } from "@/features/homepage/knowledge-center-preview";
+import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
 

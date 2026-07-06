@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { CASE_STUDIES } from "@/features/case-studies";
-import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
+import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
 import { SOLUTIONS } from "@/features/solutions";
 
 import { TECHNOLOGY_CATEGORIES } from "./categories";

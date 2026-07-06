@@ -170,9 +170,10 @@ fabrication contained and consistent:
   the Proof Engine's case studies and the Product Showcase's experience
   pods, so the same fictional client doesn't accidentally get
   contradictory details in two places.
-- **`KNOWLEDGE_ARTICLES`** (`features/homepage/knowledge-center-preview/data/`)
-  — separate, local typed data, deliberately _not_ wired to the
-  `content-collections` MDX pipeline (see "Scope boundaries," below).
+- **`KNOWLEDGE_ARTICLES`** (`features/knowledge/data/`, reused here by the
+  homepage's Knowledge Center Preview) — separate, local typed data,
+  deliberately _not_ wired to the `content-collections` MDX pipeline (see
+  "Scope boundaries," below).
 - The Adaptive Hero's `trustIndicators` are qualitative capability labels
   ("Product Strategy," "Long-Term Partnership"), not statistics — there's
   no client history to substantiate a number yet.
