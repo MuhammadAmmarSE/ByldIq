@@ -20,14 +20,20 @@ import type { ArticleCardProps } from "./ArticleCard.types";
  * for a homepage preview rather than a live call into the AI Companion
  * (Phase 8) for a topic-specific answer it isn't built to generate.
  */
-export function ArticleCard({ article, onSelect, onExpandAiSummary, className }: ArticleCardProps) {
+export function ArticleCard({
+  article,
+  categoryLabel,
+  onSelect,
+  onExpandAiSummary,
+  className,
+}: ArticleCardProps) {
   const [showAiSummary, setShowAiSummary] = useState(false);
 
   return (
     <Card className={cn("flex h-full flex-col", className)}>
       <Card.Header>
         <div className="flex items-center gap-2">
-          <Badge variant="neutral">{article.category}</Badge>
+          <Badge variant="neutral">{categoryLabel ?? article.category}</Badge>
           <Text variant="caption">{article.difficulty}</Text>
           <Text variant="caption">·</Text>
           <Text variant="caption">{article.readingTime}</Text>

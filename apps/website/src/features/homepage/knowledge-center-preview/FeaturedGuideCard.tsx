@@ -10,12 +10,17 @@ import { cn } from "@/utils/cn";
 import type { FeaturedGuideCardProps } from "./FeaturedGuideCard.types";
 
 /** The Knowledge Center preview's featured guide (CLAUDE.md Part 18). */
-export function FeaturedGuideCard({ article, onSelect, className }: FeaturedGuideCardProps) {
+export function FeaturedGuideCard({
+  article,
+  categoryLabel,
+  onSelect,
+  className,
+}: FeaturedGuideCardProps) {
   return (
     <Card className={cn("p-6 lg:p-10", className)}>
       <div className="flex flex-wrap items-center gap-2">
         <Badge variant="accent">Featured</Badge>
-        <Badge variant="neutral">{article.category}</Badge>
+        <Badge variant="neutral">{categoryLabel ?? article.category}</Badge>
         <Text variant="caption">
           {article.difficulty} · {article.readingTime}
         </Text>
@@ -27,7 +32,7 @@ export function FeaturedGuideCard({ article, onSelect, className }: FeaturedGuid
         {article.summary}
       </Text>
       <Text variant="caption" className="mt-2">
-        Part of the {article.category} learning path.
+        Part of the {categoryLabel ?? article.category} learning path.
       </Text>
       <Button asChild className="mt-6">
         <Link href={`/knowledge/${article.slug}`} onClick={() => onSelect?.(article.slug)}>

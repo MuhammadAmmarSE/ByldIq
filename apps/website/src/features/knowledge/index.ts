@@ -16,4 +16,7 @@ export type {
 export { KNOWLEDGE_CATEGORIES } from "./data/categories";
 export type { KnowledgeCategory } from "./data/categories";
 export { CATEGORIES_BY_SLUG, POPULATED_CATEGORIES } from "./data/facets";
+export { KnowledgeHero } from "./KnowledgeHero";
+export { KnowledgeGrid } from "./KnowledgeGrid";
+export { KnowledgeExplorer } from "./KnowledgeExplorer";
 export * from "./analytics";
