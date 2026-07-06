@@ -4,7 +4,7 @@ import { siteConfig } from "@/config/site";
 import { BUSINESS_PROBLEMS, CASE_STUDIES, INDUSTRIES, TECHNOLOGIES } from "@/features/case-studies";
 import { KNOWLEDGE_ARTICLES } from "@/features/homepage/knowledge-center-preview";
 import { SOLUTIONS } from "@/features/solutions";
-import { TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/features/technology";
+import { POPULATED_CATEGORIES, TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/features/technology";
 
 /**
  * Grows as real routes land. Only routes with real, crawlable content are
@@ -12,8 +12,8 @@ import { TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/features/technology";
  * produce 404s in search results. `/buildpath` and `/knowledge` are
  * included as real teaser/index pages; the full BuildPath and Knowledge
  * Center platforms are future milestones, not new routes. `/work/search`
- * is deliberately excluded — a query-driven results page has no single
- * canonical piece of content worth indexing.
+ * and `/technology/search` are deliberately excluded — a query-driven
+ * results page has no single canonical piece of content worth indexing.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -94,6 +94,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
+    })),
+    ...POPULATED_CATEGORIES.map((category): MetadataRoute.Sitemap[number] => ({
+      url: `${siteConfig.url}/technology/category/${category.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
     })),
     {
       url: `${siteConfig.url}/technology/compare`,

@@ -10,9 +10,11 @@ import {
   TechnologyDeepDive,
   TechnologyDetailHero,
   TechnologyFaqSection,
+  TechnologyFinalCta,
   TechnologyRelatedCaseStudies,
   TechnologyRelatedKnowledge,
   TechnologyRelatedSolutions,
+  TechnologySidebar,
   TechnologyStrengthsWeaknesses,
   TechnologyTradeOffExplorer,
 } from "@/features/technology";
@@ -46,8 +48,10 @@ export async function generateMetadata({ params }: TechnologyPageProps): Promise
  * technology page has the same section order (CLAUDE.md Part 22). Related
  * solutions/case studies/knowledge sections render nothing when their
  * curated slug array is empty (a genuine, intentional state — see
- * `TechnologyRelatedSolutions.docs.md`) rather than a dead-end heading.
- * The final CTA and breadcrumb/sidebar navigation land in a later phase.
+ * `TechnologyRelatedSolutions.docs.md`) rather than a dead-end heading. A
+ * sticky sidebar (desktop only) provides scrollspy navigation across the
+ * middle sections; the hero and final CTA span full width, mirroring the
+ * Solutions page template.
  */
 export default async function TechnologyDetailPage({ params }: TechnologyPageProps) {
   const { slug } = await params;
@@ -61,15 +65,21 @@ export default async function TechnologyDetailPage({ params }: TechnologyPagePro
   return (
     <Container size="content" className="space-y-16 py-16">
       <TechnologyDetailHero technology={technology} categoryLabel={category?.label} />
-      <TechnologyBusinessValue technology={technology} />
-      <TechnologyStrengthsWeaknesses technology={technology} />
-      <TechnologyTradeOffExplorer technology={technology} />
-      <TechnologyArchitecture technology={technology} />
-      <TechnologyDeepDive technology={technology} />
-      <TechnologyRelatedSolutions technology={technology} />
-      <TechnologyRelatedCaseStudies technology={technology} />
-      <TechnologyRelatedKnowledge technology={technology} />
-      <TechnologyFaqSection technology={technology} />
+      <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
+        <TechnologySidebar className="hidden lg:block" />
+        <div className="space-y-16">
+          <TechnologyBusinessValue technology={technology} />
+          <TechnologyStrengthsWeaknesses technology={technology} />
+          <TechnologyTradeOffExplorer technology={technology} />
+          <TechnologyArchitecture technology={technology} />
+          <TechnologyDeepDive technology={technology} />
+          <TechnologyRelatedSolutions technology={technology} />
+          <TechnologyRelatedCaseStudies technology={technology} />
+          <TechnologyRelatedKnowledge technology={technology} />
+          <TechnologyFaqSection technology={technology} />
+        </div>
+      </div>
+      <TechnologyFinalCta technology={technology} />
     </Container>
   );
 }

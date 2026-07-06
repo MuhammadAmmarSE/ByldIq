@@ -27,4 +27,6 @@ export { TechnologyRelatedSolutions } from "./TechnologyRelatedSolutions";
 export { TechnologyRelatedCaseStudies } from "./TechnologyRelatedCaseStudies";
 export { TechnologyRelatedKnowledge } from "./TechnologyRelatedKnowledge";
 export { TechnologyFaqSection } from "./TechnologyFaqSection";
+export { TechnologySidebar } from "./TechnologySidebar";
+export { TechnologyFinalCta } from "./TechnologyFinalCta";
 export * from "./analytics";
