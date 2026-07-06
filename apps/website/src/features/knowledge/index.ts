@@ -23,4 +23,7 @@ export { KnowledgeArticleHero } from "./KnowledgeArticleHero";
 export { KnowledgeExecutiveSummary } from "./KnowledgeExecutiveSummary";
 export { KnowledgeWhyItMatters } from "./KnowledgeWhyItMatters";
 export { KnowledgeCoreConcepts } from "./KnowledgeCoreConcepts";
+export { KnowledgeWalkthrough } from "./KnowledgeWalkthrough";
+export { KnowledgeRealExamples } from "./KnowledgeRealExamples";
+export { KnowledgeCommonMistakes } from "./KnowledgeCommonMistakes";
 export * from "./analytics";

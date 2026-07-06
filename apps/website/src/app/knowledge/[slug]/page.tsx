@@ -7,8 +7,11 @@ import {
   CATEGORIES_BY_SLUG,
   KNOWLEDGE_ARTICLES,
   KnowledgeArticleHero,
+  KnowledgeCommonMistakes,
   KnowledgeCoreConcepts,
   KnowledgeExecutiveSummary,
+  KnowledgeRealExamples,
+  KnowledgeWalkthrough,
   KnowledgeWhyItMatters,
 } from "@/features/knowledge";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -52,10 +55,10 @@ export async function generateMetadata({ params }: KnowledgeArticlePageProps): P
 /**
  * One shared template driven entirely by `KNOWLEDGE_ARTICLES` data — every
  * article page has the same section order (CLAUDE.md Part 18). Currently
- * covers the article template's first three sections (Executive Summary,
- * Why It Matters, Core Concepts); the Interactive Learning walkthrough,
- * examples, common mistakes, related content, AI/BuildPath integration,
- * and the sticky sidebar land in later phases of this milestone.
+ * covers the article template's first six sections (Executive Summary,
+ * Why It Matters, Core Concepts, Interactive Learning, Real Examples,
+ * Common Mistakes); related content, AI/BuildPath integration, and the
+ * sticky sidebar land in later phases of this milestone.
  */
 export default async function KnowledgeArticlePage({ params }: KnowledgeArticlePageProps) {
   const { slug } = await params;
@@ -80,6 +83,9 @@ export default async function KnowledgeArticlePage({ params }: KnowledgeArticleP
         <KnowledgeExecutiveSummary article={article} />
         <KnowledgeWhyItMatters article={article} />
         <KnowledgeCoreConcepts article={article} />
+        <KnowledgeWalkthrough article={article} />
+        <KnowledgeRealExamples article={article} />
+        <KnowledgeCommonMistakes article={article} />
       </div>
     </Container>
   );
