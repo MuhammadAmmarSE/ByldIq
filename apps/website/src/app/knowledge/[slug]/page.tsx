@@ -20,7 +20,7 @@ import {
   KnowledgeWalkthrough,
   KnowledgeWhyItMatters,
 } from "@/features/knowledge";
-import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
+import { articleJsonLd, breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 interface KnowledgeArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -64,6 +64,11 @@ export async function generateMetadata({ params }: KnowledgeArticlePageProps): P
  * reading progress bar, a sticky sidebar with scrollspy across the middle
  * sections, and a final CTA — the same "hero and final content span full
  * width" layout the Technology Explorer's detail page uses.
+ *
+ * Structured data: BreadcrumbList plus Article schema (the same
+ * `articleJsonLd` helper `/work/[slug]` uses for case studies) — no
+ * `datePublished`/`dateModified`, since the content model has no real
+ * authored dates and CLAUDE.md Part 7 forbids fabricating them.
  */
 export default async function KnowledgeArticlePage({ params }: KnowledgeArticlePageProps) {
   const { slug } = await params;
@@ -81,6 +86,15 @@ export default async function KnowledgeArticlePage({ params }: KnowledgeArticleP
             { name: "Knowledge Center", url: `${siteConfig.url}/knowledge` },
             { name: article.title, url: `${siteConfig.url}/knowledge/${article.slug}` },
           ]),
+        )}
+      />
+      <script
+        {...jsonLdScriptProps(
+          articleJsonLd({
+            headline: article.title,
+            description: article.summary,
+            url: `${siteConfig.url}/knowledge/${article.slug}`,
+          }),
         )}
       />
       <KnowledgeReadingProgress />
