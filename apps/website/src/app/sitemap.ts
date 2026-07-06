@@ -18,7 +18,10 @@ import { POPULATED_CATEGORIES, TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/fea
  * Center platforms are future milestones, not new routes. `/work/search`,
  * `/technology/search`, and `/knowledge/search` are deliberately
  * excluded — a query-driven results page has no single canonical piece of
- * content worth indexing.
+ * content worth indexing. `/knowledge/whitepapers`, `/knowledge/videos`,
+ * and `/knowledge/tutorials` are also excluded — honest routes for
+ * content types that don't exist yet (see
+ * `KnowledgeContentTypePlaceholder.docs.md`) have nothing to index either.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

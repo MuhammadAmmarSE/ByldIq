@@ -39,4 +39,5 @@ export { KnowledgeFinalCta } from "./KnowledgeFinalCta";
 export { KnowledgeLearningPaths } from "./KnowledgeLearningPaths";
 export { KnowledgeLearningPathDetail } from "./KnowledgeLearningPathDetail";
 export { KnowledgePlaybooks } from "./KnowledgePlaybooks";
+export { KnowledgeContentTypePlaceholder } from "./KnowledgeContentTypePlaceholder";
 export * from "./analytics";
