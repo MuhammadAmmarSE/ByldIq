@@ -82,6 +82,15 @@
   --shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.12);
   --shadow-xl: 0 24px 64px -16px rgb(0 0 0 / 0.16);
 
+  /* Brand gradients (CLAUDE.md Part 5: "Gradients are subtle"). Both stay
+     within the same hue family as --color-accent rather than introducing a
+     second brand color — a gradient should read as "this surface is
+     accented," not as a new palette. Consumed via Tailwind's arbitrary
+     `bg-[image:var(--gradient-*)]` utility (no `bg-gradient-accent`
+     shorthand class — see globals.css for why a mapped utility isn't used). */
+  --gradient-accent: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+  --gradient-surface: linear-gradient(180deg, var(--color-surface), var(--color-surface-raised));
+
   /* Motion: only opacity/transform/filter should be animated (see docs/architecture.md) */
   --duration-fast: 120ms;
   --duration-base: 200ms;
@@ -134,6 +143,9 @@
   --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.32);
   --shadow-lg: 0 12px 32px -8px rgb(0 0 0 / 0.4);
   --shadow-xl: 0 24px 64px -16px rgb(0 0 0 / 0.48);
+
+  --gradient-accent: linear-gradient(135deg, var(--color-primary-400), var(--color-primary-500));
+  --gradient-surface: linear-gradient(180deg, var(--color-surface), var(--color-surface-raised));
 }
 
 @media (prefers-reduced-motion: reduce) {
