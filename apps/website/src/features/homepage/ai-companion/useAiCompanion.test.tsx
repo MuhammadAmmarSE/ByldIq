@@ -54,6 +54,38 @@ describe("useAiCompanion", () => {
     expect(result.current.messages[0]?.content).toContain("Startup Product Engineering");
   });
 
+  it("greets with a section-based greeting when currentSection is set but no pageContext is", () => {
+    const { result } = renderHook(() => useAiCompanion(), { wrapper });
+
+    act(() => result.current.setCurrentSection("technology-ecosystem"));
+    act(() => result.current.open());
+
+    expect(result.current.messages[0]?.content).toContain("our technology choices");
+  });
+
+  it("prioritizes pageContext over currentSection when both are set", () => {
+    const { result } = renderHook(() => useAiCompanion(), { wrapper });
+
+    act(() => result.current.setCurrentSection("technology-ecosystem"));
+    act(() =>
+      result.current.setPageContext({ label: "Startup Product Engineering", slug: "startup" }),
+    );
+    act(() => result.current.open());
+
+    expect(result.current.messages[0]?.content).toContain("Startup Product Engineering");
+  });
+
+  it("references the most recently viewed page in a contextual fallback reply", () => {
+    const { result } = renderHook(() => useAiCompanion(), { wrapper });
+    act(() => result.current.open());
+    act(() => result.current.setPageContext({ label: "Next.js", slug: "next-js" }));
+
+    act(() => result.current.sendMessage("this doesn't match any canned intent"));
+    act(() => vi.advanceTimersByTime(1000));
+
+    expect(result.current.messages.at(-1)?.content).toContain("Next.js");
+  });
+
   it("does not re-greet on a second open once a conversation exists", () => {
     const { result } = renderHook(() => useAiCompanion(), { wrapper });
 

@@ -9,7 +9,13 @@ import { useAppStore } from "@/providers/StoreProvider";
 import "./analytics";
 
 import { matchIntent } from "./engine/intents";
-import { getPageContextGreeting, GREETINGS, RESPONSES } from "./engine/responses";
+import {
+  getContextualFallback,
+  getPageContextGreeting,
+  GREETINGS,
+  RESPONSES,
+  SECTION_LABELS,
+} from "./engine/responses";
 
 const REPLY_DELAY_MS = 700;
 
@@ -28,6 +34,10 @@ export function useAiCompanion() {
   const clearConversation = useAiCompanionStore((state) => state.clearConversation);
   const pageContext = useAiCompanionStore((state) => state.pageContext);
   const setPageContext = useAiCompanionStore((state) => state.setPageContext);
+  const currentSection = useAiCompanionStore((state) => state.currentSection);
+  const setCurrentSection = useAiCompanionStore((state) => state.setCurrentSection);
+  const recentlyViewed = useAiCompanionStore((state) => state.recentlyViewed);
+  const ctaHistory = useAiCompanionStore((state) => state.ctaHistory);
   const journey = useAppStore((state) => state.journey);
   const analytics = useAnalytics();
   const [isThinking, setIsThinking] = useState(false);
@@ -35,19 +45,25 @@ export function useAiCompanion() {
   const ensureGreeting = useCallback(() => {
     if (messages.length > 0) return;
     // A specific page (e.g. a solution) takes priority over the broader
-    // journey greeting — it's the more relevant context available.
+    // journey greeting since it's the most relevant context available;
+    // the homepage section currently in view is the next-best signal
+    // when no page-level context is set (e.g. opening the companion
+    // straight from the homepage without visiting a detail page).
+    const sectionLabel = currentSection ? SECTION_LABELS[currentSection] : undefined;
     const greeting = pageContext
       ? getPageContextGreeting(pageContext.label)
-      : journey
-        ? GREETINGS[journey]
-        : GREETINGS.default;
+      : sectionLabel
+        ? getPageContextGreeting(sectionLabel)
+        : journey
+          ? GREETINGS[journey]
+          : GREETINGS.default;
     addMessage({
       id: crypto.randomUUID(),
       role: "assistant",
       content: greeting.content,
       quickReplies: greeting.quickReplies,
     });
-  }, [messages.length, pageContext, journey, addMessage]);
+  }, [messages.length, pageContext, currentSection, journey, addMessage]);
 
   const handleOpen = useCallback(() => {
     open();
@@ -80,7 +96,8 @@ export function useAiCompanion() {
       setIsThinking(true);
 
       const intent = matchIntent(trimmed);
-      const response = RESPONSES[intent];
+      const response =
+        intent === "fallback" ? getContextualFallback(recentlyViewed) : RESPONSES[intent];
 
       setTimeout(() => {
         addMessage({
@@ -92,7 +109,7 @@ export function useAiCompanion() {
         setIsThinking(false);
       }, REPLY_DELAY_MS);
     },
-    [addMessage, analytics, journey],
+    [addMessage, analytics, journey, recentlyViewed],
   );
 
   const handleClearConversation = useCallback(() => {
@@ -110,5 +127,9 @@ export function useAiCompanion() {
     sendMessage,
     clearConversation: handleClearConversation,
     setPageContext,
+    currentSection,
+    setCurrentSection,
+    recentlyViewed,
+    ctaHistory,
   };
 }

@@ -39,6 +39,26 @@ visitor's broader journey preference — which is deliberately a distinct,
 explicit choice the visitor makes elsewhere (Journey Selection Engine),
 not something a page visit should silently change.
 
+## Context awareness (Milestone 9)
+
+Beyond `pageContext` and `journey`, the store also tracks:
+
+- `currentSection` — the homepage section currently in view, kept in
+  sync by `HomepageSection`'s `useCurrentSectionSync`. Used for the
+  greeting (via `SECTION_LABELS`) only when no more specific
+  `pageContext` is set — e.g. opening the companion from the homepage's
+  Technology Ecosystem section without having visited a detail page.
+- `recentlyViewed` — a capped, deduplicated history built for free from
+  every existing `setPageContext()` call site (Solution/Technology/Case
+  Study/Knowledge detail pages), so it survives navigating away from
+  the page that set it. Used by `getContextualFallback` to make an
+  unmatched message reference what the visitor actually looked at,
+  instead of the generic static fallback.
+- `ctaHistory` — a capped history of a few of the site's most meaningful
+  CTAs (the hero's primary/secondary CTA, the Conversion Experience's
+  decision cards), recorded via `recordCtaInteraction`. Exposed through
+  `useAiCompanion()` for future use; not yet referenced in a response.
+
 ## Scope note
 
 Desktop and mobile share the same `Drawer`-based panel rather than a

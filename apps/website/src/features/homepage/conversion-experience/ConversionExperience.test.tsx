@@ -104,6 +104,33 @@ describe("ConversionExperience", () => {
     expect(screen.getByTestId("ai-open-state")).toHaveTextContent("open");
   });
 
+  it("records the chosen decision card in the AI Companion's ctaHistory", async () => {
+    const user = userEvent.setup();
+
+    function Harness() {
+      const ctaHistory = useAiCompanionStore((state) => state.ctaHistory);
+      return (
+        <>
+          <ConversionExperience />
+          <p data-testid="cta-history">{ctaHistory.join(", ")}</p>
+        </>
+      );
+    }
+
+    render(
+      <StoreProvider>
+        <AiCompanionStoreProvider>
+          <ToastProvider>
+            <Harness />
+          </ToastProvider>
+        </AiCompanionStoreProvider>
+      </StoreProvider>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Start BuildPath" }));
+    expect(screen.getByTestId("cta-history")).toHaveTextContent("Use BuildPath");
+  });
+
   it("shows a toast explaining resources aren't published yet", async () => {
     const user = userEvent.setup();
     renderConversionExperience();

@@ -8,6 +8,7 @@ import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
 import { useJourneyContent } from "@/features/homepage/shared";
 import { fade, staggerContainer, staggerItem } from "@/lib/motion-variants";
+import { useAiCompanionStore } from "@/providers/AiCompanionStoreProvider";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { useAppStore } from "@/providers/StoreProvider";
 import { cn } from "@/utils/cn";
@@ -30,9 +31,11 @@ export function AdaptiveHero({ className }: AdaptiveHeroProps) {
   const content = useJourneyContent(HERO_CONTENT);
   const journey = useAppStore((state) => state.journey);
   const analytics = useAnalytics();
+  const recordCtaInteraction = useAiCompanionStore((state) => state.recordCtaInteraction);
 
   function handleCtaClick(cta: "primary" | "secondary", label: string) {
     analytics.track("hero_cta_clicked", { journey, cta, label });
+    recordCtaInteraction(label);
   }
 
   return (

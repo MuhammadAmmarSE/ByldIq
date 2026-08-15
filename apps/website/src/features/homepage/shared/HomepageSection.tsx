@@ -6,6 +6,7 @@ import { Container } from "@/components/Container";
 import type { ContainerSize } from "@/components/Container";
 import { cn } from "@/utils/cn";
 
+import { useCurrentSectionSync } from "./useCurrentSectionSync";
 import { useSectionAnalytics } from "./useSectionAnalytics";
 
 export interface HomepageSectionProps extends ComponentPropsWithoutRef<"section"> {
@@ -18,9 +19,9 @@ export interface HomepageSectionProps extends ComponentPropsWithoutRef<"section"
 /**
  * Shared landmark wrapper for every homepage module: a semantic `<section>`
  * with a stable `id` (deep-linkable, used as the scroll-reveal margin
- * anchor), consistent vertical rhythm, and automatic `section_viewed`
- * analytics — so individual modules never wire visibility tracking
- * themselves.
+ * anchor), consistent vertical rhythm, automatic `section_viewed`
+ * analytics, and syncing the AI Companion's `currentSection` — so
+ * individual modules never wire visibility tracking themselves.
  */
 export function HomepageSection({
   id,
@@ -31,6 +32,7 @@ export function HomepageSection({
   ...props
 }: HomepageSectionProps) {
   const ref = useSectionAnalytics<HTMLElement>(analyticsId ?? id);
+  useCurrentSectionSync(analyticsId ?? id, ref);
 
   return (
     <section id={id} ref={ref} className={cn("py-16 sm:py-24", className)} {...props}>

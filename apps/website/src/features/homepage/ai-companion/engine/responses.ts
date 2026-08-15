@@ -128,3 +128,38 @@ export function getPageContextGreeting(label: string): AiResponse {
     quickReplies: ["What's a typical roadmap?", "Compare technologies", "Start BuildPath"],
   };
 }
+
+/**
+ * Human-readable labels for the homepage sections specific enough to
+ * reference in a greeting via `getPageContextGreeting` — deliberately not
+ * every section (`AiCompanionState.currentSection`'s full id list),
+ * since something like "Looks like you're exploring journey selection"
+ * wouldn't read naturally the way "Looks like you're exploring what we
+ * build" does. Used only when no more specific `pageContext` is set.
+ */
+export const SECTION_LABELS: Record<string, string> = {
+  "what-we-build": "what we build",
+  "technology-ecosystem": "our technology choices",
+  "product-thinking": "how we approach product engineering",
+  "proof-engine": "our past work",
+  "social-proof": "client outcomes",
+  "engineering-excellence": "our engineering process",
+  "knowledge-center": "the Knowledge Center",
+};
+
+/**
+ * A fallback reply that references the most recently viewed page instead
+ * of the generic `RESPONSES.fallback`, when one is available — CLAUDE.md
+ * Part 16: "recently-viewed content" as part of what Byld should
+ * understand. Falls back to the static response when there's nothing to
+ * reference yet (e.g. the very first message of a session).
+ */
+export function getContextualFallback(recentlyViewed: { label: string }[]): AiResponse {
+  const [mostRecent] = recentlyViewed;
+  if (!mostRecent) return RESPONSES.fallback;
+
+  return {
+    content: `I might not have a canned answer for that yet, but since you were just looking at ${mostRecent.label}, I can help you compare technologies, start a roadmap in BuildPath, or dig deeper into that.`,
+    quickReplies: ["Compare technologies", "Start BuildPath"],
+  };
+}

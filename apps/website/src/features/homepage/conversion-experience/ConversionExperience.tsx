@@ -7,6 +7,7 @@ import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
 import { useToast } from "@/components/Toast";
 import { useAiCompanion } from "@/features/homepage/ai-companion";
+import { useAiCompanionStore } from "@/providers/AiCompanionStoreProvider";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { useAppStore } from "@/providers/StoreProvider";
 import { cn } from "@/utils/cn";
@@ -31,11 +32,13 @@ export function ConversionExperience({ className }: ConversionExperienceProps) {
   const analytics = useAnalytics();
   const { toast } = useToast();
   const { open: openAiCompanion } = useAiCompanion();
+  const recordCtaInteraction = useAiCompanionStore((state) => state.recordCtaInteraction);
   const router = useRouter();
 
   function handleSelect(card: DecisionCardDefinition) {
     const wasRecommended = card.id === getRecommendedCardId(journey);
     analytics.track("conversion_decision_selected", { decision: card.id, wasRecommended });
+    recordCtaInteraction(card.title);
 
     switch (card.id) {
       case "book-discovery":

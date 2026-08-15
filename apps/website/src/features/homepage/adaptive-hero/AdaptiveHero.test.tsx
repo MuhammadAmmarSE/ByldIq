@@ -9,6 +9,10 @@ vi.mock("@/providers/AnalyticsProvider", () => ({
   useAnalytics: () => ({ track: mockTrack }),
 }));
 
+import {
+  AiCompanionStoreProvider,
+  useAiCompanionStore,
+} from "@/providers/AiCompanionStoreProvider";
 import { StoreProvider, useAppStore } from "@/providers/StoreProvider";
 
 import { AdaptiveHero } from "./AdaptiveHero";
@@ -17,7 +21,9 @@ import { HERO_CONTENT } from "./data/hero-content";
 function renderHero() {
   return render(
     <StoreProvider>
-      <AdaptiveHero />
+      <AiCompanionStoreProvider>
+        <AdaptiveHero />
+      </AiCompanionStoreProvider>
     </StoreProvider>,
   );
 }
@@ -51,7 +57,9 @@ describe("AdaptiveHero", () => {
 
     render(
       <StoreProvider>
-        <Harness />
+        <AiCompanionStoreProvider>
+          <Harness />
+        </AiCompanionStoreProvider>
       </StoreProvider>,
     );
 
@@ -70,5 +78,33 @@ describe("AdaptiveHero", () => {
       cta: "primary",
       label: HERO_CONTENT.default.primaryCta.label,
     });
+  });
+
+  it("records the CTA in the AI Companion's ctaHistory when clicked", async () => {
+    const user = userEvent.setup();
+
+    function Harness() {
+      const ctaHistory = useAiCompanionStore((state) => state.ctaHistory);
+      return (
+        <>
+          <AdaptiveHero />
+          <p data-testid="cta-history">{ctaHistory.join(", ")}</p>
+        </>
+      );
+    }
+
+    render(
+      <StoreProvider>
+        <AiCompanionStoreProvider>
+          <Harness />
+        </AiCompanionStoreProvider>
+      </StoreProvider>,
+    );
+
+    await user.click(screen.getByRole("link", { name: HERO_CONTENT.default.primaryCta.label }));
+
+    expect(screen.getByTestId("cta-history")).toHaveTextContent(
+      HERO_CONTENT.default.primaryCta.label,
+    );
   });
 });
