@@ -8,6 +8,7 @@ vi.mock("@/providers/AnalyticsProvider", () => ({
   useAnalytics: () => ({ track: mockTrack }),
 }));
 
+import { ToastProvider } from "@/components/Toast";
 import {
   AiCompanionStoreProvider,
   useAiCompanionStore,
@@ -29,7 +30,9 @@ function renderCta() {
   return render(
     <StoreProvider>
       <AiCompanionStoreProvider>
-        <SolutionFinalCta solution={solution} />
+        <ToastProvider>
+          <SolutionFinalCta solution={solution} />
+        </ToastProvider>
       </AiCompanionStoreProvider>
     </StoreProvider>,
   );
@@ -85,7 +88,9 @@ describe("SolutionFinalCta", () => {
     render(
       <StoreProvider>
         <AiCompanionStoreProvider>
-          <Harness />
+          <ToastProvider>
+            <Harness />
+          </ToastProvider>
         </AiCompanionStoreProvider>
       </StoreProvider>,
     );
@@ -95,6 +100,21 @@ describe("SolutionFinalCta", () => {
     expect(mockTrack).toHaveBeenCalledWith("solution_cta_selected", {
       slug: solution.slug,
       cta: "final-ai",
+    });
+  });
+
+  it("reveals the calendar preview after clicking Book Discovery, and tracks it", async () => {
+    const user = userEvent.setup();
+    renderCta();
+
+    expect(screen.queryByText(/discovery call — 30 minutes/i)).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Book Discovery" }));
+
+    expect(screen.getByText(/discovery call — 30 minutes/i)).toBeInTheDocument();
+    expect(mockTrack).toHaveBeenCalledWith("solution_cta_selected", {
+      slug: solution.slug,
+      cta: "final-discovery",
     });
   });
 });
