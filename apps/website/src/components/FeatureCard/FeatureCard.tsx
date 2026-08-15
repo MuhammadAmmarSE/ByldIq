@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import { Card } from "@/components/Card";
@@ -22,7 +23,15 @@ const interactiveStyles =
  * semantics are a genuinely different interaction, not this component's
  * "static or single-link" card.
  */
-export function FeatureCard({ icon, title, description, href, className }: FeatureCardProps) {
+export function FeatureCard({
+  icon,
+  title,
+  description,
+  href,
+  ctaLabel,
+  onClick,
+  className,
+}: FeatureCardProps) {
   const content = (
     <>
       <span className="bg-accent/10 text-accent flex size-12 items-center justify-center rounded-full">
@@ -36,12 +45,22 @@ export function FeatureCard({ icon, title, description, href, className }: Featu
           {description}
         </Text>
       </div>
+      {href && ctaLabel && (
+        <span className="text-accent mt-auto flex items-center gap-1 text-sm font-medium">
+          {ctaLabel}
+          <Icon icon={ArrowRight} size="sm" />
+        </span>
+      )}
     </>
   );
 
   if (href) {
     return (
-      <Link href={href} className={cn(cardBaseStyles, contentStyles, interactiveStyles, className)}>
+      <Link
+        href={href}
+        onClick={onClick}
+        className={cn(cardBaseStyles, contentStyles, interactiveStyles, className)}
+      >
         {content}
       </Link>
     );

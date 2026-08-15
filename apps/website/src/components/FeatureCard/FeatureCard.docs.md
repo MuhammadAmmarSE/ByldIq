@@ -31,8 +31,17 @@ from a set, with `aria-checked` semantics) than this component's
   title="Startup Solutions"
   description="MVPs built to validate fast."
   href="/solutions/startup"
+  ctaLabel="Explore Startup Solutions"
 />
 ```
+
+## `ctaLabel`
+
+An optional visible "Learn more"-style line at the bottom of a linked
+card (added in Milestone 9 for the homepage's "What We Build" grid,
+which needed an explicit CTA per spec) — matches the "Explore X →"
+treatment `SolutionCard`/`ProjectCard` already use. Ignored without
+`href`, since a static card has nowhere to send the click.
 
 ## Accessibility
 

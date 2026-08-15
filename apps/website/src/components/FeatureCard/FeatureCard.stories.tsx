@@ -24,6 +24,7 @@ export const Linked: Story = {
     href: "/solutions/startup",
     title: "Startup Solutions",
     description: "MVPs built to validate fast, architecture built to scale.",
+    ctaLabel: "Explore Startup Solutions",
   },
 };
 

@@ -12,7 +12,7 @@ export { SOLUTIONS_HERO_CONTENT } from "./data/hero-content";
 export type { SolutionsHeroContent } from "./data/hero-content";
 export { SolutionsHero } from "./SolutionsHero";
 export { SolutionSelector } from "./SolutionSelector";
-export { SolutionCard } from "./SolutionCard";
+export { SolutionCard, SOLUTION_ICONS } from "./SolutionCard";
 export { SolutionHero } from "./SolutionHero";
 export { SolutionOverview } from "./SolutionOverview";
 export { CapabilityExplorer } from "./CapabilityExplorer";

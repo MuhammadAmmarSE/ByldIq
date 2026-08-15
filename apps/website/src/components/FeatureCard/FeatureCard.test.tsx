@@ -1,6 +1,7 @@
 import { Rocket } from "lucide-react";
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
 
 import { FeatureCard } from "./FeatureCard";
 
@@ -30,5 +31,45 @@ describe("FeatureCard", () => {
     );
 
     expect(screen.getByRole("link")).toHaveAttribute("href", "/solutions/startup");
+  });
+
+  it("renders a visible CTA label only when both href and ctaLabel are set", () => {
+    const { rerender } = render(
+      <FeatureCard
+        icon={Rocket}
+        title="Startup Solutions"
+        description="MVPs built to validate fast."
+        href="/solutions/startup"
+        ctaLabel="Explore Startup Solutions"
+      />,
+    );
+    expect(screen.getByText("Explore Startup Solutions")).toBeInTheDocument();
+
+    rerender(
+      <FeatureCard
+        icon={Rocket}
+        title="Startup Solutions"
+        description="MVPs built to validate fast."
+        ctaLabel="Explore Startup Solutions"
+      />,
+    );
+    expect(screen.queryByText("Explore Startup Solutions")).not.toBeInTheDocument();
+  });
+
+  it("calls onClick when a linked card is clicked", async () => {
+    const user = userEvent.setup();
+    const handleClick = vi.fn();
+    render(
+      <FeatureCard
+        icon={Rocket}
+        title="Startup Solutions"
+        description="MVPs built to validate fast."
+        href="/solutions/startup"
+        onClick={handleClick}
+      />,
+    );
+
+    await user.click(screen.getByRole("link"));
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });

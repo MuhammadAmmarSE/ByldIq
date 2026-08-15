@@ -12,6 +12,7 @@ import { ProductShowcase } from "@/features/homepage/product-showcase";
 import { ProductThinkingTimeline } from "@/features/homepage/product-thinking-timeline";
 import { ProofEngine } from "@/features/homepage/proof-engine";
 import { HomepageSection, ScrollDepthTracker } from "@/features/homepage/shared";
+import { WhatWeBuild } from "@/features/homepage/what-we-build";
 
 // Reading the intro-seen cookie makes this route request-dependent, which
 // Next.js already infers from the `cookies()` call below — declared
@@ -54,6 +55,10 @@ export default async function HomePage() {
 
       <HomepageSection id="problem-statement" containerSize="wide">
         <ProblemStatement />
+      </HomepageSection>
+
+      <HomepageSection id="what-we-build" containerSize="wide">
+        <WhatWeBuild />
       </HomepageSection>
 
       <HomepageSection id="product-thinking" containerSize="wide">

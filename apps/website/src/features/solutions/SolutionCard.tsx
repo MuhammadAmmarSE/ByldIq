@@ -21,7 +21,8 @@ import { cn } from "@/utils/cn";
 
 import type { SolutionCardProps } from "./SolutionCard.types";
 
-const SOLUTION_ICONS: Record<string, LucideIcon> = {
+/** Exported so other solution-referencing UI (e.g. the homepage's "What We Build" grid) uses the same icon per slug — CLAUDE.md Part 5: "if two components perform the same action, they should behave identically." */
+export const SOLUTION_ICONS: Record<string, LucideIcon> = {
   startup: Rocket,
   enterprise: Building2,
   commerce: ShoppingBag,
