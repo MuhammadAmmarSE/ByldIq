@@ -12,10 +12,11 @@ real Solutions platform (Milestone 4) with a second, unlinked
 taxonomy — both violate CLAUDE.md's "never fabricate, always link to
 something real" discipline.
 
-Instead this grid renders the real nine `SOLUTIONS` entries
-(`@/features/solutions`), each linking to its actual `/solutions/{slug}`
-page, using the same `SOLUTION_ICONS` mapping `SolutionCard` uses so
-iconography stays consistent everywhere a solution appears.
+Instead this grid renders the real `SOLUTIONS` entries
+(`@/features/solutions` — twelve as of Milestone 10), each linking to
+its actual `/solutions/{slug}` page, using the same `SOLUTION_ICONS`
+mapping `SolutionCard` uses so iconography stays consistent everywhere a
+solution appears.
 
 ## Built on `FeatureCard`
 

@@ -3,29 +3,34 @@ import type { Journey } from "@/types/journey";
 import type { Solution } from "./solution.schema";
 
 /**
- * CLAUDE.md Part 20's nine solutions. Every page shares one template
- * (`SolutionPageTemplate`) driven entirely by this data — "all pages must
- * share the same architecture" is enforced structurally, not by
- * convention.
+ * CLAUDE.md Part 20's nine solutions, plus three Milestone 10 added
+ * (SaaS Development, Mobile Development, Dedicated Teams) to close the
+ * Services Ecosystem spec's category list against the real Solutions
+ * platform. Every page shares one template (`SolutionPageTemplate`)
+ * driven entirely by this data — "all pages must share the same
+ * architecture" is enforced structurally, not by convention.
  *
  * `journey` maps each solution onto the closest of the five homepage
  * journeys (`@/types/journey`), since that's what drives AI Companion
  * context and BuildPath prefill (CLAUDE.md Part 20's "Journey" field in
  * BuildPath integration). Five solutions map 1:1 (startup, enterprise,
  * commerce, artificial-intelligence → ai, platform-engineering →
- * platform). The other four don't have a dedicated journey, so they use
- * the closest fit: cloud-infrastructure and platform-engineering are
- * both explicitly "developer platforms and cloud infrastructure" under
- * the platform journey; automation is explicitly listed as an "ai"
- * journey example; product-design and custom-engineering are judgment
- * calls (design work skews toward early-stage/startup engagements;
- * bespoke systems work skews toward enterprise-scale clients).
+ * platform). The rest don't have a dedicated journey, so they use the
+ * closest fit: cloud-infrastructure and platform-engineering are both
+ * explicitly "developer platforms and cloud infrastructure" under the
+ * platform journey; automation is explicitly listed as an "ai" journey
+ * example; product-design, custom-engineering, saas-development, and
+ * mobile-development are judgment calls (design/SaaS/mobile product work
+ * skews toward early-stage/startup engagements; bespoke systems work
+ * skews toward enterprise-scale clients); dedicated-teams skews toward
+ * enterprise since sustained embedded capacity is typically an
+ * enterprise-scale engagement pattern.
  *
  * `relatedCaseStudySlugs`/`relatedArticleSlugs` reference the Proof
  * Engine's and Knowledge Center's real (if fictional/local) content —
  * curated per solution rather than auto-matched by journey, since there
  * are only 5 case studies and 5 articles to work with and a naive journey
- * match would leave four solutions with nothing.
+ * match would leave several solutions with nothing.
  */
 export const SOLUTIONS: Solution[] = [
   {
@@ -1935,6 +1940,620 @@ export const SOLUTIONS: Solution[] = [
         question: "How do you estimate timelines for genuinely novel systems?",
         answer:
           "Honestly, and with appropriate ranges rather than false precision — Requirements Engineering exists partly to reduce that uncertainty before we commit to a timeline.",
+      },
+    ],
+  },
+  {
+    slug: "saas-development",
+    journey: "startup",
+    navLabel: "SaaS Development",
+    title: "SaaS Product Development",
+    heroHeadline: "Build multi-tenant software people renew, not just try.",
+    heroSupportingCopy:
+      "From your first paying customer to a platform that scales across hundreds of tenants, we engineer SaaS products for retention, not just launch.",
+    primaryCtaLabel: "Plan My SaaS Architecture",
+    who: "Founders and product teams building recurring-revenue software for other businesses or consumers.",
+    typicalCompanies: [
+      "Early-revenue SaaS startups",
+      "Teams outgrowing a single-tenant MVP",
+      "Product teams adding a paid tier to an existing tool",
+    ],
+    exampleProducts: [
+      "Multi-tenant B2B platforms",
+      "Subscription products",
+      "Usage-based billing products",
+    ],
+    businessProblem:
+      "Many SaaS products that survive their first year fail their second — not because the product was wrong, but because the architecture that got them to their first ten customers doesn't hold at their first hundred: tenant isolation, billing edge cases, and onboarding friction all compound quietly until they become the whole roadmap.",
+    businessOutcomes: [
+      "Multi-tenant architecture that isolates customer data without a rewrite",
+      "Billing that handles upgrades, downgrades, and usage-based pricing correctly from day one",
+      "Onboarding that converts trial users without a sales call",
+      "A churn-reducing product surface, not just a churn-reporting dashboard",
+    ],
+    engineeringPhilosophy:
+      "We treat tenant isolation and billing correctness as architecture decisions, not features to bolt on later — they're the two things that are genuinely expensive to retrofit into a SaaS product after real customers depend on them.",
+    capabilities: [
+      {
+        id: "multi-tenant-architecture",
+        title: "Multi-Tenant Architecture",
+        why: "Retrofitting tenant isolation after your first breach or data-leak scare is far more expensive than designing it in from the start.",
+        when: "Before onboarding your first handful of paying customers.",
+        benefits: [
+          "Prevents cross-tenant data leaks by design",
+          "Scales to hundreds of tenants without re-architecting",
+        ],
+        risks: [
+          "Over-isolating too early (e.g. separate databases per tenant) can add operational cost you don't need yet",
+        ],
+        timeline: "2–4 weeks",
+        relatedTechnologies: ["PostgreSQL", "Row-level security"],
+      },
+      {
+        id: "subscription-billing",
+        title: "Subscription & Usage-Based Billing",
+        why: "Billing edge cases — proration, failed payments, plan changes — are where SaaS products quietly lose revenue.",
+        when: "Before launching a paid tier.",
+        benefits: [
+          "Handles upgrades, downgrades, and cancellations correctly",
+          "Supports usage-based pricing without custom invoicing code",
+        ],
+        risks: [
+          "Building custom billing logic instead of using a managed platform is rarely worth the maintenance burden",
+        ],
+        timeline: "2–3 weeks",
+        relatedTechnologies: ["Stripe Billing"],
+      },
+      {
+        id: "self-serve-onboarding",
+        title: "Self-Serve Onboarding",
+        why: "A SaaS product that requires a sales call to activate loses most of its trial signups before they ever see value.",
+        when: "Once the core product loop is stable enough to demonstrate without a guided demo.",
+        benefits: ["Higher trial-to-paid conversion", "Lower cost per acquired customer"],
+        risks: [
+          "Removing sales-assisted onboarding too early can hurt conversion for genuinely complex products",
+        ],
+        timeline: "3–5 weeks",
+        relatedTechnologies: ["Product analytics", "In-app guidance tooling"],
+      },
+      {
+        id: "retention-instrumentation",
+        title: "Retention Instrumentation",
+        why: "You can't reduce churn you can't see coming — most SaaS teams only learn a customer is unhappy when they cancel.",
+        when: "Once you have paying customers whose usage patterns you can learn from.",
+        benefits: [
+          "Surfaces at-risk accounts before they churn",
+          "Turns retention from a support problem into a product one",
+        ],
+        risks: ["Requires genuine engineering investment in analytics, not just a dashboard"],
+        timeline: "3–4 weeks",
+        relatedTechnologies: ["Analytics tooling", "Feature flags"],
+      },
+    ],
+    architecture: [
+      {
+        id: "customer",
+        label: "Customer / Trial User",
+        description: "Arrives via web, signs up self-serve or via an admin invite.",
+      },
+      {
+        id: "web-app",
+        label: "Web App (Next.js)",
+        description:
+          "The product itself — server-rendered for fast onboarding, client-interactive for the core workflows.",
+      },
+      {
+        id: "api",
+        label: "Tenant-Aware API Layer",
+        description:
+          "Every query scoped to the authenticated tenant from the first request, not filtered after the fact.",
+      },
+      {
+        id: "database",
+        label: "Database (Postgres, row-level security)",
+        description:
+          "One shared database with enforced tenant isolation, not a database-per-tenant, until scale genuinely requires it.",
+      },
+      {
+        id: "billing",
+        label: "Billing (Stripe Billing)",
+        description: "Owns plan state, usage metering, and invoicing — not hand-rolled.",
+      },
+      {
+        id: "auth",
+        label: "Authentication & Tenant Management",
+        description: "Handles both end users and the organizations/tenants they belong to.",
+      },
+      {
+        id: "analytics",
+        label: "Product & Retention Analytics",
+        description: "Every core action instrumented per-tenant, not just in aggregate.",
+      },
+    ],
+    technologies: [
+      {
+        id: "nextjs",
+        name: "Next.js",
+        why: "Server rendering keeps first load fast during trial signup, and one codebase covers both the public marketing pages and the authenticated app.",
+        when: "Default choice for any SaaS web app.",
+        alternatives: ["Remix", "A separate SPA + API service"],
+        tradeoffs: "More opinionated routing than a bare SPA — a good trade for a small team.",
+        cost: "No licensing cost; hosting scales with usage.",
+        scalability:
+          "Comfortably handles growth through a SaaS product's first several scale stages.",
+        teamRequirements: "One full-stack engineer can be productive immediately.",
+      },
+      {
+        id: "postgres-rls",
+        name: "PostgreSQL (Row-Level Security)",
+        why: "Enforces tenant isolation at the database layer, not just in application code — a second line of defense against a query bug leaking another tenant's data.",
+        when: "Any multi-tenant SaaS product sharing a database across customers.",
+        alternatives: [
+          "Database-per-tenant (stronger isolation, higher operational cost)",
+          "Schema-per-tenant",
+        ],
+        tradeoffs:
+          "Requires discipline in every query, but avoids the operational overhead of managing hundreds of databases.",
+        cost: "No additional licensing cost over standard Postgres.",
+        scalability:
+          "Scales to hundreds of tenants before database-per-tenant becomes worth the cost.",
+        teamRequirements: "Requires the team to understand and consistently apply RLS policies.",
+      },
+      {
+        id: "stripe-billing",
+        name: "Stripe Billing",
+        why: "Handles subscription lifecycle, proration, and usage-based pricing without building fragile custom invoicing logic.",
+        when: "Any product with recurring or usage-based revenue.",
+        alternatives: ["A custom billing service", "Chargebee"],
+        tradeoffs: "Less customizable than a fully custom system, which is rarely worth building.",
+        cost: "Percentage-based transaction fees.",
+        scalability: "Scales from first paying customer to significant revenue without changes.",
+        teamRequirements: "Minimal — well-documented SDKs and webhooks.",
+      },
+      {
+        id: "feature-flags-saas",
+        name: "Feature Flags",
+        why: "Lets you ship plan-gated features and gradual rollouts without deploying separate code paths per tier.",
+        when: "Once you have more than one pricing tier or want to de-risk releases.",
+        alternatives: ["Environment-based config (less flexible)"],
+        tradeoffs: "Adds a dependency and some complexity to feature releases.",
+        cost: "Free tier covers early usage; usage-based after.",
+        scalability: "Scales well past typical SaaS-startup traffic.",
+        teamRequirements: "Minimal engineering overhead once integrated.",
+      },
+    ],
+    successMetrics: [
+      { label: "Time to a billable multi-tenant MVP", value: "8–12 weeks" },
+      { label: "Cross-tenant data isolation", value: "Enforced at the database layer" },
+      { label: "Trial-to-paid conversion visibility", value: "Instrumented from day one" },
+      {
+        label: "Billing edge cases handled at launch",
+        value: "Upgrades, downgrades, failed payments",
+      },
+    ],
+    deliveryTimeline: "8–12 weeks to a billable multi-tenant MVP, ongoing after",
+    teamComposition: [
+      "1 Product Strategist",
+      "2 Full-Stack Engineers",
+      "1 Product Designer (part-time)",
+    ],
+    investmentGuidance:
+      "Similar in scope to a startup MVP engagement, with additional upfront investment in tenant isolation and billing correctness that pays for itself by avoiding a costly retrofit later. BuildPath will scope this against your specific pricing model.",
+    relatedCaseStudySlugs: ["fieldnote-mvp"],
+    relatedArticleSlugs: ["validating-an-mvp"],
+    faqs: [
+      {
+        question: "How is this different from your Startup Product Engineering solution?",
+        answer:
+          "Startup Product Engineering is about validating a first product quickly. SaaS Development assumes you're building — or already have — a recurring-revenue product and need the multi-tenant architecture and billing correctness that come with real paying customers.",
+      },
+      {
+        question: "Do we need a database-per-tenant for enterprise customers?",
+        answer:
+          "Usually not at first. Row-level security handles isolation for the vast majority of SaaS products; database-per-tenant is worth the operational overhead only once a specific enterprise customer's compliance requirements demand it.",
+      },
+      {
+        question: "Can you add SaaS billing to an existing product?",
+        answer:
+          "Yes — this is one of the more common ways teams engage this solution: retrofitting subscription billing and tenant isolation into a product that started as a single-customer tool.",
+      },
+    ],
+  },
+  {
+    slug: "mobile-development",
+    journey: "startup",
+    navLabel: "Mobile Development",
+    title: "Mobile Product Development",
+    heroHeadline: "Native-quality mobile apps without a native-sized team.",
+    heroSupportingCopy:
+      "We build iOS and Android products that share code and logic with your web product where it makes sense, and diverge where the platform genuinely demands it.",
+    primaryCtaLabel: "Plan My Mobile Product",
+    who: "Product teams launching a first mobile app, or extending an existing web product to iOS and Android.",
+    typicalCompanies: [
+      "Startups launching mobile-first or mobile-alongside-web",
+      "Product teams extending a web app to native",
+      "Teams replacing an underperforming existing app",
+    ],
+    exampleProducts: [
+      "Consumer mobile apps",
+      "Field and frontline worker apps",
+      "Companion apps to an existing web product",
+    ],
+    businessProblem:
+      "Most mobile products don't fail because the app crashes. They fail because the team builds three codebases — iOS, Android, and the backend that serves them — each with its own bugs, when the actual product only needed one clear mobile experience shipped well.",
+    businessOutcomes: [
+      "One codebase covering iOS and Android, unless a specific feature genuinely needs to be platform-native",
+      "Offline-tolerant behavior for the workflows that need it",
+      "App store review and release management that doesn't block your roadmap",
+      "A mobile experience that reuses your existing backend rather than duplicating it",
+    ],
+    engineeringPhilosophy:
+      "We default to cross-platform engineering and drop to native only where a specific capability — camera processing, background location, deep OS integration — genuinely requires it, rather than assuming every mobile product needs two fully native codebases.",
+    capabilities: [
+      {
+        id: "mobile-product-scoping",
+        title: "Mobile Product Scoping",
+        why: "Deciding what belongs on mobile versus web (or nothing) before writing code avoids building a full native screen around a feature that a push notification would have solved.",
+        when: "Before any mobile engineering starts.",
+        benefits: [
+          "Avoids building unnecessary native screens",
+          "Clarifies what needs offline support",
+        ],
+        risks: ["Can feel like it delays 'real' progress in the first couple of weeks"],
+        timeline: "1–2 weeks",
+        relatedTechnologies: ["Figma"],
+      },
+      {
+        id: "cross-platform-engineering",
+        title: "Cross-Platform App Engineering",
+        why: "One React Native codebase covers iOS and Android for the vast majority of product surfaces, at a fraction of the cost of two native teams.",
+        when: "For most consumer and business mobile products without heavy platform-specific requirements.",
+        benefits: ["Single codebase to maintain", "Faster iteration across both platforms"],
+        risks: ["A handful of platform-specific features may still need native modules"],
+        timeline: "8–14 weeks",
+        relatedTechnologies: ["React Native", "Expo"],
+      },
+      {
+        id: "offline-sync",
+        title: "Offline & Sync Engineering",
+        why: "Field workers, travelers, and anyone with unreliable connectivity need the app to keep working — and to reconcile correctly once it's back online.",
+        when: "When the core workflow can't assume constant connectivity.",
+        benefits: ["App remains usable without signal", "Data reconciles correctly on reconnect"],
+        risks: [
+          "Sync conflict resolution adds real engineering complexity — scoped only where genuinely needed",
+        ],
+        timeline: "3–6 weeks",
+        relatedTechnologies: ["Local-first storage", "Background sync"],
+      },
+      {
+        id: "release-management",
+        title: "App Store Release Management",
+        why: "App store review delays and rejected submissions are avoidable with the right release process, not a fact of life.",
+        when: "From the first submission onward.",
+        benefits: ["Predictable release cadence", "Fewer rejected submissions"],
+        risks: ["Some review delays are outside anyone's control"],
+        timeline: "Ongoing",
+        relatedTechnologies: ["CI/CD for mobile", "App Store Connect", "Google Play Console"],
+      },
+    ],
+    architecture: [
+      {
+        id: "device",
+        label: "Mobile Device (iOS / Android)",
+        description: "Where the app actually runs — the starting point for every design decision.",
+      },
+      {
+        id: "app",
+        label: "React Native App",
+        description:
+          "One codebase compiled to both platforms; native modules only where a capability genuinely requires them.",
+      },
+      {
+        id: "local-store",
+        label: "Local-First Storage",
+        description:
+          "Keeps core workflows usable offline and syncs changes once connectivity returns.",
+      },
+      {
+        id: "api",
+        label: "Shared API Layer",
+        description:
+          "The same backend that serves your web product, not a duplicate mobile-only API.",
+      },
+      {
+        id: "push",
+        label: "Push Notifications",
+        description: "Re-engages users without requiring the app to be open.",
+      },
+      {
+        id: "auth",
+        label: "Authentication",
+        description: "Shared session and auth logic with the web product where one exists.",
+      },
+      {
+        id: "analytics",
+        label: "Mobile Analytics",
+        description: "Crash reporting and usage instrumented from the first release.",
+      },
+    ],
+    technologies: [
+      {
+        id: "react-native",
+        name: "React Native",
+        why: "Covers iOS and Android from one codebase, and shares logic — not just intent — with an existing React web product.",
+        when: "The default choice unless a specific feature needs a fully native implementation.",
+        alternatives: ["Fully native (Swift/Kotlin) for platform-heavy apps", "Flutter"],
+        tradeoffs:
+          "Some platform-specific capabilities still require native modules — a small, known list, not a surprise later.",
+        cost: "No licensing cost; standard mobile infrastructure costs.",
+        scalability: "Scales to millions of users without architectural changes.",
+        teamRequirements:
+          "React experience transfers directly; no separate iOS/Android specialists required for most work.",
+      },
+      {
+        id: "expo",
+        name: "Expo",
+        why: "Removes weeks of native build configuration and provides over-the-air updates for non-native-code changes.",
+        when: "Pairs naturally with a React Native codebase, especially for teams without dedicated native tooling experience.",
+        alternatives: ["Bare React Native (more control, more setup)"],
+        tradeoffs:
+          "A small number of native modules require ejecting from managed Expo — known and planned for, not a surprise.",
+        cost: "Free tier for development; usage-based for build/update services.",
+        scalability: "Scales well past typical startup mobile traffic.",
+        teamRequirements: "No dedicated native build engineer required to ship.",
+      },
+      {
+        id: "local-first-storage",
+        name: "Local-First Storage (SQLite / WatermelonDB)",
+        why: "Lets the app read and write instantly regardless of connectivity, syncing to the server in the background.",
+        when: "Any workflow that needs to work offline or on unreliable connections.",
+        alternatives: ["Cache-only storage (simpler, but not truly offline-capable)"],
+        tradeoffs:
+          "Sync conflict handling adds real complexity, scoped only to the workflows that need it.",
+        cost: "No licensing cost.",
+        scalability: "Handles typical mobile-app data volumes without issue.",
+        teamRequirements: "Requires deliberate sync-conflict design, not just storage setup.",
+      },
+      {
+        id: "mobile-cicd",
+        name: "Mobile CI/CD (EAS / Fastlane)",
+        why: "Automates build, signing, and store submission so releases aren't a manual, error-prone ritual.",
+        when: "From the first internal test build onward.",
+        alternatives: ["Manual builds and submissions (slower, more error-prone)"],
+        tradeoffs: "Initial setup investment, repaid on the very first automated release.",
+        cost: "Usage-based build minutes.",
+        scalability: "Scales to frequent release cadences without added manual effort.",
+        teamRequirements: "One-time setup; minimal ongoing maintenance.",
+      },
+    ],
+    successMetrics: [
+      { label: "Codebases maintained for iOS + Android", value: "One, by default" },
+      { label: "Core workflows usable offline", value: "Where the workflow requires it" },
+      { label: "App store submission rejection rate", value: "Reduced via release process" },
+      { label: "Crash-free session rate", value: "Instrumented and tracked from first release" },
+    ],
+    deliveryTimeline: "10–16 weeks for a first cross-platform release, ongoing after",
+    teamComposition: ["1 Mobile Engineer", "1 Backend Engineer (part-time)", "1 Product Designer"],
+    investmentGuidance:
+      "Meaningfully less than building separate native iOS and Android teams, since one React Native codebase covers both platforms for most of the product. BuildPath will scope this against how much of your product genuinely needs native capabilities.",
+    relatedCaseStudySlugs: ["fieldnote-mvp"],
+    relatedArticleSlugs: ["validating-an-mvp"],
+    faqs: [
+      {
+        question: "Do we need separate native iOS and Android apps?",
+        answer:
+          "Usually not. React Native covers the large majority of product surfaces from one codebase — we only recommend native when a specific capability (heavy camera processing, background location, deep OS integration) genuinely requires it.",
+      },
+      {
+        question: "We already have a web product. Does the mobile app duplicate the backend?",
+        answer:
+          "No — it should share your existing API wherever possible. Building a parallel mobile-only backend is exactly the kind of duplicated complexity we try to avoid.",
+      },
+      {
+        question: "How do you handle app store review delays?",
+        answer:
+          "With a release process that submits early and often to a test track, so review delays surface against a build that isn't blocking your actual launch date.",
+      },
+    ],
+  },
+  {
+    slug: "dedicated-teams",
+    journey: "enterprise",
+    navLabel: "Dedicated Teams",
+    title: "Dedicated Engineering Teams",
+    heroHeadline: "An embedded team that thinks like your team, not a vendor.",
+    heroSupportingCopy:
+      "For ongoing product work that needs sustained capacity, not a fixed-scope project — a dedicated team embeds with your organization for as long as you need it.",
+    primaryCtaLabel: "Plan My Dedicated Team",
+    who: "Organizations with ongoing product or platform work who need sustained engineering capacity without the overhead of hiring a full internal team.",
+    typicalCompanies: [
+      "Enterprises scaling a product roadmap faster than internal hiring allows",
+      "Startups extending runway by augmenting a small core team",
+      "Organizations needing specialized skills (AI, platform, mobile) for a sustained period",
+    ],
+    exampleProducts: [
+      "Ongoing product roadmaps",
+      "Platform teams",
+      "Specialized capability pods (AI, mobile, DevOps)",
+    ],
+    businessProblem:
+      "Fixed-scope projects work well for well-defined deliverables, but most real product roadmaps aren't fixed — priorities shift, and hiring a full internal team for work that might not be permanent is its own risk. Organizations end up choosing between slow internal hiring and disconnected, high-turnover contractor pools.",
+    businessOutcomes: [
+      "Sustained engineering capacity that ramps up or down with your roadmap",
+      "A team that retains context across months, not a rotating cast of contractors",
+      "Specialized skills (AI, platform, mobile) available without a permanent hire",
+      "Direct integration into your existing tools, standups, and planning process",
+    ],
+    engineeringPhilosophy:
+      "A dedicated team should feel like an extension of your own engineering organization — same standups, same code review standards, same accountability — not an external vendor relationship managed through a project manager.",
+    capabilities: [
+      {
+        id: "team-composition-design",
+        title: "Team Composition Design",
+        why: "The wrong team shape — too senior, too junior, missing a specialization — costs more in the first month than getting it right upfront.",
+        when: "Before the engagement starts.",
+        benefits: [
+          "Team matches your actual roadmap needs",
+          "Avoids paying for seniority or specialization you don't need yet",
+        ],
+        risks: ["Requires an honest roadmap conversation upfront"],
+        timeline: "1–2 weeks",
+        relatedTechnologies: ["Onboarding & access tooling"],
+      },
+      {
+        id: "embedded-integration",
+        title: "Embedded Integration",
+        why: "A team that works in silence for two weeks and then presents results isn't actually embedded — real integration means daily visibility into your priorities.",
+        when: "From week one of the engagement.",
+        benefits: [
+          "Full visibility into progress, no surprises at the end of a sprint",
+          "Faster course-correction when priorities shift",
+        ],
+        risks: [
+          "Requires your team to invest real time in onboarding, not just handing off a ticket queue",
+        ],
+        timeline: "1 week onboarding, then ongoing",
+        relatedTechnologies: ["Shared project tooling"],
+      },
+      {
+        id: "flexible-scaling",
+        title: "Flexible Team Scaling",
+        why: "Roadmaps change — a team that can scale from two engineers to six (or back down) without a re-negotiation avoids both under- and over-staffing.",
+        when: "As your roadmap's engineering demand changes.",
+        benefits: [
+          "Capacity matches actual need, not a fixed contract size",
+          "No re-hiring cycle to scale up",
+        ],
+        risks: ["Scaling down affects team continuity if not planned for"],
+        timeline: "2–4 weeks to scale up or down",
+        relatedTechnologies: ["Capacity planning tooling"],
+      },
+      {
+        id: "knowledge-continuity",
+        title: "Knowledge Continuity",
+        why: "The value of a dedicated team compounds over time only if context doesn't leave the organization when an individual engineer does.",
+        when: "Throughout the engagement, not just at handover.",
+        benefits: [
+          "Documentation and decisions survive individual team member changes",
+          "Reduces bus-factor risk",
+        ],
+        risks: ["Requires discipline to document alongside shipping, not instead of it"],
+        timeline: "Ongoing",
+        relatedTechnologies: ["Documentation tooling"],
+      },
+    ],
+    architecture: [
+      {
+        id: "roadmap-design",
+        label: "Roadmap & Team Design",
+        description:
+          "We learn your roadmap, tooling, and team culture before writing a single line of code.",
+      },
+      {
+        id: "onboarding-access",
+        label: "Onboarding & Access",
+        description:
+          "The team gets access to your codebase, tools, and standups within the first week.",
+      },
+      {
+        id: "embedded-sprint",
+        label: "Embedded Sprint Cycle",
+        description: "The team joins your existing sprint cadence, not a separate one.",
+      },
+      {
+        id: "shared-code-review",
+        label: "Shared Code Review Standards",
+        description: "Code is reviewed against your standards, by a mix of your team and ours.",
+      },
+      {
+        id: "continuous-visibility",
+        label: "Continuous Visibility",
+        description: "Progress is visible in your existing tools — no separate status report.",
+      },
+      {
+        id: "flexible-scaling-node",
+        label: "Flexible Scaling",
+        description: "Team size adjusts with your roadmap's actual demand.",
+      },
+    ],
+    technologies: [
+      {
+        id: "shared-project-tooling",
+        name: "Shared Project Tooling (Linear / Jira)",
+        why: "The team works inside your existing project tracker, not a separate one you have to check.",
+        when: "From day one of the engagement.",
+        alternatives: ["A separate tracker with periodic syncs (less visibility)"],
+        tradeoffs: "Requires granting genuine access rather than a read-only summary view.",
+        cost: "Uses your existing tooling licenses.",
+        scalability: "Scales to however many team members are embedded.",
+        teamRequirements: "Standard onboarding to your existing tools.",
+      },
+      {
+        id: "shared-vcs",
+        name: "Shared Version Control & CI/CD",
+        why: "Code ships through your existing pipeline and review process, not a separate one that gets merged in batches.",
+        when: "From the first commit.",
+        alternatives: ["A separate repo merged periodically (higher integration risk)"],
+        tradeoffs: "Requires upfront access provisioning.",
+        cost: "Uses your existing infrastructure.",
+        scalability: "Scales with your existing engineering org.",
+        teamRequirements: "Standard access management.",
+      },
+      {
+        id: "async-communication",
+        name: "Async Communication Tooling (Slack / Teams)",
+        why: "Embedded teams need to be reachable the way your own engineers are, not through a separate account manager.",
+        when: "From day one.",
+        alternatives: ["Email-only communication (slower, less integrated)"],
+        tradeoffs: "None significant — this is standard practice for embedded teams.",
+        cost: "Uses your existing tooling.",
+        scalability: "Scales to any team size.",
+        teamRequirements: "None beyond standard access.",
+      },
+      {
+        id: "documentation-tooling",
+        name: "Documentation Tooling (Notion / Confluence)",
+        why: "Decisions and context need to live somewhere durable, in your systems, not in a contractor's private notes.",
+        when: "Throughout the engagement.",
+        alternatives: ["Tribal knowledge only (high risk when team composition changes)"],
+        tradeoffs: "Requires discipline to document alongside shipping.",
+        cost: "Uses your existing tooling.",
+        scalability: "Scales with the length of the engagement.",
+        teamRequirements: "Team-wide documentation habits, not one person's responsibility.",
+      },
+    ],
+    successMetrics: [
+      { label: "Time to full team onboarding", value: "1 week, typically" },
+      { label: "Team scaling turnaround (up or down)", value: "2–4 weeks" },
+      { label: "Visibility into progress", value: "Same tools your team already uses" },
+      { label: "Knowledge retained at engagement changes", value: "Documented, not tribal" },
+    ],
+    deliveryTimeline: "1 week to onboard, then ongoing for as long as the engagement requires",
+    teamComposition: [
+      "Scales with your roadmap — typically 2–6 engineers",
+      "1 Engineering Lead",
+      "Specialists (AI, mobile, platform) as needed",
+    ],
+    investmentGuidance:
+      "Structured as ongoing capacity rather than a fixed-scope price — cost scales directly with team size and composition, and can flex up or down with your roadmap. BuildPath will help you scope an initial team shape.",
+    relatedCaseStudySlugs: ["harborline-developer-platform", "atlas-logistics-modernization"],
+    relatedArticleSlugs: ["monolith-vs-microservices"],
+    faqs: [
+      {
+        question:
+          "How is a dedicated team different from staff augmentation or fixed-scope contracting?",
+        answer:
+          "A dedicated team integrates into your existing engineering organization — your standups, your code review, your roadmap — rather than working from a separate backlog and reporting status periodically. It's the difference between an extension of your team and an external vendor.",
+      },
+      {
+        question: "Can the team scale up or down as our roadmap changes?",
+        answer:
+          "Yes — that's the core advantage over hiring internally for uncertain-duration work. We typically need two to four weeks' notice to adjust team size meaningfully.",
+      },
+      {
+        question: "What happens to institutional knowledge if a team member rotates off?",
+        answer:
+          "Documentation and decisions are expected to live in your systems throughout the engagement, not just handed off at the end — so continuity doesn't depend on any one person staying indefinitely.",
       },
     ],
   },

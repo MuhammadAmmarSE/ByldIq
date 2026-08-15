@@ -11,6 +11,9 @@ const SOLUTION_NAV_LABELS = [
   "Automation",
   "Product Design",
   "Custom Engineering",
+  "SaaS Development",
+  "Mobile Development",
+  "Dedicated Teams",
 ];
 
 test.describe("Solutions landing page", () => {
@@ -45,7 +48,7 @@ test.describe("Solutions landing page", () => {
   });
 });
 
-test.describe("Solution detail page (startup, representative of all nine)", () => {
+test.describe("Solution detail page (startup, representative of all twelve)", () => {
   test.beforeEach(async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/solutions/startup");
@@ -134,7 +137,7 @@ test.describe("Solution detail page (startup, representative of all nine)", () =
 });
 
 test.describe("Solutions navigation", () => {
-  test("the primary nav's Solutions mega menu lists all nine solutions", async ({ page }) => {
+  test("the primary nav's Solutions mega menu lists every solution", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/");
 

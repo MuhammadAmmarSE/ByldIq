@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  Boxes,
   BrainCircuit,
   Building2,
   Cloud,
@@ -7,6 +8,8 @@ import {
   Palette,
   Rocket,
   ShoppingBag,
+  Smartphone,
+  Users,
   Workflow,
   Wrench,
   type LucideIcon,
@@ -32,6 +35,9 @@ export const SOLUTION_ICONS: Record<string, LucideIcon> = {
   automation: Workflow,
   "product-design": Palette,
   "custom-engineering": Wrench,
+  "saas-development": Boxes,
+  "mobile-development": Smartphone,
+  "dedicated-teams": Users,
 };
 
 /**

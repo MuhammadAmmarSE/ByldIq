@@ -19,9 +19,9 @@ import type { WhatWeBuildProps } from "./WhatWeBuild.types";
  * Integration) that don't correspond to any real page — building cards
  * for them would either dead-end or duplicate the real Solutions
  * platform (Milestone 4) with a second, unlinked taxonomy. Instead this
- * grid uses the real nine solutions, the same `SOLUTION_ICONS` mapping
- * `SolutionCard` uses so the icon per solution stays consistent
- * everywhere it appears.
+ * grid uses the real `SOLUTIONS` entries (twelve as of Milestone 10),
+ * the same `SOLUTION_ICONS` mapping `SolutionCard` uses so the icon per
+ * solution stays consistent everywhere it appears.
  */
 export function WhatWeBuild({ className }: WhatWeBuildProps) {
   const analytics = useAnalytics();

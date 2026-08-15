@@ -1,9 +1,10 @@
 # SolutionSelector
 
-The interactive grid of all nine `SolutionCard`s (CLAUDE.md Part 20). One
-card is highlighted via `getRecommendedSolution` when the visitor has
-already chosen a homepage journey — the recommendation only reprioritizes,
-it never removes the other eight from the grid.
+The interactive grid of every `SolutionCard`, one per `SOLUTIONS` entry
+(CLAUDE.md Part 20, plus three Milestone 10 additions). One card is
+highlighted via `getRecommendedSolution` when the visitor has already
+chosen a homepage journey — the recommendation only reprioritizes, it
+never removes the rest from the grid.
 
 ## Behavior
 

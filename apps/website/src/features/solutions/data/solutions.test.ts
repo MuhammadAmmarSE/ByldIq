@@ -16,6 +16,9 @@ const SOLUTION_SLUGS = [
   "automation",
   "product-design",
   "custom-engineering",
+  "saas-development",
+  "mobile-development",
+  "dedicated-teams",
 ];
 
 describe("SOLUTIONS", () => {
@@ -30,7 +33,7 @@ describe("SOLUTIONS", () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it("has exactly the nine routes CLAUDE.md Part 20 requires", () => {
+  it("has exactly the twelve routes CLAUDE.md Part 20 and Milestone 10 require", () => {
     const slugs = SOLUTIONS.map((solution) => solution.slug).sort();
     expect(slugs).toEqual([...SOLUTION_SLUGS].sort());
   });

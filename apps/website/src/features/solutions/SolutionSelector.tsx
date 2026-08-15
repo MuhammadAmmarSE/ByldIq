@@ -12,8 +12,9 @@ import { SolutionCard } from "./SolutionCard";
 import type { SolutionSelectorProps } from "./SolutionSelector.types";
 
 /**
- * CLAUDE.md Part 20's interactive Solution Selector: nine cards, one
- * highlighted when the visitor has already chosen a homepage journey
+ * CLAUDE.md Part 20's interactive Solution Selector: one card per
+ * `SOLUTIONS` entry, one highlighted when the visitor has already chosen
+ * a homepage journey
  * (`getRecommendedSolution`) but every card is a real, keyboard-reachable
  * link — the grid never removes a choice, only prioritizes one.
  */
