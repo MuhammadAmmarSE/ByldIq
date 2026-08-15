@@ -14,6 +14,7 @@ import { cn } from "@/utils/cn";
 import "./analytics";
 
 import { BUSINESS_PROBLEMS } from "./data/business-problems";
+import { buildCaseStudyGroundedReplies } from "./groundedReplies";
 import type { CaseStudyHeroProps } from "./CaseStudyHero.types";
 
 const KEY_FACTS = [
@@ -40,10 +41,14 @@ export function CaseStudyHero({ caseStudy, company, className }: CaseStudyHeroPr
   }, [caseStudy.slug]);
 
   useEffect(() => {
-    setPageContext({ label: `the ${company.name} case study`, slug: caseStudy.slug });
+    setPageContext({
+      label: `the ${company.name} case study`,
+      slug: caseStudy.slug,
+      groundedReplies: buildCaseStudyGroundedReplies(caseStudy),
+    });
     return () => setPageContext(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [caseStudy.slug, company.name]);
+  }, [caseStudy, company.name]);
 
   const businessProblemLabel =
     BUSINESS_PROBLEMS.find((problem) => problem.slug === caseStudy.businessProblem)?.label ??

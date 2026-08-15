@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { Heading } from "@/components/Heading";
-import { ProjectGrid } from "@/features/homepage/proof-engine";
+import { FeaturedProjectStory, ProjectGrid } from "@/features/homepage/proof-engine";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
 import { slugify } from "@/utils/slugify";
@@ -18,13 +18,22 @@ import { WorkHero } from "./WorkHero";
 import type { WorkExplorerProps } from "./WorkExplorer.types";
 
 const FEATURED_CASE_STUDIES = CASE_STUDIES.filter((caseStudy) => caseStudy.featured);
+// The single most-featured story gets the large `FeaturedProjectStory`
+// cinematic treatment (CLAUDE.md Part 11's Featured Project structure);
+// any further featured case studies still appear, as regular cards,
+// rather than being dropped.
+const [primaryFeaturedCaseStudy, ...additionalFeaturedCaseStudies] = FEATURED_CASE_STUDIES;
 
 /**
  * The `/work` landing page's full experience (CLAUDE.md Part 21): hero,
  * featured work, multi-facet filtering, and the project grid — all
  * client-side over the small, fully-loaded case study dataset. Reuses the
- * Proof Engine's `ProjectGrid`/`ProjectCard` rather than a second card
- * implementation for the same content.
+ * Proof Engine's `ProjectGrid`/`ProjectCard`/`FeaturedProjectStory` rather
+ * than a second set of card implementations for the same content. The
+ * single most-featured case study gets the large `FeaturedProjectStory`
+ * cinematic treatment (CLAUDE.md Part 11's Featured Project structure,
+ * added Milestone 11); any further featured case studies still render,
+ * as regular `ProjectCard`s, below it.
  *
  * "Trending projects" (also named in the spec) isn't implemented as a
  * ranked section: there's no real traffic or engagement data yet to rank
@@ -60,6 +69,10 @@ export function WorkExplorer({
   );
   const [aiOnly, setAiOnly] = useState(false);
   const analytics = useAnalytics();
+
+  const primaryFeaturedCompany = primaryFeaturedCaseStudy
+    ? COMPANIES_BY_ID.get(primaryFeaturedCaseStudy.companyId)
+    : undefined;
 
   const filteredCaseStudies = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -128,21 +141,28 @@ export function WorkExplorer({
         industries={INDUSTRIES}
         industryFilter={industryFilter}
         onIndustryQuickFilter={handleIndustryFilterChange}
-        featured={FEATURED_CASE_STUDIES[0]}
+        featured={primaryFeaturedCaseStudy}
         headline={headline}
         supportingCopy={supportingCopy}
       />
 
-      {FEATURED_CASE_STUDIES.length > 0 && (
+      {primaryFeaturedCaseStudy && primaryFeaturedCompany && (
         <section className="space-y-4" aria-labelledby="work-featured-heading">
           <Heading variant="h3" as="h2" id="work-featured-heading">
             Featured work
           </Heading>
-          <ProjectGrid
-            caseStudies={FEATURED_CASE_STUDIES}
-            companiesById={COMPANIES_BY_ID}
+          <FeaturedProjectStory
+            caseStudy={primaryFeaturedCaseStudy}
+            company={primaryFeaturedCompany}
             onSelect={handleProjectSelect}
           />
+          {additionalFeaturedCaseStudies.length > 0 && (
+            <ProjectGrid
+              caseStudies={additionalFeaturedCaseStudies}
+              companiesById={COMPANIES_BY_ID}
+              onSelect={handleProjectSelect}
+            />
+          )}
         </section>
       )}
 

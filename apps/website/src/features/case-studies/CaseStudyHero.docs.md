@@ -22,6 +22,14 @@ study` on mount (a noun phrase, not the full-sentence headline — it
   completes `getPageContextGreeting`'s "Looks like you're exploring
   ___." template), and clears it on unmount so leaving the page falls
   back to the journey-based greeting.
+- Also attaches `groundedReplies` (Milestone 11) —
+  `buildCaseStudyGroundedReplies(caseStudy)` — real "Ask Byld about this
+  project" Q&A pairs (CLAUDE.md Part 21) built from this case study's own
+  `challenge`/`architecture`/`technologyDecisions`/`whatCouldImprove`
+  fields, not fabricated copy. These become the AI Companion's opening
+  quick replies while this page context is active, and `useAiCompanion`
+  answers them directly from the real data instead of the generic
+  keyword-matched engine. See `groundedReplies.ts`'s doc comment.
 - The primary CTA links to `/buildpath?caseStudy={slug}`, fires
   `case_study_cta_selected` + `case_study_buildpath_started`, and the
   `/buildpath` page acknowledges the referring case study by name (see

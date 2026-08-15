@@ -9,13 +9,18 @@ if (!caseStudy) throw new Error("Missing fieldnote-mvp case study fixture");
 
 describe("CaseStudyResults", () => {
   it("renders the approach, outcome, and every metric", () => {
-    render(<CaseStudyResults caseStudy={caseStudy} />);
+    const { container } = render(<CaseStudyResults caseStudy={caseStudy} />);
 
     expect(screen.getByText(caseStudy.approach)).toBeInTheDocument();
     expect(screen.getByText(caseStudy.outcome)).toBeInTheDocument();
+    // Each metric renders through `AnimatedMetric` (Milestone 11), which for
+    // a parseable value shows the real number only inside an `sr-only`
+    // announcement (the visible digits are frozen mid-count-up in jsdom, no
+    // real IntersectionObserver) — checking the container's full text
+    // content covers both the counting and static-fallback render paths.
     for (const metric of caseStudy.metrics) {
-      expect(screen.getByText(metric.value)).toBeInTheDocument();
-      expect(screen.getByText(metric.label)).toBeInTheDocument();
+      expect(container.textContent).toContain(metric.value);
+      expect(container.textContent).toContain(metric.label);
     }
   });
 

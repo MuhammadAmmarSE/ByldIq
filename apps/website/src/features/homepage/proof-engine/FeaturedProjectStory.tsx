@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AnimatedMetricValue } from "@/components/AnimatedMetricValue";
 import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
@@ -7,12 +8,24 @@ import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
 import { cn } from "@/utils/cn";
 
+import { ProjectVisual } from "./ProjectVisual";
 import type { FeaturedProjectStoryProps } from "./FeaturedProjectStory.types";
 
-/** The Proof Engine's large featured-project presentation (CLAUDE.md Part 13). */
-export function FeaturedProjectStory({ caseStudy, company, className }: FeaturedProjectStoryProps) {
+/**
+ * The Proof Engine's large featured-project presentation (CLAUDE.md Part
+ * 13/11): image band, name, industry, problem, technology, and business
+ * results, in that order.
+ */
+export function FeaturedProjectStory({
+  caseStudy,
+  company,
+  onSelect,
+  className,
+}: FeaturedProjectStoryProps) {
   return (
-    <Card className={cn("overflow-hidden", className)}>
+    <Card className={cn("group overflow-hidden", className)}>
+      <ProjectVisual id={`featured-visual-${caseStudy.slug}`} className="h-40 w-full sm:h-48" />
+
       <div className="grid gap-8 p-6 lg:grid-cols-2 lg:p-10">
         <div className="space-y-4">
           <div className="flex items-center gap-2">
@@ -22,7 +35,7 @@ export function FeaturedProjectStory({ caseStudy, company, className }: Featured
           <Heading variant="h2">{caseStudy.headline}</Heading>
           <Text variant="caption">{company.name}</Text>
           <Text variant="body">{caseStudy.challenge}</Text>
-          <Button asChild>
+          <Button asChild onClick={() => onSelect?.(caseStudy.slug)}>
             <Link href={`/work/${caseStudy.slug}`}>Read the full story</Link>
           </Button>
         </div>
@@ -34,7 +47,9 @@ export function FeaturedProjectStory({ caseStudy, company, className }: Featured
                 key={metric.label}
                 className="border-border bg-surface-raised rounded-lg border p-4"
               >
-                <p className="text-foreground text-2xl font-semibold">{metric.value}</p>
+                <p className="text-foreground text-2xl font-semibold">
+                  <AnimatedMetricValue value={metric.value} />
+                </p>
                 <p className="text-muted text-sm">{metric.label}</p>
               </div>
             ))}

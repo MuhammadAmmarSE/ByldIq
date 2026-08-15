@@ -28,6 +28,7 @@ export { CaseStudyTechnologyDecisions } from "./CaseStudyTechnologyDecisions";
 export { CaseStudyEngineeringProcess } from "./CaseStudyEngineeringProcess";
 export { CaseStudyChallenges } from "./CaseStudyChallenges";
 export { CaseStudyResults } from "./CaseStudyResults";
+export { CaseStudyQuote } from "./CaseStudyQuote";
 export { CaseStudyLessonsLearned } from "./CaseStudyLessonsLearned";
 export { CaseStudyRelatedSolutions } from "./CaseStudyRelatedSolutions";
 export { CaseStudyRelatedKnowledge } from "./CaseStudyRelatedKnowledge";

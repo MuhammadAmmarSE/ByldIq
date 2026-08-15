@@ -11,6 +11,7 @@ import "./analytics";
 import { matchIntent } from "./engine/intents";
 import {
   getContextualFallback,
+  getGroundedAnswer,
   getPageContextGreeting,
   GREETINGS,
   RESPONSES,
@@ -51,7 +52,7 @@ export function useAiCompanion() {
     // straight from the homepage without visiting a detail page).
     const sectionLabel = currentSection ? SECTION_LABELS[currentSection] : undefined;
     const greeting = pageContext
-      ? getPageContextGreeting(pageContext.label)
+      ? getPageContextGreeting(pageContext.label, pageContext.groundedReplies)
       : sectionLabel
         ? getPageContextGreeting(sectionLabel)
         : journey
@@ -95,9 +96,11 @@ export function useAiCompanion() {
       analytics.track("ai_message_sent", { journey, viaQuickReply });
       setIsThinking(true);
 
+      const grounded = getGroundedAnswer(pageContext?.groundedReplies, trimmed);
       const intent = matchIntent(trimmed);
       const response =
-        intent === "fallback" ? getContextualFallback(recentlyViewed) : RESPONSES[intent];
+        grounded ??
+        (intent === "fallback" ? getContextualFallback(recentlyViewed) : RESPONSES[intent]);
 
       setTimeout(() => {
         addMessage({
@@ -109,7 +112,7 @@ export function useAiCompanion() {
         setIsThinking(false);
       }, REPLY_DELAY_MS);
     },
-    [addMessage, analytics, journey, recentlyViewed],
+    [addMessage, analytics, journey, recentlyViewed, pageContext],
   );
 
   const handleClearConversation = useCallback(() => {

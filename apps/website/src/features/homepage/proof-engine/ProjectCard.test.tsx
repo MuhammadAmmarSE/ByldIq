@@ -41,4 +41,13 @@ describe("ProjectCard", () => {
       expect(screen.getByText(technology)).toBeInTheDocument();
     }
   });
+
+  it("gives its visual band a slug-unique id and exposes only one link", () => {
+    const { container } = render(<ProjectCard caseStudy={caseStudy} company={company} />);
+
+    expect(container.querySelector(`#project-visual-${caseStudy.slug}`)).toBeInTheDocument();
+    // The "View project" arrow affordance is decorative, not a second link
+    // to the same destination.
+    expect(screen.getAllByRole("link")).toHaveLength(1);
+  });
 });

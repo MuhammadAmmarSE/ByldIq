@@ -22,3 +22,14 @@ below. `aria-pressed` communicates selection state; the row is a
 
 `case_study_architecture_node_selected` fires with `{ slug, node }` on
 every selection — see `analytics.ts`.
+
+## Entrance animation (Milestone 11)
+
+Nodes reveal in the same request-flow order they're authored in, once
+the diagram scrolls into view — CLAUDE.md Part 11: "Animate the
+architecture diagram." Built on the same `staggerContainer`/`staggerItem`
+variants (`@/lib/motion-variants`) the homepage's `AdaptiveHero` already
+uses, which respect `MotionProvider`'s reduced-motion setting like every
+other one-shot transform in this codebase — nothing new to opt into.
+Selection stays click-only (not hover), keeping the diagram keyboard- and
+touch-operable rather than requiring a pointer.

@@ -86,6 +86,62 @@ describe("useAiCompanion", () => {
     expect(result.current.messages.at(-1)?.content).toContain("Next.js");
   });
 
+  it("offers a page's grounded questions as quick replies instead of the generic three", () => {
+    const { result } = renderHook(() => useAiCompanion(), { wrapper });
+
+    act(() =>
+      result.current.setPageContext({
+        label: "the Fieldnote case study",
+        slug: "fieldnote-mvp",
+        groundedReplies: [{ question: "Why Next.js?", answer: "Server rendering meant..." }],
+      }),
+    );
+    act(() => result.current.open());
+
+    expect(result.current.messages[0]?.quickReplies).toEqual(["Why Next.js?"]);
+  });
+
+  it("answers a grounded question directly, ahead of generic intent matching", () => {
+    const { result } = renderHook(() => useAiCompanion(), { wrapper });
+    act(() => result.current.open());
+    act(() =>
+      result.current.setPageContext({
+        label: "the Fieldnote case study",
+        slug: "fieldnote-mvp",
+        groundedReplies: [
+          {
+            question: "Why Next.js?",
+            answer: "Server rendering meant fast loads for technicians.",
+          },
+        ],
+      }),
+    );
+
+    act(() => result.current.sendMessage("Why Next.js?", { viaQuickReply: true }));
+    act(() => vi.advanceTimersByTime(1000));
+
+    expect(result.current.messages.at(-1)?.content).toBe(
+      "Server rendering meant fast loads for technicians.",
+    );
+  });
+
+  it("falls through to generic intent matching when the message doesn't match a grounded question", () => {
+    const { result } = renderHook(() => useAiCompanion(), { wrapper });
+    act(() => result.current.open());
+    act(() =>
+      result.current.setPageContext({
+        label: "the Fieldnote case study",
+        slug: "fieldnote-mvp",
+        groundedReplies: [{ question: "Why Next.js?", answer: "Server rendering meant..." }],
+      }),
+    );
+
+    act(() => result.current.sendMessage("What's an MVP scope?"));
+    act(() => vi.advanceTimersByTime(1000));
+
+    expect(result.current.messages.at(-1)?.content).toBe(RESPONSES.startup.content);
+  });
+
   it("does not re-greet on a second open once a conversation exists", () => {
     const { result } = renderHook(() => useAiCompanion(), { wrapper });
 

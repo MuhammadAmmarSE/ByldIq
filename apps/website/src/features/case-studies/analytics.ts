@@ -26,6 +26,12 @@ declare module "@/types/analytics" {
     case_study_architecture_node_selected: { slug: string; node: string };
     /** Selecting a technology in the case study's Technology Decisions explorer. */
     case_study_technology_clicked: { slug: string; technology: string };
+    /** Milestone 11: clicking through to the real Technology Explorer from a case study's technology decision. */
+    case_study_technology_explorer_clicked: {
+      slug: string;
+      technology: string;
+      technologySlug: string;
+    };
     /** Selecting a stage in the Engineering Process timeline. */
     case_study_engineering_stage_selected: { slug: string; stage: string };
     /** Expanding an FAQ item. */

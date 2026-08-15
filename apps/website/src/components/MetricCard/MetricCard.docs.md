@@ -21,14 +21,14 @@ same pattern `HeroProductPreview` established.
 
 ## Props
 
-| Prop       | Type     | Default | Notes                                                                                                     |
-| ---------- | -------- | ------- | --------------------------------------------------------------------------------------------------------- |
-| `value`    | `number` | —       | Final value the counter animates to.                                                                      |
-| `label`    | `string` | —       |                                                                                                           |
-| `prefix`   | `string` | `""`    | e.g. `"$"`.                                                                                               |
-| `suffix`   | `string` | `""`    | e.g. `"%"`, `"+"`, `"M"`.                                                                                 |
-| `decimals` | `number` | `0`     | Decimal places. Inherits `useCountUp`'s rounding — see its own source before relying on a non-zero value. |
-| `duration` | `number` | —       | Seconds. Passed through to `useCountUp`.                                                                  |
+| Prop       | Type     | Default | Notes                                                                                                                                                            |
+| ---------- | -------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `value`    | `number` | —       | Final value the counter animates to.                                                                                                                             |
+| `label`    | `string` | —       |                                                                                                                                                                  |
+| `prefix`   | `string` | `""`    | e.g. `"$"`.                                                                                                                                                      |
+| `suffix`   | `string` | `""`    | e.g. `"%"`, `"+"`, `"M"`.                                                                                                                                        |
+| `decimals` | `number` | `0`     | Decimal places, e.g. `2` for a target like `99.97`. `useCountUp` returns the unrounded animated value; `MetricCard` rounds/formats it for display via `toFixed`. |
+| `duration` | `number` | —       | Seconds. Passed through to `useCountUp`.                                                                                                                         |
 
 ## Motion
 

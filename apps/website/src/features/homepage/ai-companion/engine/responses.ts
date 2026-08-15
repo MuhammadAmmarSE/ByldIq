@@ -1,3 +1,4 @@
+import type { AiGroundedReply } from "@/store/ai-companion-store";
 import type { Journey } from "@/types/journey";
 
 export interface AiResponse {
@@ -116,16 +117,55 @@ export const RESPONSES: Record<AiIntent, AiResponse> = {
 };
 
 /**
- * A greeting for a specific page (currently: solution pages) — more
- * specific than the five journey greetings above without fabricating
- * bespoke copy for every page CLAUDE.md's content model could ever add.
- * CLAUDE.md Part 20: "AI automatically changes context... Visitors never
- * repeat themselves."
+ * A greeting for a specific page (solution, case study, technology
+ * pages) — more specific than the five journey greetings above without
+ * fabricating bespoke copy for every page CLAUDE.md's content model could
+ * ever add. CLAUDE.md Part 20: "AI automatically changes context...
+ * Visitors never repeat themselves."
+ *
+ * When the page supplied real grounded Q&A (`groundedReplies` — CLAUDE.md
+ * Part 21's "Ask Byld about this project"), its questions become the
+ * quick replies instead of the generic three, so a visitor on a case
+ * study page is offered real, answerable questions about that specific
+ * project rather than a roadmap prompt that ignores it.
  */
-export function getPageContextGreeting(label: string): AiResponse {
+export function getPageContextGreeting(
+  label: string,
+  groundedReplies?: AiGroundedReply[],
+): AiResponse {
   return {
     content: `Looks like you're exploring ${label}. Want help thinking through the approach, or would a personalized roadmap from BuildPath be more useful?`,
-    quickReplies: ["What's a typical roadmap?", "Compare technologies", "Start BuildPath"],
+    quickReplies: groundedReplies?.length
+      ? groundedReplies.map((reply) => reply.question)
+      : ["What's a typical roadmap?", "Compare technologies", "Start BuildPath"],
+  };
+}
+
+/**
+ * Answers a message directly from a page's real, structured content
+ * (CLAUDE.md Part 21: "Ask Byld about this project... Byld: Explains
+ * based on the structured project knowledge") — checked before generic
+ * keyword `matchIntent`/`RESPONSES`, since no keyword rule could derive a
+ * page-specific answer on its own. Matches on exact question text
+ * (case/whitespace-insensitive) since grounded questions only ever reach
+ * `sendMessage` as quick-reply clicks, never freely typed — see
+ * `useAiCompanion.sendMessage`. Returns `null` when there's no match, so
+ * the caller falls through to the generic engine instead of a silent
+ * non-answer.
+ */
+export function getGroundedAnswer(
+  groundedReplies: AiGroundedReply[] | undefined,
+  message: string,
+): AiResponse | null {
+  if (!groundedReplies) return null;
+
+  const normalized = message.trim().toLowerCase();
+  const match = groundedReplies.find((reply) => reply.question.trim().toLowerCase() === normalized);
+  if (!match) return null;
+
+  return {
+    content: match.answer,
+    quickReplies: ["Start BuildPath"],
   };
 }
 

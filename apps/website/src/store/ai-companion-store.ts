@@ -8,10 +8,28 @@ export interface AiMessage {
   quickReplies?: string[];
 }
 
+/** A real, page-specific question Byld can answer from structured content already on that page, rather than a generic canned reply — see `getGroundedAnswer` in `engine/responses.ts`. */
+export interface AiGroundedReply {
+  question: string;
+  answer: string;
+}
+
 /** What page the visitor is currently viewing, for a more specific greeting than the journey alone (CLAUDE.md Part 16: "Byld always understands: Current page... Current solution"). */
 export interface AiPageContext {
   label: string;
   slug: string;
+  /**
+   * Optional real Q&A pairs grounded in this page's own data (CLAUDE.md
+   * Part 21's "Ask Byld about this project" — "Explains based on the
+   * structured project knowledge"). Set by the page itself (e.g.
+   * `CaseStudyHero`); `useAiCompanion` surfaces these as quick replies and
+   * answers them directly, ahead of the generic keyword-matched
+   * `RESPONSES`, since a rule-based engine has no way to derive a
+   * page-specific answer from keywords alone. Omitted entirely for pages
+   * that don't have grounded content to offer (Solutions, Technology) —
+   * not every `AiPageContext` needs one.
+   */
+  groundedReplies?: AiGroundedReply[];
 }
 
 /** How many entries `recentlyViewed`/`ctaHistory` keep — recent context only, not a full session log. */

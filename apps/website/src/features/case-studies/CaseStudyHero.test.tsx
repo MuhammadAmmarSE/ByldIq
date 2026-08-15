@@ -17,6 +17,7 @@ import { StoreProvider } from "@/providers/StoreProvider";
 import { CaseStudyHero } from "./CaseStudyHero";
 import { CASE_STUDIES } from "./data/case-studies";
 import { FICTIONAL_COMPANIES } from "./data/fictional-companies";
+import { buildCaseStudyGroundedReplies } from "./groundedReplies";
 
 function requireFieldnoteCaseStudy() {
   const found = CASE_STUDIES.find((candidate) => candidate.slug === "fieldnote-mvp");
@@ -106,6 +107,30 @@ describe("CaseStudyHero", () => {
     );
 
     expect(screen.getByTestId("page-context")).toHaveTextContent(caseStudy.slug);
+  });
+
+  it("includes this case study's real grounded Q&A in the page context", () => {
+    function Harness() {
+      const pageContext = useAiCompanionStore((state) => state.pageContext);
+      return (
+        <>
+          <CaseStudyHero caseStudy={caseStudy} company={company} />
+          <p data-testid="grounded-count">{pageContext?.groundedReplies?.length ?? 0}</p>
+        </>
+      );
+    }
+
+    render(
+      <StoreProvider>
+        <AiCompanionStoreProvider>
+          <Harness />
+        </AiCompanionStoreProvider>
+      </StoreProvider>,
+    );
+
+    expect(screen.getByTestId("grounded-count")).toHaveTextContent(
+      String(buildCaseStudyGroundedReplies(caseStudy).length),
+    );
   });
 
   it("opens the AI companion from Talk to Byld", async () => {

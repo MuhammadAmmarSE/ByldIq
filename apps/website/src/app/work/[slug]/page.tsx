@@ -15,6 +15,7 @@ import {
   CaseStudyLessonsLearned,
   CaseStudyOverview,
   CaseStudyProductThinking,
+  CaseStudyQuote,
   CaseStudyRelatedKnowledge,
   CaseStudyRelatedSolutions,
   CaseStudyResults,
@@ -71,10 +72,12 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
  * study follows the same architecture"). Every section is now real: Hero,
  * Executive Summary, Business Challenge, Discovery, Product Thinking,
  * Architecture, Technology Decisions, Engineering Process, Challenges,
- * Results, Lessons Learned, Related Solutions, Related Knowledge, FAQ,
- * and the final CTA. A sticky sidebar (desktop only) provides scrollspy
- * navigation across the middle sections; the hero and final CTA span full
- * width, mirroring the Solutions Platform's page template.
+ * Results, a client quote (Milestone 11 — real for 3 of 5 case studies,
+ * renders nothing for the rest), Lessons Learned, Related Solutions,
+ * Related Knowledge, FAQ, and the final CTA. A sticky sidebar (desktop
+ * only) provides scrollspy navigation across the middle sections; the
+ * hero and final CTA span full width, mirroring the Solutions Platform's
+ * page template.
  */
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
@@ -118,6 +121,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           <CaseStudyEngineeringProcess caseStudy={caseStudy} />
           <CaseStudyChallenges caseStudy={caseStudy} />
           <CaseStudyResults caseStudy={caseStudy} />
+          <CaseStudyQuote caseStudy={caseStudy} />
           <CaseStudyLessonsLearned caseStudy={caseStudy} />
           <CaseStudyRelatedSolutions caseStudy={caseStudy} />
           <CaseStudyRelatedKnowledge caseStudy={caseStudy} />

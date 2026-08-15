@@ -41,7 +41,11 @@ export function useCountUp(
     function tick(now: number) {
       const elapsed = (now - start) / 1000;
       const progress = Math.min(elapsed / duration, 1);
-      setValue(Math.round(target * progress));
+      // Unrounded: a decimal target (e.g. 99.97) must land on its exact
+      // value on the final frame, not get truncated to a whole number.
+      // Callers that want whole numbers round for display themselves
+      // (e.g. `MetricCard`'s `Math.round`/`toFixed`).
+      setValue(target * progress);
       if (progress < 1) {
         frame = requestAnimationFrame(tick);
       }

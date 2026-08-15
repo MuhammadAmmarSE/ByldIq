@@ -8,4 +8,6 @@ export { ProjectFilterBar } from "./ProjectFilterBar";
 export type { ProjectFilterBarProps } from "./ProjectFilterBar.types";
 export { FeaturedProjectStory } from "./FeaturedProjectStory";
 export type { FeaturedProjectStoryProps } from "./FeaturedProjectStory.types";
+export { ProjectVisual } from "./ProjectVisual";
+export type { ProjectVisualProps } from "./ProjectVisual.types";
 export * from "./analytics";

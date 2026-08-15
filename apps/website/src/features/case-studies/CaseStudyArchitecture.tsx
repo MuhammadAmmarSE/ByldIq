@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
+import { motion } from "motion/react";
 
 import { Heading } from "@/components/Heading";
 import { Icon } from "@/components/Icon";
 import { Text } from "@/components/Text";
+import { staggerContainer, staggerItem } from "@/lib/motion-variants";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
 
@@ -19,7 +21,12 @@ import type { CaseStudyArchitectureProps } from "./CaseStudyArchitecture.types";
  * the Solutions Platform's `ArchitectureExplorer` — `architecture` is
  * authored in request-flow order, so array order doubles as the diagram's
  * sequence, keeping every node independently inspectable without a
- * separate connections model.
+ * separate connections model. Nodes reveal in that same sequence on
+ * scroll into view (CLAUDE.md Part 11: "Animate the architecture
+ * diagram") via `staggerContainer`/`staggerItem`, which respect
+ * `MotionProvider`'s reduced-motion setting like every other one-shot
+ * transform in this codebase — click remains the only way to select a
+ * node (not hover), keeping it keyboard- and touch-operable.
  */
 export function CaseStudyArchitecture({ caseStudy, className }: CaseStudyArchitectureProps) {
   const analytics = useAnalytics();
@@ -37,13 +44,22 @@ export function CaseStudyArchitecture({ caseStudy, className }: CaseStudyArchite
         How it fits together
       </Heading>
 
-      <div
+      <motion.div
         role="list"
         aria-label={`${caseStudy.headline} architecture`}
         className="flex flex-wrap items-center gap-1 overflow-x-auto"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
       >
         {caseStudy.architecture.map((node, index) => (
-          <div key={node.id} role="listitem" className="flex items-center gap-1">
+          <motion.div
+            key={node.id}
+            role="listitem"
+            className="flex items-center gap-1"
+            variants={staggerItem}
+          >
             <button
               type="button"
               onClick={() => handleSelect(node.id)}
@@ -60,9 +76,9 @@ export function CaseStudyArchitecture({ caseStudy, className }: CaseStudyArchite
             {index < caseStudy.architecture.length - 1 && (
               <Icon icon={ChevronRight} size="sm" className="text-muted shrink-0" />
             )}
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {selected && (
         <div className="border-border bg-surface-raised rounded-lg border p-4">

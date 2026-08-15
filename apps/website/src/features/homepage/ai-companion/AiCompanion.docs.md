@@ -31,13 +31,35 @@ site already knows.
 
 ## Page context
 
-`pageContext` (`{ label, slug } | null`) is a separate, more specific
-signal than `journey`: a page can call `setPageContext()` (e.g. a solution
-page, via `SolutionHero`) to make the greeting acknowledge exactly what's
-being viewed (`getPageContextGreeting`), without overwriting the
-visitor's broader journey preference — which is deliberately a distinct,
-explicit choice the visitor makes elsewhere (Journey Selection Engine),
-not something a page visit should silently change.
+`pageContext` (`{ label, slug, groundedReplies? } | null`) is a separate,
+more specific signal than `journey`: a page can call `setPageContext()`
+(e.g. a solution page, via `SolutionHero`) to make the greeting
+acknowledge exactly what's being viewed (`getPageContextGreeting`),
+without overwriting the visitor's broader journey preference — which is
+deliberately a distinct, explicit choice the visitor makes elsewhere
+(Journey Selection Engine), not something a page visit should silently
+change.
+
+### Grounded replies (Milestone 11)
+
+`groundedReplies` is an optional list of real `{ question, answer }`
+pairs the page itself supplies — e.g. `CaseStudyHero` builds them from a
+case study's own `challenge`/`architecture`/`technologyDecisions`/
+`whatCouldImprove` fields (CLAUDE.md Part 21: "Ask Byld about this
+project... Explains based on the structured project knowledge"). When
+present:
+
+- They replace the generic three quick replies in the page-context
+  greeting (`getPageContextGreeting`).
+- `sendMessage` checks `getGroundedAnswer` for an exact question match
+  _before_ the generic keyword-matched `RESPONSES` engine, since no
+  keyword rule could derive a page-specific answer from keywords alone.
+
+Not every `pageContext` sets this — Solutions and Technology pages don't,
+since a rule-based greeting is honest enough there without a claim to be
+answering from "structured project knowledge" that doesn't exist for a
+general solution/technology page the way it does for one specific,
+already-shipped project.
 
 ## Context awareness (Milestone 9)
 

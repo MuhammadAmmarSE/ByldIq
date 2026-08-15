@@ -1,3 +1,4 @@
+import { AnimatedMetric } from "@/components/AnimatedMetric";
 import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
 import { cn } from "@/utils/cn";
@@ -10,7 +11,10 @@ import type { CaseStudyResultsProps } from "./CaseStudyResults.types";
  * since all three describe the same thing (what actually happened), the
  * same reasoning `CaseStudyOverview` uses for Executive Summary and
  * Business Challenge. Metrics are the authored values in `data/case-
- * studies.ts` only — CLAUDE.md Part 7: "never fabricate numbers".
+ * studies.ts` only — CLAUDE.md Part 7: "never fabricate numbers". Each
+ * renders through `AnimatedMetric` (Milestone 11) so it counts up on
+ * scroll into view where the value is a real number, per CLAUDE.md Part
+ * 11's "metrics should animate when entering the viewport".
  */
 export function CaseStudyResults({ caseStudy, className }: CaseStudyResultsProps) {
   return (
@@ -35,14 +39,7 @@ export function CaseStudyResults({ caseStudy, className }: CaseStudyResultsProps
 
       <div className="grid gap-4 sm:grid-cols-2">
         {caseStudy.metrics.map((metric) => (
-          <div key={metric.label} className="border-border bg-surface-raised rounded-lg border p-4">
-            <Text variant="body" className="font-semibold">
-              {metric.value}
-            </Text>
-            <Text variant="caption" className="mt-1">
-              {metric.label}
-            </Text>
-          </div>
+          <AnimatedMetric key={metric.label} value={metric.value} label={metric.label} />
         ))}
       </div>
     </section>

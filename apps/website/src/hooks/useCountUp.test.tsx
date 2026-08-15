@@ -47,4 +47,12 @@ describe("useCountUp", () => {
     render(<Harness target={42} />);
     expect(screen.getByTestId("value")).toHaveTextContent("42");
   });
+
+  it("preserves decimal precision on the target under reduced motion", () => {
+    mockUseInView.mockReturnValue(true);
+    mockUseReducedMotion.mockReturnValue(true);
+
+    render(<Harness target={99.97} />);
+    expect(screen.getByTestId("value")).toHaveTextContent("99.97");
+  });
 });
