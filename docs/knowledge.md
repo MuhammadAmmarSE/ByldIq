@@ -57,7 +57,7 @@ app/knowledge/search/page.tsx                    Server Component
 
 app/knowledge/[slug]/page.tsx                    Server Component
 ├── BreadcrumbList + Article JSON-LD
-├── KnowledgeReadingProgress             fixed top progress bar tied to scroll position
+├── ReadingProgressBar                   fixed top progress bar tied to scroll position (shared component)
 ├── KnowledgeArticleHero                 breadcrumb, h1, category/difficulty/reading-time,
 │                                        AI context, BuildPath CTA, KnowledgeBookmarkButton
 ├── (grid: sidebar + content, lg breakpoint)
@@ -170,8 +170,9 @@ directly reachable and will join both once real content exists.
   on mount to the article's title, cleared on unmount.
 - **`useAppStore`'s `bookmarkedArticleSlugs`/`completedArticleSlugs`** —
   persisted app-wide preference, described above.
-- **`useReadingProgress`** drives `KnowledgeReadingProgress`, computing a
-  0–100 scroll percentage with the same formula `useScrollDepth` uses.
+- **`useReadingProgress`** (`@/hooks`, promoted from this feature in
+  Milestone 12) drives `ReadingProgressBar`, computing a 0–100 scroll
+  percentage with the same formula `useScrollDepth` uses.
 - **`useScrollSpy`** drives `KnowledgeSidebar`, identical to
   `TechnologySidebar`/`CaseStudySidebar`/`SolutionSidebar`.
 - Everything else (which walkthrough step is selected, which Learning
@@ -227,8 +228,8 @@ track the homepage preview module specifically.
 
 ## Accessibility
 
-- **Radix `Progress`** drives both `KnowledgeReadingProgress` and the
-  Learning Path detail page's completion bar; **Radix `Checkbox`** drives
+- **Radix `Progress`** drives both `ReadingProgressBar` and the Learning
+  Path detail page's completion bar; **Radix `Checkbox`** drives
   per-step completion.
 - **A real bug caught during this review:** `KnowledgeLearningPathDetail`
   rendered its page-level `<h1>` (the path title) directly followed by

@@ -20,3 +20,18 @@ since the order itself communicates the delivery sequence.
 
 `case_study_engineering_stage_selected` fires with `{ slug, stage }` when
 an accordion item expands — see `analytics.ts`.
+
+## Sequential reveal motion (Milestone 12)
+
+CLAUDE.md Part 12 asks for "timeline sequential reveal." Each `AccordionItem`
+is wrapped in its own `motion.div` using `staggerItemTransformOnly` (not the
+usual fade-based `staggerItem`), inside a `staggerContainer` that triggers
+once on scroll into view.
+
+`staggerItemTransformOnly` animates `y` only — it never touches `opacity`.
+The trigger's step-number badge uses `text-muted`, the same marginal-contrast
+token whose opacity-fade entrance produced a real, reproducible axe
+`color-contrast` failure in `ProjectGrid` (caught mid-transition, at partial
+opacity blended toward the background, even though the settled state
+passed). Moving without ever changing opacity sidesteps that failure mode
+rather than re-testing around it.

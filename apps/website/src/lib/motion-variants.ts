@@ -71,6 +71,21 @@ export const staggerContainer: Variants = {
 
 export const staggerItem: Variants = fade;
 
+/**
+ * Transform-only stagger item — no `opacity` dimension at all, unlike
+ * `staggerItem`. Use this instead of `staggerItem` when the animated
+ * content contains marginal-contrast text tokens (e.g. `text-muted`,
+ * `text-accent`) on a light/white surface: `ProjectGrid`'s docs record a
+ * real, reproducible axe `color-contrast` failure caught mid-transition,
+ * where partial opacity blended such text toward the background before
+ * settling at its (passing) final value. Moving without ever touching
+ * opacity sidesteps that failure mode entirely.
+ */
+export const staggerItemTransformOnly: Variants = {
+  hidden: { y: 12 },
+  visible: { y: 0, transition: baseTransition },
+};
+
 /** Page-level transition for route changes. */
 export const pageTransition: Variants = {
   hidden: { opacity: 0, y: 8 },

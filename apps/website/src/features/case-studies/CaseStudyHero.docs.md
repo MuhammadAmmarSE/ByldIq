@@ -35,6 +35,21 @@ study` on mount (a noun phrase, not the full-sentence headline — it
   `/buildpath` page acknowledges the referring case study by name (see
   `app/buildpath/page.tsx`).
 
+## Milestone 12 additions
+
+- **`ProjectVisual`** — a geometric header band, no real project imagery
+  (see that component's own docs for why).
+- **Estimated reading time** — `estimateReadingTime(caseStudy)`,
+  computed from the case study's actual text rather than hand-authored,
+  shown as a badge (CLAUDE.md Part 23).
+- **`ReadingProgressBar`** — mounted here (not the page) so its
+  `onComplete` can fire `case_study_reading_completed` with direct access
+  to `caseStudy.slug` and `useAnalytics`.
+- **`ShareButton`** — fires `case_study_shared` via `onShare`.
+- **"Explore the architecture"** — a plain anchor link to `#architecture`,
+  for visitors who came for the engineering detail specifically; fires
+  `case_study_cta_selected` with `cta: "hero-architecture"`.
+
 ## Heading hierarchy
 
 The headline renders as `<h1>` (`Heading variant="display"`) — every

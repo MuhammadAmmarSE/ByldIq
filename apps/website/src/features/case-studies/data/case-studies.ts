@@ -45,6 +45,17 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Investors could see real weekly usage data, not a projected forecast",
     ],
 
+    businessContext: {
+      businessModel:
+        "Usage-based SaaS subscription, priced per active technician seat, sold directly to small and mid-size field service companies.",
+      market:
+        "Field service management software for trades — plumbing, electrical, HVAC — a category historically served by paper processes or generic scheduling tools not built for on-site, mobile-first work.",
+      existingTechnology:
+        "None — Fieldnote's founders had validated the idea through pilot customers using spreadsheets and group texts, with no existing codebase or engineering team.",
+      competitivePressure:
+        "A handful of well-funded competitors already served larger field service companies, but none had a mobile-first product built for small, independent crews — the gap Fieldnote was targeting.",
+    },
+
     discovery: [
       {
         title: "Pilot customer interviews",
@@ -98,35 +109,41 @@ export const CASE_STUDIES: CaseStudy[] = [
         label: "Technician Web App (Next.js)",
         description:
           "A mobile-responsive web app technicians use in the field — schedule, job details, and completion in one flow.",
+        technology: "Next.js",
       },
       {
         id: "dispatcher-console",
         label: "Dispatcher Console (Next.js)",
         description:
           "The same Next.js app, a different route tree — dispatchers assign and track jobs from a desktop browser.",
+        technology: "Next.js",
       },
       {
         id: "api",
         label: "API routes",
         description:
           "Next.js API routes handling scheduling, job state changes, and file uploads for job photos.",
+        technology: "Next.js",
       },
       {
         id: "supabase",
         label: "Supabase (Postgres + Auth)",
         description:
           "Managed Postgres, authentication, and row-level security — avoided building auth and a database layer from scratch.",
+        technology: "Supabase",
       },
       {
         id: "storage",
         label: "Supabase Storage",
         description: "Job-completion photos and signed customer sign-offs.",
+        technology: "Supabase",
       },
       {
         id: "mobile-app",
         label: "React Native App",
         description:
           "Shipped four weeks after launch, wrapping the same core workflows with offline support and push notifications.",
+        technology: "React Native",
       },
     ],
 
@@ -253,6 +270,21 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Instrument core actions before launch, not after, so the first weeks of data are usable",
     ],
 
+    futureRoadmap: [
+      {
+        item: "Route optimization for technicians handling multiple jobs in a day",
+        source: "client",
+      },
+      {
+        item: "Built-in invoicing and payments, currently handled outside the product",
+        source: "client",
+      },
+      {
+        item: "A configurable workflow builder so the product could serve trade types beyond the initial three",
+        source: "byld-recommendation",
+      },
+    ],
+
     relatedSolutionSlugs: ["startup"],
     relatedArticleSlugs: ["validating-an-mvp"],
 
@@ -308,6 +340,17 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Real-time GPS tracking available to customers within the new platform",
       "Dispatchers fully migrated without a parallel-running old system after cutover",
     ],
+
+    businessContext: {
+      businessModel:
+        "B2B freight brokerage — Atlas Logistics earns margin coordinating dispatch between shippers and independent contractor drivers, so dispatch software isn't a side tool, it's the operating core of the business.",
+      market:
+        "Regional freight dispatch, a mature industry where customers increasingly expect real-time shipment visibility as a baseline, not a premium feature.",
+      existingTechnology:
+        "A 15-year-old on-premise Windows dispatch application, originally built in-house, whose original engineering team had since left the company.",
+      competitivePressure:
+        'Larger national freight brokers already offered real-time tracking to shippers; Atlas Logistics risked losing accounts to competitors who could answer "where\'s my shipment" without a phone call.',
+    },
 
     discovery: [
       {
@@ -372,6 +415,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         label: "Dispatch Service (Kubernetes)",
         description:
           "The new platform's core service, handling job assignment and status updates once migrated.",
+        technology: "Kubernetes",
       },
       {
         id: "tracking-service",
@@ -384,12 +428,14 @@ export const CASE_STUDIES: CaseStudy[] = [
         label: "Event Bus",
         description:
           "Event-driven architecture connecting dispatch, tracking, and notification services without tight coupling between them.",
+        technology: "Event-driven architecture",
       },
       {
         id: "postgresql",
         label: "PostgreSQL",
         description:
           "Replaced the legacy system's proprietary database, with a schema designed for both transactional dispatch data and high-frequency location updates.",
+        technology: "PostgreSQL",
       },
       {
         id: "dispatcher-console",
@@ -526,6 +572,21 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Preserve familiar UI structure during migration even when a full redesign is tempting — adoption risk is real",
     ],
 
+    futureRoadmap: [
+      {
+        item: "Predictive ETAs based on historical route and traffic patterns",
+        source: "byld-recommendation",
+      },
+      {
+        item: "Extending real-time tracking visibility directly to end customers, not just internal dispatchers",
+        source: "client",
+      },
+      {
+        item: "Migrating the remaining legacy-adjacent reporting tools onto the new platform",
+        source: "client",
+      },
+    ],
+
     relatedSolutionSlugs: ["enterprise", "cloud-infrastructure"],
     relatedArticleSlugs: ["monolith-vs-microservices"],
 
@@ -583,6 +644,17 @@ export const CASE_STUDIES: CaseStudy[] = [
       "No loss of existing SEO rankings after the URL migration",
     ],
 
+    businessContext: {
+      businessModel:
+        "Direct-to-consumer retail — revenue depends entirely on the storefront and checkout converting visitors during high-traffic sales moments.",
+      market:
+        "DTC e-commerce, a category where flash sales and holiday events routinely produce far more traffic in short bursts than an average day.",
+      existingTechnology:
+        "A custom-built storefront and checkout, originally built in-house before Nova Commerce's traffic grew past what it was designed to handle.",
+      competitivePressure:
+        "Competing DTC brands already on Shopify Plus could promise customers a reliable checkout during flash sales, while Nova Commerce's own checkout was the thing most likely to fail at exactly those moments.",
+    },
+
     discovery: [
       {
         title: "Checkout funnel analysis",
@@ -639,24 +711,28 @@ export const CASE_STUDIES: CaseStudy[] = [
         label: "Storefront (Hydrogen)",
         description:
           "A custom-built, high-performance frontend on Shopify's Hydrogen framework, not a constrained theme.",
+        technology: "Hydrogen",
       },
       {
         id: "shopify-checkout",
         label: "Shopify Plus Checkout",
         description:
           "Shopify's own load-tested checkout infrastructure, handling the highest-risk part of the funnel.",
+        technology: "Shopify Plus",
       },
       {
         id: "storefront-api",
         label: "Storefront API",
         description:
           "Connects the custom Hydrogen frontend to Shopify's product, cart, and inventory data.",
+        technology: "Shopify Plus",
       },
       {
         id: "klaviyo",
         label: "Klaviyo",
         description:
           "Marketing automation, triggered by checkout and order events via Shopify's webhook system.",
+        technology: "Klaviyo",
       },
       {
         id: "cdn",
@@ -793,6 +869,18 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Budget real time for third-party marketing integrations during a replatform — they're easy to underestimate",
     ],
 
+    futureRoadmap: [
+      {
+        item: "Expanding Hydrogen storefront personalization for returning customers",
+        source: "client",
+      },
+      { item: "A post-purchase upsell flow within the new checkout", source: "client" },
+      {
+        item: "Further Core Web Vitals tuning on category and product pages beyond checkout",
+        source: "byld-recommendation",
+      },
+    ],
+
     relatedSolutionSlugs: ["commerce"],
     relatedArticleSlugs: ["why-shopify-plus-for-high-growth-commerce"],
 
@@ -848,6 +936,17 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Every handoff to a human clearly labeled as such, never disguised",
       "No increase in customer complaints about incorrect support answers",
     ],
+
+    businessContext: {
+      businessModel:
+        "B2B SaaS — Northwind AI's own support team costs scale with its customer base, making support efficiency a direct margin lever, not just a cost center to minimize.",
+      market:
+        "AI-powered customer support tooling, a fast-moving category where trust and honesty about AI limitations increasingly differentiate products from support chatbots with a reputation for confidently wrong answers.",
+      existingTechnology:
+        "A traditional ticketing system and a documentation knowledge base, with no existing AI or automation in the support workflow.",
+      competitivePressure:
+        "Competitors were shipping AI support chatbots quickly, but several had already damaged customer trust with overconfident, incorrect answers — a cautionary example Northwind AI wanted to avoid repeating.",
+    },
 
     discovery: [
       {
@@ -921,12 +1020,14 @@ export const CASE_STUDIES: CaseStudy[] = [
         label: "pgvector",
         description:
           "Stores documentation embeddings for similarity search directly in Postgres, avoiding a separate vector database.",
+        technology: "pgvector",
       },
       {
         id: "llm",
         label: "OpenAI (LLM)",
         description:
           "Generates responses grounded in retrieved documentation passages, with an explicit confidence signal.",
+        technology: "OpenAI",
       },
       {
         id: "handoff",
@@ -1059,6 +1160,21 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Always give customers an unambiguous, easy path to a human — trust depends on it",
     ],
 
+    futureRoadmap: [
+      {
+        item: "Proactive suggestions surfaced to support agents mid-conversation for currently-excluded categories like billing",
+        source: "byld-recommendation",
+      },
+      {
+        item: "Expanding retrieval to product usage data, not just documentation",
+        source: "client",
+      },
+      {
+        item: "A self-service documentation gap report so the support team can prioritize what to write next",
+        source: "byld-recommendation",
+      },
+    ],
+
     relatedSolutionSlugs: ["artificial-intelligence", "automation"],
     relatedArticleSlugs: ["rag-vs-fine-tuning"],
 
@@ -1114,6 +1230,17 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Deploy frequency should measurably increase as a sign of reduced friction",
       "Adoption should be voluntary and high, not mandated and resented",
     ],
+
+    businessContext: {
+      businessModel:
+        'Internal platform, not a revenue product — its "customers" are Harborline\'s own roughly 120 engineers, so success is measured in engineering time recovered, not direct revenue.',
+      market:
+        "Internal developer platforms and developer-experience tooling, an increasingly standard investment area for engineering organizations past a certain size.",
+      existingTechnology:
+        "Manually managed infrastructure via a small platform team, with inconsistent, undocumented provisioning patterns accumulated across product teams over several years.",
+      competitivePressure:
+        "Not customer-facing competitive pressure — the pressure was internal: engineering time lost to provisioning delays was a direct, growing cost as the engineering org scaled past what manual provisioning could support.",
+    },
 
     discovery: [
       {
@@ -1174,6 +1301,7 @@ export const CASE_STUDIES: CaseStudy[] = [
         label: "Backstage Developer Portal",
         description:
           "The self-service interface where engineers browse templates and provision new services.",
+        technology: "Backstage",
       },
       {
         id: "golden-path-templates",
@@ -1186,11 +1314,13 @@ export const CASE_STUDIES: CaseStudy[] = [
         label: "Terraform Automation",
         description:
           "Executes infrastructure provisioning behind the scenes once a developer selects a template.",
+        technology: "Terraform",
       },
       {
         id: "kubernetes",
         label: "Kubernetes",
         description: "Hosts the provisioned services, with namespace-level isolation per team.",
+        technology: "Kubernetes",
       },
       {
         id: "cost-estimator",
@@ -1331,6 +1461,21 @@ export const CASE_STUDIES: CaseStudy[] = [
     recommendations: [
       "Audit real ticket volume before building a developer platform — it quantifies the problem and helps prioritize which golden paths matter most",
       "Keep a manual escalation path for non-standard needs; forcing every case into a template erodes trust",
+    ],
+
+    futureRoadmap: [
+      {
+        item: "Two additional golden-path templates for less-common but recurring service shapes",
+        source: "client",
+      },
+      {
+        item: "Automated cost anomaly alerts for provisioned services, beyond the upfront estimate",
+        source: "byld-recommendation",
+      },
+      {
+        item: "Extending self-service provisioning to the remaining teams still on the manual ticket process",
+        source: "client",
+      },
     ],
 
     relatedSolutionSlugs: ["platform-engineering", "cloud-infrastructure"],

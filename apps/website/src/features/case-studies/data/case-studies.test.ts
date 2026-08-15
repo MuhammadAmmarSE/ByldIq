@@ -74,4 +74,33 @@ describe("CASE_STUDIES", () => {
       }
     }
   });
+
+  it("gives every case study real business context (Milestone 12)", () => {
+    for (const caseStudy of CASE_STUDIES) {
+      expect(caseStudy.businessContext.businessModel.length).toBeGreaterThan(0);
+      expect(caseStudy.businessContext.market.length).toBeGreaterThan(0);
+      expect(caseStudy.businessContext.existingTechnology.length).toBeGreaterThan(0);
+      expect(caseStudy.businessContext.competitivePressure.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("gives every case study at least one future roadmap item with a real source (Milestone 12)", () => {
+    for (const caseStudy of CASE_STUDIES) {
+      expect(caseStudy.futureRoadmap.length).toBeGreaterThan(0);
+      for (const item of caseStudy.futureRoadmap) {
+        expect(["client", "byld-recommendation"]).toContain(item.source);
+      }
+    }
+  });
+
+  it("tags an architecture node's technology only with a name that has a real technology decision (Milestone 12)", () => {
+    for (const caseStudy of CASE_STUDIES) {
+      const decisionNames = new Set(caseStudy.technologyDecisions.map((tech) => tech.name));
+      for (const node of caseStudy.architecture) {
+        if (node.technology) {
+          expect(decisionNames.has(node.technology)).toBe(true);
+        }
+      }
+    }
+  });
 });

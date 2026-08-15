@@ -116,6 +116,9 @@ export const RESPONSES: Record<AiIntent, AiResponse> = {
   },
 };
 
+/** How many `groundedReplies` questions show as quick-reply chips in the greeting — a chat UI with every technology's "Why X?" as its own chip stops being scannable. `getGroundedAnswer` still matches the full array regardless of this cap. */
+const MAX_GROUNDED_QUICK_REPLIES = 4;
+
 /**
  * A greeting for a specific page (solution, case study, technology
  * pages) — more specific than the five journey greetings above without
@@ -124,10 +127,10 @@ export const RESPONSES: Record<AiIntent, AiResponse> = {
  * Visitors never repeat themselves."
  *
  * When the page supplied real grounded Q&A (`groundedReplies` — CLAUDE.md
- * Part 21's "Ask Byld about this project"), its questions become the
- * quick replies instead of the generic three, so a visitor on a case
- * study page is offered real, answerable questions about that specific
- * project rather than a roadmap prompt that ignores it.
+ * Part 21's "Ask Byld about this project"), its first few questions
+ * become the quick replies instead of the generic three, so a visitor on
+ * a case study page is offered real, answerable questions about that
+ * specific project rather than a roadmap prompt that ignores it.
  */
 export function getPageContextGreeting(
   label: string,
@@ -136,7 +139,7 @@ export function getPageContextGreeting(
   return {
     content: `Looks like you're exploring ${label}. Want help thinking through the approach, or would a personalized roadmap from BuildPath be more useful?`,
     quickReplies: groundedReplies?.length
-      ? groundedReplies.map((reply) => reply.question)
+      ? groundedReplies.slice(0, MAX_GROUNDED_QUICK_REPLIES).map((reply) => reply.question)
       : ["What's a typical roadmap?", "Compare technologies", "Start BuildPath"],
   };
 }

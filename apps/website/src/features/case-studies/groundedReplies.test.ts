@@ -24,13 +24,23 @@ describe("buildCaseStudyGroundedReplies", () => {
     expect(architecture?.answer).toContain(caseStudy.architecture[0]?.description);
   });
 
-  it("asks about the first technology decision, grounded in its real 'why'", () => {
-    const [topTechnology] = caseStudy.technologyDecisions;
-    if (!topTechnology) throw new Error("Fixture needs at least one technology decision");
-
+  it("asks a 'Why {name}?' question for every technology decision, not just the first (Milestone 12)", () => {
     const replies = buildCaseStudyGroundedReplies(caseStudy);
-    const techReply = replies.find((reply) => reply.question === `Why ${topTechnology.name}?`);
-    expect(techReply?.answer).toBe(topTechnology.why);
+
+    for (const technology of caseStudy.technologyDecisions) {
+      const techReply = replies.find((reply) => reply.question === `Why ${technology.name}?`);
+      expect(techReply?.answer).toBe(technology.why);
+    }
+  });
+
+  it("grounds 'biggest technical challenges' in the real challenges field (Milestone 12)", () => {
+    const replies = buildCaseStudyGroundedReplies(caseStudy);
+    const challengesReply = replies.find(
+      (reply) => reply.question === "What were the biggest technical challenges?",
+    );
+    for (const challenge of caseStudy.challenges) {
+      expect(challengesReply?.answer).toContain(challenge.issue);
+    }
   });
 
   it("grounds 'what would you build differently' in the real whatCouldImprove field", () => {

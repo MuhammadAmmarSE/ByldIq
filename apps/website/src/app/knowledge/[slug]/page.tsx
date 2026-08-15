@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
+import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { siteConfig } from "@/config/site";
 import {
   CATEGORIES_BY_SLUG,
@@ -11,7 +12,6 @@ import {
   KnowledgeCoreConcepts,
   KnowledgeExecutiveSummary,
   KnowledgeFinalCta,
-  KnowledgeReadingProgress,
   KnowledgeRealExamples,
   KnowledgeRelatedCaseStudies,
   KnowledgeRelatedLearning,
@@ -97,7 +97,7 @@ export default async function KnowledgeArticlePage({ params }: KnowledgeArticleP
           }),
         )}
       />
-      <KnowledgeReadingProgress />
+      <ReadingProgressBar />
       <KnowledgeArticleHero article={article} categoryLabel={category?.label} />
       <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
         <KnowledgeSidebar className="hidden lg:block" />

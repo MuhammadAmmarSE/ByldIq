@@ -42,6 +42,23 @@ describe("getPageContextGreeting", () => {
     expect(greeting.quickReplies).toEqual(["Why Next.js?", "What was the architecture?"]);
   });
 
+  it("caps the number of grounded questions shown as quick replies (Milestone 12)", () => {
+    const manyReplies = Array.from({ length: 7 }, (_, index) => ({
+      question: `Question ${index}?`,
+      answer: "...",
+    }));
+
+    const greeting = getPageContextGreeting("the Fieldnote case study", manyReplies);
+
+    expect(greeting.quickReplies).toHaveLength(4);
+    expect(greeting.quickReplies).toEqual([
+      "Question 0?",
+      "Question 1?",
+      "Question 2?",
+      "Question 3?",
+    ]);
+  });
+
   it("falls back to the generic three quick replies when given an empty array", () => {
     const greeting = getPageContextGreeting("the Fieldnote case study", []);
     expect(greeting.quickReplies).toEqual([

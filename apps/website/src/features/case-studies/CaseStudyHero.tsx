@@ -7,13 +7,18 @@ import { Badge } from "@/components/Badge";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { Button } from "@/components/Button";
 import { Heading } from "@/components/Heading";
+import { ReadingProgressBar } from "@/components/ReadingProgressBar";
+import { ShareButton } from "@/components/ShareButton";
+import { siteConfig } from "@/config/site";
 import { useAiCompanion } from "@/features/homepage/ai-companion";
+import { ProjectVisual } from "@/features/homepage/proof-engine/ProjectVisual";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
 
 import "./analytics";
 
 import { BUSINESS_PROBLEMS } from "./data/business-problems";
+import { estimateReadingTime } from "./estimateReadingTime";
 import { buildCaseStudyGroundedReplies } from "./groundedReplies";
 import type { CaseStudyHeroProps } from "./CaseStudyHero.types";
 
@@ -29,10 +34,20 @@ const KEY_FACTS = [
  * CTAs — BuildPath (linking to `/buildpath?caseStudy={slug}`, which
  * acknowledges the referring case study) and the AI Companion. Mirrors
  * `SolutionHero`'s structure so the two platforms feel like one system.
+ *
+ * Milestone 12 additions: a `ProjectVisual` band (no real project imagery
+ * exists — see that component's own docs), an estimated reading time
+ * badge (`estimateReadingTime`, computed from the case study's actual
+ * text rather than hand-authored and left to drift), a fixed
+ * `ReadingProgressBar` that fires `case_study_reading_completed` once
+ * scroll reaches the end, a `ShareButton`, and a tertiary "Explore the
+ * architecture" link jumping straight to `#architecture` for visitors who
+ * came specifically for the engineering detail.
  */
 export function CaseStudyHero({ caseStudy, company, className }: CaseStudyHeroProps) {
   const analytics = useAnalytics();
   const { open: openAiCompanion, setPageContext } = useAiCompanion();
+  const readingTimeMinutes = estimateReadingTime(caseStudy);
 
   useEffect(() => {
     analytics.track("case_study_viewed", { slug: caseStudy.slug });
@@ -64,9 +79,27 @@ export function CaseStudyHero({ caseStudy, company, className }: CaseStudyHeroPr
     openAiCompanion();
   }
 
+  function handleExploreArchitecture() {
+    analytics.track("case_study_cta_selected", { slug: caseStudy.slug, cta: "hero-architecture" });
+  }
+
+  function handleShare() {
+    analytics.track("case_study_shared", { slug: caseStudy.slug });
+  }
+
+  function handleReadingCompleted() {
+    analytics.track("case_study_reading_completed", { slug: caseStudy.slug });
+  }
+
   return (
     <div className={cn("space-y-6", className)}>
+      <ReadingProgressBar onComplete={handleReadingCompleted} />
       <Breadcrumb items={[{ label: "Work", href: "/work" }, { label: company.name }]} />
+
+      <ProjectVisual
+        id={`case-study-hero-visual-${caseStudy.slug}`}
+        className="h-40 w-full rounded-lg sm:h-56"
+      />
 
       <div className="max-w-3xl space-y-5">
         <div className="flex flex-wrap items-center gap-2">
@@ -74,6 +107,7 @@ export function CaseStudyHero({ caseStudy, company, className }: CaseStudyHeroPr
           <Badge variant="outline">{businessProblemLabel}</Badge>
           <Badge variant="outline">{caseStudy.projectType}</Badge>
           {caseStudy.aiInvolvement && <Badge variant="accent">AI-powered</Badge>}
+          <Badge variant="outline">{readingTimeMinutes} min read</Badge>
         </div>
 
         <Heading variant="display">{caseStudy.headline}</Heading>
@@ -98,7 +132,20 @@ export function CaseStudyHero({ caseStudy, company, className }: CaseStudyHeroPr
           <Button variant="outline" size="lg" onClick={handleTalkToByld}>
             Talk to Byld
           </Button>
+          <ShareButton
+            title={caseStudy.headline}
+            url={`${siteConfig.url}/work/${caseStudy.slug}`}
+            onShare={handleShare}
+          />
         </div>
+
+        <Link
+          href="#architecture"
+          onClick={handleExploreArchitecture}
+          className="text-accent hover:text-accent/80 inline-block text-sm font-medium underline-offset-4 hover:underline"
+        >
+          Explore the architecture
+        </Link>
       </div>
     </div>
   );

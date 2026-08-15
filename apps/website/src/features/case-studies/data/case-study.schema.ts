@@ -4,8 +4,19 @@ import { z } from "zod";
  * Validates every entry in `case-studies.ts` — the "local typed data now,
  * content-collections later" approach, scaled up for Milestone 5's much
  * richer case study model (CLAUDE.md Part 21's fourteen-section
- * structure). Every array below maps to a section the actual page
+ * structure). Every field below maps to a section the actual page
  * renders — nothing here is speculative content with no corresponding UI.
+ *
+ * Milestone 12 added `businessContext` and `futureRoadmap`, and an
+ * optional `technology` tag per architecture node — deepening the
+ * existing five stories rather than adopting the file-based MDX content
+ * model CLAUDE.md Part 12's brief sketches as an example. That brief
+ * itself says "the exact implementation can follow the existing
+ * repository architecture" as long as content and presentation stay
+ * separate, which this schema-validated data file already guarantees;
+ * migrating to MDX would touch every consumer (`ProjectCard`,
+ * `WorkExplorer`, every platform's `RelatedCaseStudies`) for the same
+ * separation this already has. See `docs/case-studies.md`.
  */
 
 const discoveryActivitySchema = z.object({
@@ -23,6 +34,30 @@ const architectureNodeSchema = z.object({
   id: z.string().min(1),
   label: z.string().min(1),
   description: z.string().min(1),
+  /**
+   * A short technology tag for this node (e.g. "Next.js", "Managed
+   * service") — Milestone 12's architecture-node depth, scoped down from
+   * the spec's full alternatives/trade-offs list, which would just
+   * duplicate `technologyDecisions` on the same page. Optional: some
+   * nodes (e.g. "Users") aren't a technology choice at all. When it
+   * matches a real Technology Explorer entry, `CaseStudyArchitecture`
+   * links out to it — the same lookup `CaseStudyTechnologyDecisions`
+   * already uses.
+   */
+  technology: z.string().min(1).optional(),
+});
+
+const businessContextSchema = z.object({
+  businessModel: z.string().min(1),
+  market: z.string().min(1),
+  existingTechnology: z.string().min(1),
+  competitivePressure: z.string().min(1),
+});
+
+const futureRoadmapItemSchema = z.object({
+  item: z.string().min(1),
+  /** Whose plan this is — CLAUDE.md Part 21 (Milestone 12): "Make it clear which items are actual client/project plans versus Byld IQ recommendations." */
+  source: z.enum(["client", "byld-recommendation"]),
 });
 
 const technologyDecisionSchema = z.object({
@@ -80,6 +115,9 @@ export const caseStudySchema = z.object({
   risks: z.array(z.string().min(1)).min(1),
   successCriteria: z.array(z.string().min(1)).min(1),
 
+  // 2b. Business context (Milestone 12) — the environment the project existed in, before any technical detail.
+  businessContext: businessContextSchema,
+
   // 3. Discovery
   discovery: z.array(discoveryActivitySchema).min(1),
 
@@ -111,6 +149,9 @@ export const caseStudySchema = z.object({
   whatCouldImprove: z.array(z.string().min(1)).min(1),
   recommendations: z.array(z.string().min(1)).min(1),
 
+  // 10b. Future roadmap (Milestone 12)
+  futureRoadmap: z.array(futureRoadmapItemSchema).min(1),
+
   // 11. Related content
   relatedSolutionSlugs: z.array(z.string().min(1)).min(1),
   relatedArticleSlugs: z.array(z.string().min(1)).min(1),
@@ -126,3 +167,5 @@ export type TechnologyDecision = z.infer<typeof technologyDecisionSchema>;
 export type EngineeringStage = z.infer<typeof engineeringStageSchema>;
 export type Challenge = z.infer<typeof challengeSchema>;
 export type CaseStudyFaq = z.infer<typeof faqSchema>;
+export type BusinessContext = z.infer<typeof businessContextSchema>;
+export type FutureRoadmapItem = z.infer<typeof futureRoadmapItemSchema>;

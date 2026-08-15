@@ -6,11 +6,14 @@ import { siteConfig } from "@/config/site";
 import {
   CASE_STUDIES,
   CaseStudyArchitecture,
+  CaseStudyBeforeAfter,
+  CaseStudyBusinessContext,
   CaseStudyChallenges,
   CaseStudyDiscovery,
   CaseStudyEngineeringProcess,
   CaseStudyFaqSection,
   CaseStudyFinalCta,
+  CaseStudyFutureRoadmap,
   CaseStudyHero,
   CaseStudyLessonsLearned,
   CaseStudyOverview,
@@ -69,15 +72,20 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
 /**
  * One shared template driven entirely by `CASE_STUDIES` data — every case
  * study page has the same section order (CLAUDE.md Part 21: "Every case
- * study follows the same architecture"). Every section is now real: Hero,
- * Executive Summary, Business Challenge, Discovery, Product Thinking,
- * Architecture, Technology Decisions, Engineering Process, Challenges,
- * Results, a client quote (Milestone 11 — real for 3 of 5 case studies,
- * renders nothing for the rest), Lessons Learned, Related Solutions,
- * Related Knowledge, FAQ, and the final CTA. A sticky sidebar (desktop
- * only) provides scrollspy navigation across the middle sections; the
- * hero and final CTA span full width, mirroring the Solutions Platform's
- * page template.
+ * study follows the same architecture"). Every section is now real: Hero
+ * (Milestone 12: visual band, reading time, reading progress, share, and
+ * an "Explore the architecture" jump link — see `CaseStudyHero`),
+ * Executive Summary, Business Challenge, Business Context (Milestone 12),
+ * Discovery, Product Thinking, Architecture, Technology Decisions,
+ * Engineering Process, Challenges, a before/after comparison (Milestone
+ * 12 — real for 1 of 5 case studies, renders nothing for the rest),
+ * Results, a client quote (Milestone 11
+ * — real for 3 of 5 case studies, renders nothing for the rest), Lessons
+ * Learned, Future Roadmap (Milestone 12), Related Solutions, Related
+ * Knowledge, FAQ, and the final CTA. A sticky sidebar (desktop only)
+ * provides scrollspy navigation across the middle sections; the hero and
+ * final CTA span full width, mirroring the Solutions Platform's page
+ * template.
  */
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
@@ -111,18 +119,21 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       <CaseStudyHero caseStudy={caseStudy} company={company} />
 
       <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
-        <CaseStudySidebar className="hidden lg:block" />
+        <CaseStudySidebar slug={caseStudy.slug} className="hidden lg:block" />
         <div className="max-w-3xl space-y-16">
           <CaseStudyOverview caseStudy={caseStudy} />
+          <CaseStudyBusinessContext caseStudy={caseStudy} />
           <CaseStudyDiscovery caseStudy={caseStudy} />
           <CaseStudyProductThinking caseStudy={caseStudy} />
           <CaseStudyArchitecture caseStudy={caseStudy} />
           <CaseStudyTechnologyDecisions caseStudy={caseStudy} />
           <CaseStudyEngineeringProcess caseStudy={caseStudy} />
           <CaseStudyChallenges caseStudy={caseStudy} />
+          <CaseStudyBeforeAfter caseStudy={caseStudy} />
           <CaseStudyResults caseStudy={caseStudy} />
           <CaseStudyQuote caseStudy={caseStudy} />
           <CaseStudyLessonsLearned caseStudy={caseStudy} />
+          <CaseStudyFutureRoadmap caseStudy={caseStudy} />
           <CaseStudyRelatedSolutions caseStudy={caseStudy} />
           <CaseStudyRelatedKnowledge caseStudy={caseStudy} />
           <CaseStudyFaqSection caseStudy={caseStudy} />

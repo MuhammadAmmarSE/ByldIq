@@ -32,8 +32,6 @@ export { KnowledgeRelatedTechnologies } from "./KnowledgeRelatedTechnologies";
 export { KnowledgeRelatedCaseStudies } from "./KnowledgeRelatedCaseStudies";
 export { KnowledgeRelatedLearning } from "./KnowledgeRelatedLearning";
 export { KnowledgeBookmarkButton } from "./KnowledgeBookmarkButton";
-export { KnowledgeReadingProgress } from "./KnowledgeReadingProgress";
-export { useReadingProgress } from "./useReadingProgress";
 export { KnowledgeSidebar } from "./KnowledgeSidebar";
 export { KnowledgeFinalCta } from "./KnowledgeFinalCta";
 export { KnowledgeLearningPaths } from "./KnowledgeLearningPaths";

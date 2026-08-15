@@ -1,4 +1,4 @@
-# Case Studies Platform (Milestone 5, extended by Milestone 11)
+# Case Studies Platform (Milestone 5, extended by Milestones 11 and 12)
 
 This document covers `apps/website/src/app/work/` and everything it
 composes: the `/work` landing page, the shared five-case-study detail
@@ -11,11 +11,12 @@ conventions this milestone reuses) as background, and focuses on what's
 specific to Case Studies.
 
 Milestone 5 shipped this platform. Milestone 11 ("Work / Portfolio
-Experience") extended it rather than building a parallel experience —
-see "Milestone 11 — Work / Portfolio Experience extension" near the end
-of this document for why, and for what each of its seven phases added.
-Facts above that section already reflect the current, post-Milestone-11
-state.
+Experience") and Milestone 12 ("Case Studies Platform") each extended it
+rather than building a parallel experience — see "Milestone 11 — Work /
+Portfolio Experience extension" and "Milestone 12 — Case Studies Platform
+extension" near the end of this document for why, and for what each
+phase added. Facts above those sections already reflect the current,
+post-Milestone-12 state.
 
 ## Routes
 
@@ -59,15 +60,20 @@ app/work/[slug]/page.tsx                   Server Component
 │   ├── CaseStudySidebar                   sticky, useScrollSpy, desktop only
 │   └── content column
 │       ├── CaseStudyOverview              #executive-summary/#business-challenge
+│       ├── CaseStudyBusinessContext       #business-context — market/model/existing tech (M12)
 │       ├── CaseStudyDiscovery             #discovery — card grid
 │       ├── CaseStudyProductThinking       #product-thinking — decisions + rejected ideas
-│       ├── CaseStudyArchitecture          #architecture — selectable pipeline, staggered reveal (M11)
+│       ├── CaseStudyArchitecture          #architecture — selectable pipeline, staggered reveal (M11),
+│       │                                    per-node technology tag + Technology Explorer link (M12)
 │       ├── CaseStudyTechnologyDecisions   #technology-decisions — Accordion, links to /technology/[slug] (M11)
-│       ├── CaseStudyEngineeringProcess    #engineering-process — Accordion
+│       ├── CaseStudyEngineeringProcess    #engineering-process — Accordion, sequential reveal (M12)
 │       ├── CaseStudyChallenges            #challenges — issue/resolution cards
+│       ├── CaseStudyBeforeAfter           #before-after — parsed from real metrics, or nothing (M12,
+│       │                                    not in sidebar — not guaranteed to render)
 │       ├── CaseStudyResults               #results — approach/outcome/AnimatedMetric (M11)
 │       ├── CaseStudyQuote                 M11 — real testimonial or nothing, not in sidebar
 │       ├── CaseStudyLessonsLearned        #lessons-learned — three-column lists
+│       ├── CaseStudyFutureRoadmap         #future-roadmap — client plan vs. Byld IQ recommendation (M12)
 │       ├── CaseStudyRelatedSolutions      #related-solutions — reuses SolutionCard
 │       ├── CaseStudyRelatedKnowledge      #related-knowledge — reuses ArticleCard
 │       └── CaseStudyFaqSection            #faq — Accordion
@@ -132,6 +138,60 @@ something that grows automatically with the data.
   building `AnimatedMetric`, which relies on exact decimal metrics like
   uptime percentages being displayed correctly.
 
+## Milestone 12 additions to the data/logic layer
+
+- **Schema enrichment** (`data/case-study.schema.ts`) — three additions,
+  all backed by real content for all five case studies (checked by new
+  cases in `data/case-studies.test.ts`):
+  - `architectureNodeSchema.technology?` — an optional tag naming the real
+    technology a node maps to, when one applies. Deliberately shallower
+    than the spec's full per-node alternatives/trade-offs list —
+    `CaseStudyTechnologyDecisions` already covers that depth once per
+    technology on the same page, so repeating it per architecture node
+    would duplicate content rather than add it. See the schema file's own
+    doc comment.
+  - `businessContext` — `businessModel`/`market`/`existingTechnology`/
+    `competitivePressure`, four required strings rendered by the new
+    `CaseStudyBusinessContext`.
+  - `futureRoadmap` — an array of `{ item, source: "client" |
+"byld-recommendation" }`, rendered by the new `CaseStudyFutureRoadmap`
+    with a badge distinguishing what the client already plans from what
+    Byld IQ recommends — CLAUDE.md Part 21 asks for that distinction
+    explicitly.
+- **`@/utils/before-after.ts`** — `parseBeforeAfter(value)` extracts an
+  existing `"before -> after"` pair already embedded in a metric's value
+  string (matching `->` or `→`), returning `null` for any metric that
+  isn't already phrased that way. `CaseStudyBeforeAfter` renders nothing
+  when no metric parses — a genuinely empty section for 4 of 5 case
+  studies, rather than inventing a "before" baseline that was never
+  recorded (CLAUDE.md Part 7: "never fabricate numbers").
+- **`estimateReadingTime.ts`** — sums word counts across every narrative
+  field on a `CaseStudy` and divides by 200 wpm, `Math.max(1, ...)`-
+  floored. Shown in `CaseStudyHero` as "N min read."
+- **`groundedReplies.ts` — every technology decision, not just the
+  first.** Previously only the case study's first-listed technology
+  decision got a "Why {name}?" grounded reply; every technology now does,
+  plus a new "What were the biggest technical challenges?" question
+  grounded in the real `challenges` field. `getPageContextGreeting`
+  (`engine/responses.ts`) caps the greeting's quick-reply chips to the
+  first `MAX_GROUNDED_QUICK_REPLIES` (4) so this doesn't overflow the chat
+  UI, but `getGroundedAnswer` still matches the full array — a visitor can
+  ask about any technology by name and still get a real answer, even one
+  not shown as a chip. See `AiCompanion.docs.md`'s "Grounded replies"
+  section.
+- **`useReadingProgress` + `ReadingProgressBar` promoted to shared.**
+  Previously `features/knowledge`-local (`KnowledgeReadingProgress`);
+  moved to `src/hooks/` and `src/components/` once Case Studies became a
+  second real consumer (CLAUDE.md Part 27: "promote only after multiple
+  real use cases"). `ReadingProgressBar` gained an `onComplete?` prop,
+  fired once via a ref guard when progress reaches 100%, powering
+  `case_study_reading_completed`.
+- **`ShareButton`** (`src/components/`) — Web Share API with a
+  clipboard-copy + toast fallback for browsers without it. Built
+  case-study-agnostic from the start (no case-study coupling in its
+  props), anticipating reuse anywhere else a "share this page" affordance
+  is needed.
+
 ## State
 
 - **`WorkExplorer`'s filter state** (query, industry, technology,
@@ -179,8 +239,13 @@ Declared in `features/case-studies/analytics.ts`: `work_search`,
 `/technology/[slug]` cross-link),
 `case_study_engineering_stage_selected`, `case_study_faq_expanded`,
 `case_study_solution_clicked`, `case_study_article_clicked`,
-`case_study_cta_selected`, `case_study_buildpath_started`. "AI questions"
-is covered by the AI Companion's own events, not duplicated here.
+`case_study_cta_selected`, `case_study_buildpath_started`,
+`case_study_section_viewed` (Milestone 12 — the sidebar's active section,
+fired via `CaseStudySidebar`'s scrollspy), `case_study_reading_completed`
+(Milestone 12 — scroll reaching 100%, via `ReadingProgressBar`'s
+`onComplete`), `case_study_shared` (Milestone 12 — native share or
+clipboard-copy fallback, via `ShareButton`). "AI questions" is covered by
+the AI Companion's own events, not duplicated here.
 
 **Scroll depth gap found and fixed during this milestone's review.** The
 Phase 0 analytics doc comment claimed "time on page and scroll depth
@@ -265,6 +330,16 @@ fabricated; it should land as its own generic addition to
   viewport" honestly for parseable values), and `ProjectGrid`'s cards use
   only `layout` (a transform, not a color change). See
   `AnimatedMetric.docs.md` and `ProjectGrid.docs.md`.
+- **The Milestone 11 lesson applied proactively in Milestone 12.**
+  `CaseStudyEngineeringProcess`'s stages now reveal sequentially on scroll
+  into view (CLAUDE.md Part 12: "timeline sequential reveal"), and each
+  trigger's step-number badge uses the same marginal-contrast `text-muted`
+  token the Milestone 11 regression involved. Rather than risk the same
+  opacity-fade failure and catch it again by re-running axe,
+  `staggerItemTransformOnly` (a new `motion-variants.ts` export) was used
+  instead of the usual fade-based `staggerItem` — it animates `y` only and
+  never touches `opacity`, so there's no partial-opacity state for axe to
+  catch mid-transition. See `CaseStudyEngineeringProcess.docs.md`.
 
 ## Navigation
 
@@ -356,6 +431,104 @@ Seven phases closed the gaps that were real:
   already _is_ the complete story; a separate `/case-study` sub-route
   would only duplicate it.
 
+## Milestone 12 — Case Studies Platform extension
+
+Milestone 12's brief was a full "Case Studies Platform" spec: routes,
+an MDX-based file content architecture, a fourteen-plus-section detail
+page (Hero through Future Roadmap), an interactive Architecture Explorer
+with per-node depth, Before/After comparisons, a "premium technical
+publication" reading experience (sticky TOC, reading progress, reading
+time, share), extensive motion, and a long analytics/testing/SEO
+checklist — nearly all of it already built by Milestone 5's Case Studies
+Platform (this document) and deepened by Milestone 11. As with Milestone
+10 and Milestone 11's relationship to their own specs, the choice was
+between duplicating an already-complete platform under new content
+tooling or closing the genuine gaps on top of it. The latter was chosen —
+`/work/[slug]` remains the one Case Study template.
+
+The spec's own closing note explicitly permits this: "The exact
+implementation can follow the existing repository architecture, but the
+principle is mandatory: content and presentation must remain separate" —
+already true of the existing zod-validated `data/case-studies.ts` model,
+so it wasn't migrated to the spec's example MDX file layout (see "What
+stayed honestly out of scope" below). The same note also warns against
+"fake case studies just to make the interface look complete" — every new
+field added this milestone (`businessContext`, `futureRoadmap`, the
+architecture `technology` tags) was written from the same real, specific
+facts already established for each of the five fictional companies in
+Milestone 3, never generic filler.
+
+Seven phases closed the gaps that were real:
+
+1. **Schema enrichment.** `architectureNodeSchema.technology?`,
+   `businessContext`, and `futureRoadmap` added to `data/case-study.schema.ts`
+   and backed with real content for all five case studies — see
+   "Milestone 12 additions to the data/logic layer" above.
+2. **Business Context section.** `CaseStudyBusinessContext` renders
+   `businessModel`/`market`/`existingTechnology`/`competitivePressure` —
+   CLAUDE.md Part 21's "Business Context" section, previously covered
+   only implicitly by the Executive Summary and Challenge fields.
+3. **Architecture node depth + Before/After comparisons.**
+   `CaseStudyArchitecture`'s detail panel now shows a node's `technology`
+   tag and links to the real Technology Explorer when one exists (the
+   same `TECHNOLOGY_EXPLORER_SLUGS` pattern `CaseStudyTechnologyDecisions`
+   already used). `CaseStudyBeforeAfter` + `@/utils/before-after.ts`
+   surface any metric already phrased as a before/after pair — genuinely
+   empty for 4 of 5 case studies rather than fabricating one.
+4. **Future Roadmap section.** `CaseStudyFutureRoadmap` renders each
+   `futureRoadmap` item with a badge distinguishing "Client plan" from
+   "Byld IQ recommendation" — CLAUDE.md Part 21 asks for that distinction
+   explicitly, not just a flat list of next steps.
+5. **Reading experience + analytics.** `estimateReadingTime`,
+   `ReadingProgressBar` (promoted to shared, gained `onComplete`), and
+   `ShareButton` (promoted to shared) — plus `case_study_section_viewed`,
+   `case_study_reading_completed`, `case_study_shared`. See "Milestone 12
+   additions to the data/logic layer" above.
+6. **AI grounded replies enrichment + Hero polish.** Every technology
+   decision (not just the first) now gets a "Why {name}?" grounded reply,
+   plus a new "biggest technical challenges" question; `CaseStudyHero`
+   gained the reading-time badge, an "Explore the architecture" link, and
+   the Share button. See `AiCompanion.docs.md`'s "Grounded replies"
+   section.
+7. **Section entrance motion polish.** `CaseStudyEngineeringProcess`'s
+   stages reveal sequentially on scroll into view, using a new
+   transform-only stagger variant to avoid re-triggering the Milestone 11
+   color-contrast regression — see "Accessibility" above.
+
+### What stayed honestly out of scope
+
+- **No MDX / `content/case-studies/*` file architecture.** The spec's own
+  example content layout (`metadata.ts` + one `.mdx` file per section) was
+  not adopted. The existing zod-validated `data/case-study.schema.ts` +
+  `data/case-studies.ts` model already keeps content and presentation
+  separate — the spec's stated mandatory principle — without the
+  migration cost of moving five already-complete, richly cross-referenced
+  case studies (each already linked from the homepage's Proof Engine, the
+  Solutions Platform, and the Technology Explorer) into a parallel content
+  pipeline this repository doesn't otherwise use anywhere yet.
+- **No mobile tap-node-to-drawer pattern for the Architecture Explorer.**
+  The spec suggests a dedicated mobile interaction (tap a node, a drawer
+  opens with detail) distinct from desktop's inline detail panel.
+  `CaseStudyArchitecture`'s existing selectable-button-row +
+  inline-panel pattern already works on touch (it's tap-to-select, not
+  hover-gated) and reflows naturally at every breakpoint; a separate
+  drawer-based mobile variant would double the component's states for a
+  presentation difference, not a functional gap.
+- **No visual regression testing.** The spec's Testing section asks for
+  it; this codebase has no visual-regression tooling anywhere yet (not
+  even for the Design System's own component library), so adding it
+  scoped to one platform would be inconsistent infrastructure rather than
+  a real capability. The existing Storybook a11y gate + Playwright e2e
+  axe scans are the testing surface this milestone extended instead.
+- **No per-node "Alternatives"/"Trade-offs" depth on the Architecture
+  Explorer.** The spec's node detail asks for the same alternatives/
+  trade-offs breakdown `CaseStudyTechnologyDecisions` already provides
+  once per technology, elsewhere on the same page. Repeating it per node
+  (a node and a technology decision often reference the same technology)
+  would duplicate content rather than deepen it — the node's `technology`
+  tag + Explorer link covers the connection honestly instead. See
+  `data/case-study.schema.ts`'s doc comment.
+
 ## Scope boundaries
 
 Honest gaps, documented rather than silently shipped:
@@ -370,6 +543,10 @@ Honest gaps, documented rather than silently shipped:
 | A 404 status code for an unknown `/work/[slug]` or facet slug               | Renders the correct not-found UI but returns HTTP 200 — the same pre-existing Next.js 15 behavior documented in `docs/solutions.md`, reproduced identically here.                                                                                                                                                      |
 | M11's `AnimatePresence`/exit animation for filtered-out cards               | Not built — `ProjectGrid`'s cards are removed from the DOM immediately on filter, not kept mounted mid-fade. Every existing test asserting synchronous removal already depends on that, and the layout reflow of the cards that _remain_ is the part of "layout animation" that's actually visible on a filter change. |
 | M11's hover-gated metric reveal on `ProjectCard` (Part 11's hover sequence) | Metrics stay always-visible, not hidden until hover — this codebase's own UX philosophy (Part 4: "never hide critical information") outweighs matching the spec's hover-reveal sequence literally, and hover has no touch-device equivalent without a tap fallback the spec doesn't call for.                          |
+| M12's MDX `content/case-studies/*` file architecture                        | Not adopted — the existing zod-validated data model already keeps content and presentation separate (the spec's own stated mandatory principle), and the spec explicitly permits following existing repository architecture. See "What stayed honestly out of scope" under Milestone 12.                               |
+| M12's mobile tap-node-to-drawer pattern for the Architecture Explorer       | Not built — the existing selectable-button-row + inline-panel pattern already works on touch and reflows at every breakpoint without a separate mobile-only interaction.                                                                                                                                               |
+| M12's visual regression testing                                             | Not built — no visual-regression tooling exists anywhere in this codebase yet; adding it scoped to one platform would be inconsistent infrastructure, not a real capability.                                                                                                                                           |
+| M12's per-node Alternatives/Trade-offs depth on the Architecture Explorer   | Not built at the node level — `CaseStudyTechnologyDecisions` already covers alternatives/trade-offs once per technology on the same page; each node instead gets a `technology` tag + a link to the real Technology Explorer entry.                                                                                    |
 
 ## Testing
 
@@ -382,12 +559,26 @@ Honest gaps, documented rather than silently shipped:
   (`CaseStudyTechnologyDecisions`, `CaseStudyHero`,
   `CaseStudyArchitecture`, `ProjectCard`,
   `FeaturedProjectStory`, `ProjectGrid`, `useAiCompanion`,
+  `responses.test.ts`) to cover the new behavior. Milestone 12 added test
+  files for every new component/util (`CaseStudyBusinessContext`,
+  `CaseStudyBeforeAfter`, `CaseStudyFutureRoadmap`,
+  `before-after.test.ts`, `estimateReadingTime.test.ts`,
+  `ReadingProgressBar.test.tsx`, `ShareButton.test.tsx`) and extended
+  existing ones (`data/case-studies.test.ts`, `CaseStudyArchitecture`,
+  `CaseStudySidebar`, `CaseStudyHero`, `groundedReplies.test.ts`,
   `responses.test.ts`) to cover the new behavior.
 - **Storybook a11y** (`vitest --project=storybook`): every component's
   stories pass the same axe gate as every design-system primitive,
   homepage module, and Solutions component — including, after the fix
   described above, the four stories an opacity-fade regression briefly
-  broke during this milestone.
+  broke during Milestone 11. Milestone 12's own Phase Final review caught
+  one more instance of the same class of issue, in a different
+  component: `ShareButton.stories.tsx` wrapped its story in a second,
+  local `ToastProvider` on top of the global one every story already gets
+  (`StorybookProviders`), producing two identically-labeled Sonner toast
+  landmarks and a real axe `landmark-unique` violation — fixed by
+  removing the redundant local provider, matching the pattern
+  `Toast.stories.tsx` already used correctly.
 - **E2E** (`e2e/work.spec.ts`, Playwright): the landing page's grid,
   search, and quick-filter interaction; the full detail-page template
   rendering; architecture node selection and technology-decision
@@ -397,4 +588,17 @@ Honest gaps, documented rather than silently shipped:
   re-verified in Milestone 11: `e2e/technology.spec.ts` and
   `e2e/solutions.spec.ts` (both reuse `ProjectCard`) and
   `e2e/homepage.spec.ts` (reuses `ProjectCard`/`FeaturedProjectStory` via
-  the Proof Engine).
+  the Proof Engine). Milestone 12 added `"business-context"` and
+  `"future-roadmap"` to the detail page's "renders every shared template
+  section" assertion (`"before-after"` deliberately excluded — it isn't
+  guaranteed to render for the `fieldnote-mvp` fixture that test uses).
+- **A real test-environment bug found and fixed in Milestone 12's Phase
+  Final review.** `CaseStudyHero.test.tsx`'s reading-completion test
+  rendered the component before any scroll dimensions were established;
+  jsdom defaults `document.documentElement.scrollHeight` to `0`, which
+  (being less than `innerHeight`) reads as "nothing left to scroll" and
+  fired `case_study_reading_completed` on mount, before the test's first
+  scroll assertion — never possible in a real browser, which has already
+  laid out the page by the time the effect runs. Fixed by establishing
+  realistic scroll dimensions before rendering, not by changing
+  `useReadingProgress` itself.

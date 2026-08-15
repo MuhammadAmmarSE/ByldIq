@@ -50,10 +50,17 @@ project... Explains based on the structured project knowledge"). When
 present:
 
 - They replace the generic three quick replies in the page-context
-  greeting (`getPageContextGreeting`).
+  greeting (`getPageContextGreeting`) — capped to the first
+  `MAX_GROUNDED_QUICK_REPLIES` (4) so the chip row stays scannable, even
+  though `CaseStudyHero` (Milestone 12) supplies one "Why {name}?"
+  question per technology decision, not just the first.
 - `sendMessage` checks `getGroundedAnswer` for an exact question match
   _before_ the generic keyword-matched `RESPONSES` engine, since no
   keyword rule could derive a page-specific answer from keywords alone.
+  This checks the _entire_ `groundedReplies` array regardless of the
+  quick-reply cap — a visitor can still get a real answer about a
+  technology whose question wasn't shown as a chip, by asking about it
+  directly.
 
 Not every `pageContext` sets this — Solutions and Technology pages don't,
 since a rule-based greeting is honest enough there without a claim to be

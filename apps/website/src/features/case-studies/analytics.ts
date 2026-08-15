@@ -6,11 +6,13 @@
  * need to record that context. "Scroll depth" reuses the homepage's
  * existing `scroll_depth_reached` event — every `/work` route mounts the
  * shared `ScrollDepthTracker` (see `features/homepage/shared`) rather than
- * duplicating that infrastructure here. "Time on page" has no tracker
- * anywhere in the codebase yet (not even on the homepage) — it isn't
- * fabricated here; it should land as its own generic addition to
- * `features/homepage/shared` when a real need for it is scoped, not as
- * one-off case-study-only code.
+ * duplicating that infrastructure here. "Time on page" still has no
+ * tracker anywhere in the codebase (not even on the homepage) and isn't
+ * fabricated here — Milestone 12's `case_study_reading_completed`
+ * (scroll reaching 100%, via `ReadingProgressBar`'s `onComplete`) is a
+ * related but distinct signal, not a substitute; literal time-on-page
+ * should still land as its own generic addition to
+ * `features/homepage/shared` when scoped.
  */
 declare module "@/types/analytics" {
   interface AnalyticsEventMap {
@@ -44,6 +46,12 @@ declare module "@/types/analytics" {
     case_study_cta_selected: { slug: string; cta: string };
     /** Starting BuildPath from a case study (prefilled). */
     case_study_buildpath_started: { slug: string };
+    /** Milestone 12: the sidebar's active section changed (desktop only — see `CaseStudySidebar`). */
+    case_study_section_viewed: { slug: string; section: string };
+    /** Milestone 12: a visitor scrolled to the end of a case study. */
+    case_study_reading_completed: { slug: string };
+    /** Milestone 12: the share button was used (native share or clipboard copy). */
+    case_study_shared: { slug: string };
   }
 }
 

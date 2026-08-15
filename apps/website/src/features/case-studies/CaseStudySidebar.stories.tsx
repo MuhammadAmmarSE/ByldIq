@@ -5,6 +5,7 @@ import { CaseStudySidebar } from "./CaseStudySidebar";
 const meta = {
   title: "CaseStudies/CaseStudySidebar",
   component: CaseStudySidebar,
+  args: { slug: "fieldnote-mvp" },
 } satisfies Meta<typeof CaseStudySidebar>;
 
 export default meta;

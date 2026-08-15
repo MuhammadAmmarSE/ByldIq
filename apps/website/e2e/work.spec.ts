@@ -65,6 +65,7 @@ test.describe("Case study detail page (fieldnote-mvp, representative of all five
     for (const id of [
       "executive-summary",
       "business-challenge",
+      "business-context",
       "discovery",
       "product-thinking",
       "architecture",
@@ -73,6 +74,7 @@ test.describe("Case study detail page (fieldnote-mvp, representative of all five
       "challenges",
       "results",
       "lessons-learned",
+      "future-roadmap",
       "related-solutions",
       "related-knowledge",
       "faq",
