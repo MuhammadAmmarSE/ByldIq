@@ -13,6 +13,7 @@ import { ProductShowcase } from "@/features/homepage/product-showcase";
 import { ProductThinkingTimeline } from "@/features/homepage/product-thinking-timeline";
 import { ProofEngine } from "@/features/homepage/proof-engine";
 import { HomepageSection, ScrollDepthTracker } from "@/features/homepage/shared";
+import { SocialProof } from "@/features/homepage/social-proof";
 import { TechnologyEcosystem } from "@/features/homepage/technology-ecosystem";
 import { WhatWeBuild } from "@/features/homepage/what-we-build";
 
@@ -74,6 +75,10 @@ export default async function HomePage() {
 
       <HomepageSection id="proof-engine" containerSize="wide">
         <ProofEngine />
+      </HomepageSection>
+
+      <HomepageSection id="social-proof" containerSize="wide">
+        <SocialProof />
       </HomepageSection>
 
       <HomepageSection id="product-showcase" containerSize="wide">
