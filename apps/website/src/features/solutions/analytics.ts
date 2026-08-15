@@ -38,6 +38,8 @@ declare module "@/types/analytics" {
     industry_card_clicked: { slug: string };
     /** Milestone 10: selecting a recommended solution from an industry detail page. */
     industry_solution_clicked: { industrySlug: string; solutionSlug: string };
+    /** Milestone 10: expanding an engagement model's details. */
+    engagement_model_expanded: { slug: string };
   }
 }
 

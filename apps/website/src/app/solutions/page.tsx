@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
 import { siteConfig } from "@/config/site";
-import { IndustriesSection, SolutionSelector, SolutionsHero } from "@/features/solutions";
+import {
+  EngagementModelsSection,
+  IndustriesSection,
+  SolutionSelector,
+  SolutionsHero,
+} from "@/features/solutions";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 const description =
@@ -27,7 +32,8 @@ export const metadata: Metadata = {
 
 /**
  * The Solutions landing page (CLAUDE.md Part 20): an adaptive,
- * journey-aware hero followed by the interactive Solution Selector grid.
+ * journey-aware hero, the interactive Solution Selector grid, and two
+ * Milestone 10 additions — Industries and Engagement Models.
  */
 export default function SolutionsPage() {
   return (
@@ -45,6 +51,7 @@ export default function SolutionsPage() {
         <SolutionSelector />
       </div>
       <IndustriesSection />
+      <EngagementModelsSection />
     </Container>
   );
 }

@@ -11,12 +11,16 @@ export type {
 export { INDUSTRIES } from "./data/industries";
 export { industrySchema } from "./data/industry.schema";
 export type { Industry } from "./data/industry.schema";
+export { ENGAGEMENT_MODELS } from "./data/engagement-models";
+export { engagementModelSchema } from "./data/engagement-model.schema";
+export type { EngagementModel } from "./data/engagement-model.schema";
 export { SOLUTIONS_HERO_CONTENT } from "./data/hero-content";
 export type { SolutionsHeroContent } from "./data/hero-content";
 export { SolutionsHero } from "./SolutionsHero";
 export { SolutionSelector } from "./SolutionSelector";
 export { IndustriesSection } from "./IndustriesSection";
 export { IndustryDetail } from "./IndustryDetail";
+export { EngagementModelsSection } from "./EngagementModelsSection";
 export { SolutionCard, SOLUTION_ICONS } from "./SolutionCard";
 export { SolutionHero } from "./SolutionHero";
 export { SolutionOverview } from "./SolutionOverview";
