@@ -26,6 +26,16 @@ industry's first `recommendedSolutionSlugs` entry — BuildPath supports
 `?solution=`, not an `?industry=` param, so this reuses real prefill
 support rather than inventing a new one.
 
+## AI Companion context (Milestone 10)
+
+Same pattern as `SolutionHero`: sets `pageContext` to
+`{ label: "{Industry} solutions", slug: "industry-{slug}" }` on mount
+and clears it on unmount, so opening the AI Companion from an industry
+page greets the visitor with this industry acknowledged rather than
+falling back to the journey- or section-based greeting. The `industry-`
+slug prefix keeps it distinct from a same-named solution slug in
+`recentlyViewed`'s history.
+
 ## Analytics
 
 Selecting a recommended solution fires `industry_solution_clicked` with

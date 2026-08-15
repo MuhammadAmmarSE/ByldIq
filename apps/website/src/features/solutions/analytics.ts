@@ -42,6 +42,8 @@ declare module "@/types/analytics" {
     engagement_model_expanded: { slug: string };
     /** Milestone 10: the compared solution pair changed. */
     solution_comparison_viewed: { slugs: [string, string] };
+    /** Milestone 10: opening the AI companion from the Solutions landing page's AI Advisor moment. */
+    solutions_ai_advisor_opened: Record<string, never>;
   }
 }
 

@@ -7,6 +7,7 @@ import {
   IndustriesSection,
   SolutionComparisonEngine,
   SolutionSelector,
+  SolutionsAiAdvisor,
   SolutionsHero,
 } from "@/features/solutions";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
@@ -33,9 +34,9 @@ export const metadata: Metadata = {
 
 /**
  * The Solutions landing page (CLAUDE.md Part 20): an adaptive,
- * journey-aware hero, the interactive Solution Selector grid, and three
- * Milestone 10 additions — Industries, Engagement Models, and the
- * solution Comparison Engine.
+ * journey-aware hero, the interactive Solution Selector grid, and four
+ * Milestone 10 additions — the AI Advisor moment, Industries, Engagement
+ * Models, and the solution Comparison Engine.
  */
 export default function SolutionsPage() {
   return (
@@ -52,6 +53,7 @@ export default function SolutionsPage() {
       <div id="solution-selector">
         <SolutionSelector />
       </div>
+      <SolutionsAiAdvisor />
       <IndustriesSection />
       <EngagementModelsSection />
       <SolutionComparisonEngine />

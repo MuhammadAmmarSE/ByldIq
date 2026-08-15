@@ -4,42 +4,46 @@ import { Sparkles } from "lucide-react";
 
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
+import { Heading } from "@/components/Heading";
 import { Icon } from "@/components/Icon";
-import { SectionHeader } from "@/components/SectionHeader";
+import { Text } from "@/components/Text";
 import { GREETINGS, RESPONSES, useAiCompanion } from "@/features/homepage/ai-companion";
 import { useAnalytics } from "@/providers/AnalyticsProvider";
 import { cn } from "@/utils/cn";
 
 import "./analytics";
 
-import type { AiCompanionHighlightProps } from "./AiCompanionHighlight.types";
+import type { SolutionsAiAdvisorProps } from "./SolutionsAiAdvisor.types";
 
 /**
- * Milestone 9's AI Companion Highlight: an inline, always-visible preview
- * of a real Byld conversation, plus a second entry point into the same
- * global panel the floating trigger opens (CLAUDE.md Part 16 — Byld
- * "quietly appears," so this section demonstrates value before asking a
- * visitor to click an icon they may not have noticed).
+ * Milestone 10's AI Advisor moment on the Solutions landing page — the
+ * same pattern as the homepage's `AiCompanionHighlight` (Milestone 9):
+ * an inline preview of a real Byld exchange, plus a second entry point
+ * into the same global panel the floating trigger opens, not a
+ * duplicate companion instance.
  *
  * The demo exchange is read inside the component body, not at module
- * scope — some test files partially mock `@/features/homepage/ai-companion`
- * (only `useAiCompanion`, no `GREETINGS`/`RESPONSES`); a module-level read
- * would throw as soon as anything transitively imports this module under
- * one of those mocks (see the analogous fix in `SolutionsAiAdvisor`).
+ * scope — `@/features/solutions`' barrel export is imported widely
+ * across the codebase, including by test files that partially mock
+ * `@/features/homepage/ai-companion` (only `useAiCompanion`, no
+ * `GREETINGS`/`RESPONSES`); a module-level read would throw as soon as
+ * anything imports the solutions barrel under one of those mocks.
  */
-export function AiCompanionHighlight({ className }: AiCompanionHighlightProps) {
+export function SolutionsAiAdvisor({ className }: SolutionsAiAdvisorProps) {
   const { open } = useAiCompanion();
   const analytics = useAnalytics();
 
-  // A representative exchange, not fabricated demo copy — pulled directly
-  // from the real response engine so this preview never drifts from what
-  // the actual AI Companion says.
-  const demoUserMessage = GREETINGS.default.quickReplies[2] ?? "I want to use AI";
-  const demoAssistantReply = RESPONSES.ai.content;
+  // A representative exchange, not fabricated demo copy — pulled
+  // directly from the real response engine. "I'm building a startup" is
+  // GREETINGS.default's first quick reply and genuinely matches the
+  // "startup" intent, whose real reply is about scoping an MVP —
+  // directly relevant to choosing a Solutions path.
+  const demoUserMessage = GREETINGS.default.quickReplies[0] ?? "I'm building a startup";
+  const demoAssistantReply = RESPONSES.startup.content;
 
   function handleOpen() {
     open();
-    analytics.track("ai_companion_highlight_opened", {});
+    analytics.track("solutions_ai_advisor_opened", {});
   }
 
   return (
@@ -49,12 +53,13 @@ export function AiCompanionHighlight({ className }: AiCompanionHighlightProps) {
         className,
       )}
     >
-      <div className="space-y-6">
-        <SectionHeader
-          eyebrow="Byld AI"
-          heading="Ask Byld before you build."
-          description="A product consultant built into the site — not a sales bot. Ask about technology trade-offs, architecture, or your roadmap, and Byld explains its reasoning instead of just answering."
-        />
+      <div className="space-y-4">
+        <Heading variant="h2">Not sure which solution fits?</Heading>
+        <Text variant="subtitle">
+          Ask Byld. It&apos;s a product consultant built into the site, not a sales bot — it&apos;ll
+          walk through your goals and explain the trade-offs, the same way it would for anyone on
+          the team.
+        </Text>
         <Button onClick={handleOpen} iconLeft={Sparkles}>
           Ask Byld a question
         </Button>

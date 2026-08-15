@@ -22,6 +22,7 @@ export { IndustriesSection } from "./IndustriesSection";
 export { IndustryDetail } from "./IndustryDetail";
 export { EngagementModelsSection } from "./EngagementModelsSection";
 export { SolutionComparisonEngine } from "./SolutionComparisonEngine";
+export { SolutionsAiAdvisor } from "./SolutionsAiAdvisor";
 export { SolutionCard, SOLUTION_ICONS } from "./SolutionCard";
 export { SolutionHero } from "./SolutionHero";
 export { SolutionOverview } from "./SolutionOverview";

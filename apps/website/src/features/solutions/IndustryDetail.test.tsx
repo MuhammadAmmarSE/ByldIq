@@ -100,6 +100,24 @@ describe("IndustryDetail", () => {
     expect(screen.getByTestId("ai-open-state")).toHaveTextContent("open");
   });
 
+  it("sets the AI companion's page context to this industry on mount", () => {
+    const logistics = requireIndustry("logistics");
+
+    function Harness() {
+      const pageContext = useAiCompanionStore((state) => state.pageContext);
+      return (
+        <>
+          <IndustryDetail industry={logistics} />
+          <p data-testid="page-context">{pageContext ? pageContext.slug : "none"}</p>
+        </>
+      );
+    }
+
+    renderDetail(<Harness />);
+
+    expect(screen.getByTestId("page-context")).toHaveTextContent(`industry-${logistics.slug}`);
+  });
+
   it("tracks selecting a recommended solution", async () => {
     const user = userEvent.setup();
     const logistics = requireIndustry("logistics");

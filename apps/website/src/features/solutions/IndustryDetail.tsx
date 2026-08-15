@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 
 import { Badge } from "@/components/Badge";
@@ -30,11 +31,23 @@ const COMPANIES_BY_ID = new Map(FICTIONAL_COMPANIES.map((company) => [company.id
  */
 export function IndustryDetail({ industry, className }: IndustryDetailProps) {
   const analytics = useAnalytics();
-  const { open: openAiCompanion } = useAiCompanion();
+  const { open: openAiCompanion, setPageContext } = useAiCompanion();
   const recommendedSolutions = industry.recommendedSolutionSlugs
     .map((slug) => SOLUTIONS_BY_SLUG.get(slug))
     .filter((solution) => solution !== undefined);
   const [primaryRecommendation] = recommendedSolutions;
+
+  useEffect(() => {
+    // Same pattern as SolutionHero — makes the AI Companion's greeting
+    // acknowledge this industry if opened from this page (CLAUDE.md Part
+    // 20: "AI automatically changes context"), without touching the
+    // visitor's separate journey preference. Cleared on unmount so
+    // leaving the page falls back to the journey-based greeting rather
+    // than a stale industry reference.
+    setPageContext({ label: `${industry.label} solutions`, slug: `industry-${industry.slug}` });
+    return () => setPageContext(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [industry.slug, industry.label]);
 
   function handleSolutionSelect(slug: string) {
     analytics.track("industry_solution_clicked", {
