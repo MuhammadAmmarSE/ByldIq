@@ -7,6 +7,7 @@ import { ConversionExperience } from "@/features/homepage/conversion-experience"
 import { EngineeringExcellenceEngine } from "@/features/homepage/engineering-excellence";
 import { JourneySelector } from "@/features/homepage/journey-selection";
 import { KnowledgeCenterPreview } from "@/features/homepage/knowledge-center-preview";
+import { ProblemStatement } from "@/features/homepage/problem-statement";
 import { ProductShowcase } from "@/features/homepage/product-showcase";
 import { ProductThinkingTimeline } from "@/features/homepage/product-thinking-timeline";
 import { ProofEngine } from "@/features/homepage/proof-engine";
@@ -21,11 +22,13 @@ import { HomepageSection, ScrollDepthTracker } from "@/features/homepage/shared"
 export const dynamic = "force-dynamic";
 
 /**
- * The homepage — CLAUDE.md Part 9's eleven modules, in the order the spec
- * documents them. A Server Component (per Part 26: "Server Components
- * first") purely so it can read the intro-seen cookie for a zero-flash
- * skip on return visits; every module it composes is itself a client
- * component, since interaction is the point of each one.
+ * The homepage — CLAUDE.md Part 9's eleven Milestone 3 modules, plus the
+ * additional sections Milestone 9's homepage audit found genuinely
+ * missing (Problem Statement, and more added across that milestone's
+ * phases — see `docs/homepage.md`). A Server Component (per Part 26:
+ * "Server Components first") purely so it can read the intro-seen cookie
+ * for a zero-flash skip on return visits; every module it composes is
+ * itself a client component, since interaction is the point of each one.
  *
  * Module 8 (Byld AI Companion) isn't rendered here — it's a persistent
  * floating overlay mounted once in `AppProviders` and available on every
@@ -47,6 +50,10 @@ export default async function HomePage() {
 
       <HomepageSection id="adaptive-hero" containerSize="wide">
         <AdaptiveHero />
+      </HomepageSection>
+
+      <HomepageSection id="problem-statement" containerSize="wide">
+        <ProblemStatement />
       </HomepageSection>
 
       <HomepageSection id="product-thinking" containerSize="wide">
