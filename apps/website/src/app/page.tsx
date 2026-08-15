@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 
 import { AdaptiveHero } from "@/features/homepage/adaptive-hero";
+import { AiCompanionHighlight } from "@/features/homepage/ai-companion-highlight";
 import { ArrivalExperience, INTRO_SEEN_COOKIE, ScrollIndicator } from "@/features/homepage/arrival";
 import { BuildPathPreview } from "@/features/homepage/buildpath-preview";
 import { ConversionExperience } from "@/features/homepage/conversion-experience";
@@ -32,9 +33,10 @@ export const dynamic = "force-dynamic";
  * for a zero-flash skip on return visits; every module it composes is
  * itself a client component, since interaction is the point of each one.
  *
- * Module 8 (Byld AI Companion) isn't rendered here — it's a persistent
- * floating overlay mounted once in `AppProviders` and available on every
- * route, not a section of this page.
+ * Module 8 (Byld AI Companion)'s full conversation panel isn't rendered
+ * here — it's a persistent floating overlay mounted once in `AppProviders`
+ * and available on every route. `AiCompanionHighlight` below is an inline
+ * preview and a second entry point into that same panel, not a duplicate.
  */
 export default async function HomePage() {
   const cookieStore = await cookies();
@@ -80,6 +82,10 @@ export default async function HomePage() {
 
       <HomepageSection id="engineering-excellence" containerSize="wide">
         <EngineeringExcellenceEngine />
+      </HomepageSection>
+
+      <HomepageSection id="ai-companion-highlight" containerSize="wide">
+        <AiCompanionHighlight />
       </HomepageSection>
 
       <HomepageSection id="buildpath-preview">
