@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
 import { siteConfig } from "@/config/site";
-import { SolutionSelector, SolutionsHero } from "@/features/solutions";
+import { IndustriesSection, SolutionSelector, SolutionsHero } from "@/features/solutions";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 const description =
-  "Explore how Byld IQ approaches product engineering across nine solution areas — from startup MVPs to enterprise modernization.";
+  "Explore how Byld IQ approaches product engineering across twelve solution areas and the industries we build for — from startup MVPs to enterprise modernization.";
 
 export const metadata: Metadata = {
   title: "Solutions",
@@ -44,6 +44,7 @@ export default function SolutionsPage() {
       <div id="solution-selector">
         <SolutionSelector />
       </div>
+      <IndustriesSection />
     </Container>
   );
 }

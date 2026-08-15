@@ -8,10 +8,15 @@ export type {
   SuccessMetric,
   SolutionFaq,
 } from "./data/solution.schema";
+export { INDUSTRIES } from "./data/industries";
+export { industrySchema } from "./data/industry.schema";
+export type { Industry } from "./data/industry.schema";
 export { SOLUTIONS_HERO_CONTENT } from "./data/hero-content";
 export type { SolutionsHeroContent } from "./data/hero-content";
 export { SolutionsHero } from "./SolutionsHero";
 export { SolutionSelector } from "./SolutionSelector";
+export { IndustriesSection } from "./IndustriesSection";
+export { IndustryDetail } from "./IndustryDetail";
 export { SolutionCard, SOLUTION_ICONS } from "./SolutionCard";
 export { SolutionHero } from "./SolutionHero";
 export { SolutionOverview } from "./SolutionOverview";

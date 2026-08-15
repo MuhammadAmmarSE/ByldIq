@@ -34,6 +34,10 @@ declare module "@/types/analytics" {
     solution_cta_selected: { slug: string; cta: string };
     /** Starting BuildPath from a solution page (prefilled). */
     solution_buildpath_started: { slug: string };
+    /** Milestone 10: selecting an industry card on the Solutions landing page. */
+    industry_card_clicked: { slug: string };
+    /** Milestone 10: selecting a recommended solution from an industry detail page. */
+    industry_solution_clicked: { industrySlug: string; solutionSlug: string };
   }
 }
 
