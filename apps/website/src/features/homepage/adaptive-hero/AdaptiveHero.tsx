@@ -16,6 +16,7 @@ import "./analytics";
 
 import type { AdaptiveHeroProps } from "./AdaptiveHero.types";
 import { HERO_CONTENT } from "./data/hero-content";
+import { HeroBackdrop } from "./HeroBackdrop";
 import { HeroProductPreview } from "./HeroProductPreview";
 
 /**
@@ -35,62 +36,61 @@ export function AdaptiveHero({ className }: AdaptiveHeroProps) {
   }
 
   return (
-    <div
-      className={cn(
-        "grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center",
-        className,
-      )}
-    >
-      <motion.div
-        key={journey}
-        variants={staggerContainer}
-        initial="hidden"
-        animate="visible"
-        className="space-y-6"
-      >
-        <motion.div variants={staggerItem}>
-          {/* Journey Selection (which precedes this section) owns the
+    <div className={cn("relative overflow-hidden rounded-lg", className)}>
+      <HeroBackdrop />
+
+      <div className="relative grid gap-12 p-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:p-12">
+        <motion.div
+          key={journey}
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="space-y-6"
+        >
+          <motion.div variants={staggerItem}>
+            {/* Journey Selection (which precedes this section) owns the
               page's `h1`; this is visually the biggest headline on the
               page but semantically the second-level section title. */}
-          <Heading variant="display" as="h2">
-            {content.headline}
-          </Heading>
+            <Heading variant="display" as="h2">
+              {content.headline}
+            </Heading>
+          </motion.div>
+
+          <motion.div variants={staggerItem}>
+            <Text variant="subtitle">{content.supportingCopy}</Text>
+          </motion.div>
+
+          <motion.div variants={staggerItem} className="flex flex-wrap gap-3">
+            <Button
+              asChild
+              size="lg"
+              onClick={() => handleCtaClick("primary", content.primaryCta.label)}
+            >
+              <a href={content.primaryCta.href}>{content.primaryCta.label}</a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              onClick={() => handleCtaClick("secondary", content.secondaryCta.label)}
+            >
+              <a href={content.secondaryCta.href}>{content.secondaryCta.label}</a>
+            </Button>
+          </motion.div>
+
+          <motion.div variants={staggerItem} className="flex flex-wrap gap-2 pt-2">
+            {content.trustIndicators.map((indicator) => (
+              <Badge key={indicator} variant="neutral">
+                {indicator}
+              </Badge>
+            ))}
+          </motion.div>
         </motion.div>
 
-        <motion.div variants={staggerItem}>
-          <Text variant="subtitle">{content.supportingCopy}</Text>
+        <motion.div key={`${journey}-preview`} variants={fade} initial="hidden" animate="visible">
+          <HeroProductPreview content={content} />
         </motion.div>
-
-        <motion.div variants={staggerItem} className="flex flex-wrap gap-3">
-          <Button
-            asChild
-            size="lg"
-            onClick={() => handleCtaClick("primary", content.primaryCta.label)}
-          >
-            <a href={content.primaryCta.href}>{content.primaryCta.label}</a>
-          </Button>
-          <Button
-            asChild
-            variant="outline"
-            size="lg"
-            onClick={() => handleCtaClick("secondary", content.secondaryCta.label)}
-          >
-            <a href={content.secondaryCta.href}>{content.secondaryCta.label}</a>
-          </Button>
-        </motion.div>
-
-        <motion.div variants={staggerItem} className="flex flex-wrap gap-2 pt-2">
-          {content.trustIndicators.map((indicator) => (
-            <Badge key={indicator} variant="neutral">
-              {indicator}
-            </Badge>
-          ))}
-        </motion.div>
-      </motion.div>
-
-      <motion.div key={`${journey}-preview`} variants={fade} initial="hidden" animate="visible">
-        <HeroProductPreview content={content} />
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -29,3 +29,9 @@ yet. Every click fires `hero_cta_clicked` with the current journey.
 The content block and preview panel are keyed on the current journey, so
 changing journeys remounts and replays the stagger-in entrance — CLAUDE.md
 Part 11: "All transitions smooth. No page reload."
+
+## Background
+
+`HeroBackdrop` (Milestone 9's "Hero Animation" requirements) sits behind
+the content grid inside a `relative overflow-hidden` wrapper — see its
+own `.docs.md`.
