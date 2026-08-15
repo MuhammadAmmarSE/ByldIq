@@ -73,6 +73,20 @@ export const solutionSchema = z.object({
   architecture: z.array(architectureNodeSchema).min(1),
   technologies: z.array(technologySchema).min(1),
   successMetrics: z.array(successMetricSchema).min(1),
+  /** Milestone 10's "Timeline" — an overall engagement duration, distinct from `DELIVERY_STAGES` (the shared nine-stage *process*, not a duration) and from each capability's own narrower `timeline`. */
+  deliveryTimeline: z.string().min(1),
+  /** Milestone 10's "Team composition" — role labels (optionally with a count prefix, e.g. "2 Backend Engineers"), reusing CLAUDE.md Part 17's Suggested Team roles rather than inventing new titles. */
+  teamComposition: z.array(z.string().min(1)).min(1),
+  /**
+   * Milestone 10's "Estimated investment." Deliberately qualitative, never
+   * a dollar figure — CLAUDE.md Part 7 rules out inventing numbers, and
+   * the AI Companion's own `RESPONSES.pricing` already states the
+   * company's real position: "We don't quote a price without
+   * understanding the product first... BuildPath will give you a
+   * realistic investment range." A per-solution dollar figure here would
+   * contradict that stated philosophy, not just be unverifiable.
+   */
+  investmentGuidance: z.string().min(1),
   relatedCaseStudySlugs: z.array(z.string().min(1)).min(1),
   relatedArticleSlugs: z.array(z.string().min(1)).min(1),
   faqs: z.array(faqSchema).min(1),

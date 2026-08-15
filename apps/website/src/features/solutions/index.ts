@@ -19,6 +19,7 @@ export { CapabilityExplorer } from "./CapabilityExplorer";
 export { ArchitectureExplorer } from "./ArchitectureExplorer";
 export { TechnologyExplorer } from "./TechnologyExplorer";
 export { DeliveryFramework } from "./DeliveryFramework";
+export { EngagementSnapshot } from "./EngagementSnapshot";
 export { SuccessMetrics } from "./SuccessMetrics";
 export { RelatedCaseStudies } from "./RelatedCaseStudies";
 export { RelatedKnowledge } from "./RelatedKnowledge";

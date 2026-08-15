@@ -19,6 +19,7 @@ const SECTIONS = [
   { id: "architecture", label: "How it fits together" },
   { id: "technology", label: "Why these technologies" },
   { id: "delivery", label: "How we deliver it" },
+  { id: "engagement-snapshot", label: "What to expect" },
   { id: "success-metrics", label: "What success looks like" },
   { id: "related-case-studies", label: "Related work" },
   { id: "related-knowledge", label: "Go deeper" },

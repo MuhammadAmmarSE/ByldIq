@@ -67,6 +67,7 @@ test.describe("Solution detail page (startup, representative of all nine)", () =
       "architecture",
       "technology",
       "delivery",
+      "engagement-snapshot",
       "success-metrics",
       "related-case-studies",
       "related-knowledge",

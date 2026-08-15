@@ -211,6 +211,14 @@ export const SOLUTIONS: Solution[] = [
       { label: "Architecture changes needed post-seed round", value: "Zero, by design" },
       { label: "Core actions instrumented at launch", value: "100%" },
     ],
+    deliveryTimeline: "6–12 weeks to a testable MVP, ongoing after that",
+    teamComposition: [
+      "1 Product Strategist",
+      "2 Full-Stack Engineers",
+      "1 Product Designer (part-time)",
+    ],
+    investmentGuidance:
+      "Typically the leanest engagement in our portfolio — scoped to validate quickly before any larger commitment. BuildPath will turn your specific scope into a realistic investment range.",
     relatedCaseStudySlugs: ["fieldnote-mvp"],
     relatedArticleSlugs: ["validating-an-mvp"],
     faqs: [
@@ -424,6 +432,15 @@ export const SOLUTIONS: Solution[] = [
       { label: "Legacy infrastructure cost reduction", value: "Measured post-migration" },
       { label: "Mean time to detect an incident", value: "Reduced via observability" },
     ],
+    deliveryTimeline: "3–9 months, phased by system rather than delivered as one cutover",
+    teamComposition: [
+      "1 Solutions Architect",
+      "3 Backend Engineers",
+      "1 DevOps Engineer",
+      "1 QA Engineer",
+    ],
+    investmentGuidance:
+      "A larger, phased investment than a greenfield build — cost is driven by the number of systems and integrations in scope, not a fixed package. BuildPath will scope this against your specific legacy footprint.",
     relatedCaseStudySlugs: ["atlas-logistics-modernization"],
     relatedArticleSlugs: ["monolith-vs-microservices"],
     faqs: [
@@ -617,6 +634,15 @@ export const SOLUTIONS: Solution[] = [
       { label: "Uptime during peak events", value: "99.9%+" },
       { label: "Monthly app/tooling spend", value: "Reduced via consolidation" },
     ],
+    deliveryTimeline:
+      "8–14 weeks for a storefront/checkout rebuild, timed around your traffic calendar",
+    teamComposition: [
+      "1 Commerce Engineer (Shopify specialist)",
+      "1 Frontend Engineer",
+      "1 Product Designer",
+    ],
+    investmentGuidance:
+      "Scoped around what's being rebuilt — a checkout optimization pass costs meaningfully less than a full headless storefront migration. BuildPath will scope this against your current stack.",
     relatedCaseStudySlugs: ["nova-commerce-checkout"],
     relatedArticleSlugs: ["why-shopify-plus-for-high-growth-commerce"],
     faqs: [
@@ -832,6 +858,10 @@ export const SOLUTIONS: Solution[] = [
       { label: "Time to update knowledge base", value: "Minutes, not a retraining cycle" },
       { label: "Flagged unsafe/incorrect responses", value: "Caught pre-release by guardrails" },
     ],
+    deliveryTimeline: "4–10 weeks for a first production workflow, depending on data readiness",
+    teamComposition: ["1 AI Engineer", "1 Backend Engineer", "1 Product Manager (part-time)"],
+    investmentGuidance:
+      "Cost is driven more by data and evaluation work than by model usage — a well-scoped assessment upfront avoids paying to discover that later. BuildPath will scope this against your actual data and use case.",
     relatedCaseStudySlugs: ["northwind-ai-support-assistant"],
     relatedArticleSlugs: ["rag-vs-fine-tuning"],
     faqs: [
@@ -1036,6 +1066,11 @@ export const SOLUTIONS: Solution[] = [
       { label: "Cross-team infrastructure duplication", value: "Reduced" },
       { label: "Platform incident mean time to resolution", value: "Reduced via observability" },
     ],
+    deliveryTimeline:
+      "2–4 months for a first golden-path template set, then ongoing platform iteration",
+    teamComposition: ["1 Platform Architect", "2 Platform Engineers", "1 DevOps Engineer"],
+    investmentGuidance:
+      "An ongoing investment more than a one-time project — the highest-leverage version of this work compounds as more teams adopt the platform. BuildPath will scope an initial phase against your team's size.",
     relatedCaseStudySlugs: ["harborline-developer-platform"],
     relatedArticleSlugs: ["monolith-vs-microservices"],
     faqs: [
@@ -1254,6 +1289,10 @@ export const SOLUTIONS: Solution[] = [
       { label: "Mean time to detect an infrastructure issue", value: "Minutes, via alerting" },
       { label: "Critical security misconfigurations", value: "Zero, verified via audit" },
     ],
+    deliveryTimeline: "4–8 weeks for an architecture and cost audit, then phased implementation",
+    teamComposition: ["1 Cloud Architect", "1 DevOps Engineer", "1 Backend Engineer (part-time)"],
+    investmentGuidance:
+      "Often self-funding — cost optimization work frequently pays for itself within a few months of reduced cloud spend. BuildPath will scope this against your current infrastructure footprint.",
     relatedCaseStudySlugs: ["harborline-developer-platform", "atlas-logistics-modernization"],
     relatedArticleSlugs: ["monolith-vs-microservices"],
     faqs: [
@@ -1454,6 +1493,10 @@ export const SOLUTIONS: Solution[] = [
         value: "Reduced after platform is established",
       },
     ],
+    deliveryTimeline: "3–6 weeks per automated workflow, after an initial process audit",
+    teamComposition: ["1 Automation Engineer", "1 Backend Engineer (part-time)"],
+    investmentGuidance:
+      "Priced per workflow rather than as one program, so value is provable before expanding scope. BuildPath will scope this against the specific processes you want automated.",
     relatedCaseStudySlugs: ["northwind-ai-support-assistant", "nova-commerce-checkout"],
     relatedArticleSlugs: ["rag-vs-fine-tuning"],
     faqs: [
@@ -1657,6 +1700,10 @@ export const SOLUTIONS: Solution[] = [
       },
       { label: "Components passing automated accessibility checks", value: "100%" },
     ],
+    deliveryTimeline: "3–6 weeks for a design system foundation, then ongoing per feature",
+    teamComposition: ["1 Product Designer", "1 UX Researcher (part-time)"],
+    investmentGuidance:
+      "Usually the lightest-weight engagement we offer, since it's design work rather than a full build — often paired with an engineering solution rather than run standalone. BuildPath will scope this against what else you're building.",
     relatedCaseStudySlugs: ["fieldnote-mvp", "nova-commerce-checkout"],
     relatedArticleSlugs: ["validating-an-mvp", "accessibility-checklist-for-product-teams"],
     faqs: [
@@ -1867,6 +1914,10 @@ export const SOLUTIONS: Solution[] = [
       { label: "Total cost vs. maintaining ill-fitting workarounds", value: "Lower, long-term" },
       { label: "Documentation coverage at handover", value: "100% of core system logic" },
     ],
+    deliveryTimeline: "2–6 months, depending on the number of systems being integrated",
+    teamComposition: ["1 Solutions Architect", "2 Backend Engineers", "1 QA Engineer"],
+    investmentGuidance:
+      "Priced around integration complexity, not team size alone — a system with many brittle third-party dependencies costs more to build reliably than the core logic itself. BuildPath will scope this against your specific systems.",
     relatedCaseStudySlugs: ["atlas-logistics-modernization", "harborline-developer-platform"],
     relatedArticleSlugs: ["monolith-vs-microservices"],
     faqs: [

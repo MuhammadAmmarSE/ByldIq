@@ -7,6 +7,7 @@ import {
   ArchitectureExplorer,
   CapabilityExplorer,
   DeliveryFramework,
+  EngagementSnapshot,
   RelatedCaseStudies,
   RelatedKnowledge,
   SOLUTIONS,
@@ -61,10 +62,11 @@ export async function generateMetadata({ params }: SolutionPageProps): Promise<M
  * page has the same section order (CLAUDE.md Part 20: "all pages must
  * share the same architecture"). All sections are now real: Hero, Business
  * Problem, Business Outcomes, Engineering Philosophy, Capability Explorer,
- * Architecture Explorer, Technology Explorer, Delivery Framework, Success
- * Metrics, Related Case Studies, Related Knowledge, FAQ, and the final CTA.
- * A sticky sidebar (desktop only) provides scrollspy navigation across the
- * middle sections; the hero and final CTA span full width.
+ * Architecture Explorer, Technology Explorer, Delivery Framework, Engagement
+ * Snapshot (Milestone 10: timeline/team/investment), Success Metrics,
+ * Related Case Studies, Related Knowledge, FAQ, and the final CTA. A sticky
+ * sidebar (desktop only) provides scrollspy navigation across the middle
+ * sections; the hero and final CTA span full width.
  */
 export default async function SolutionPage({ params }: SolutionPageProps) {
   const { slug } = await params;
@@ -92,6 +94,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
           <ArchitectureExplorer solution={solution} />
           <TechnologyExplorer solution={solution} />
           <DeliveryFramework solution={solution} />
+          <EngagementSnapshot solution={solution} />
           <SuccessMetrics solution={solution} />
           <RelatedCaseStudies solution={solution} />
           <RelatedKnowledge solution={solution} />
