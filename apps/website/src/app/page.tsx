@@ -12,6 +12,7 @@ import { ProductShowcase } from "@/features/homepage/product-showcase";
 import { ProductThinkingTimeline } from "@/features/homepage/product-thinking-timeline";
 import { ProofEngine } from "@/features/homepage/proof-engine";
 import { HomepageSection, ScrollDepthTracker } from "@/features/homepage/shared";
+import { TechnologyEcosystem } from "@/features/homepage/technology-ecosystem";
 import { WhatWeBuild } from "@/features/homepage/what-we-build";
 
 // Reading the intro-seen cookie makes this route request-dependent, which
@@ -59,6 +60,10 @@ export default async function HomePage() {
 
       <HomepageSection id="what-we-build" containerSize="wide">
         <WhatWeBuild />
+      </HomepageSection>
+
+      <HomepageSection id="technology-ecosystem" containerSize="wide">
+        <TechnologyEcosystem />
       </HomepageSection>
 
       <HomepageSection id="product-thinking" containerSize="wide">
