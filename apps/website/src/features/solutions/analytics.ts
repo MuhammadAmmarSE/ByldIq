@@ -40,6 +40,8 @@ declare module "@/types/analytics" {
     industry_solution_clicked: { industrySlug: string; solutionSlug: string };
     /** Milestone 10: expanding an engagement model's details. */
     engagement_model_expanded: { slug: string };
+    /** Milestone 10: the compared solution pair changed. */
+    solution_comparison_viewed: { slugs: [string, string] };
   }
 }
 

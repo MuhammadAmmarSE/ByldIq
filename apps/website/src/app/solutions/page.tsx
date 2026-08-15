@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import {
   EngagementModelsSection,
   IndustriesSection,
+  SolutionComparisonEngine,
   SolutionSelector,
   SolutionsHero,
 } from "@/features/solutions";
@@ -32,8 +33,9 @@ export const metadata: Metadata = {
 
 /**
  * The Solutions landing page (CLAUDE.md Part 20): an adaptive,
- * journey-aware hero, the interactive Solution Selector grid, and two
- * Milestone 10 additions — Industries and Engagement Models.
+ * journey-aware hero, the interactive Solution Selector grid, and three
+ * Milestone 10 additions — Industries, Engagement Models, and the
+ * solution Comparison Engine.
  */
 export default function SolutionsPage() {
   return (
@@ -52,6 +54,7 @@ export default function SolutionsPage() {
       </div>
       <IndustriesSection />
       <EngagementModelsSection />
+      <SolutionComparisonEngine />
     </Container>
   );
 }
