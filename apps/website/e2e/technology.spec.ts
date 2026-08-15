@@ -245,11 +245,15 @@ test.describe("Technology navigation", () => {
     await page.goto("/");
 
     await page.getByRole("button", { name: "Technology", exact: true }).click();
+    // Scoped to the mega menu panel, not just any link with this name — the
+    // homepage's own Technology Ecosystem section (Milestone 9) renders the
+    // same technology names, so an unscoped locator is ambiguous.
+    const technologyMenu = page.getByLabel("Technology menu");
     for (const name of TECHNOLOGY_NAMES) {
-      await expect(page.getByRole("link", { name, exact: true })).toBeVisible();
+      await expect(technologyMenu.getByRole("link", { name, exact: true })).toBeVisible();
     }
 
-    await page.getByRole("link", { name: "Next.js", exact: true }).click();
+    await technologyMenu.getByRole("link", { name: "Next.js", exact: true }).click();
     await expect(page).toHaveURL(/\/technology\/next-js$/);
   });
 

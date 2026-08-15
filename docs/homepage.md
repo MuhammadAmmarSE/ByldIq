@@ -1,12 +1,15 @@
-# Homepage (Milestone 3)
+# Homepage (Milestone 3 + Milestone 9)
 
 This document covers `apps/website/src/app/page.tsx` and everything it
-composes: the eleven homepage modules from CLAUDE.md Part 9, built as
-`apps/website/src/features/homepage/*`. It assumes `docs/architecture.md`
-(the general layering contract) and CLAUDE.md Parts 9–19 (the modules'
-product spec) as background, and focuses on what's specific to this
-milestone: composition, state, rendering, motion, and — importantly —
-where this milestone's scope deliberately ends.
+composes: the original eleven homepage modules from CLAUDE.md Part 9
+(Milestone 3), plus five additional sections Milestone 9's homepage
+audit found genuinely missing against that spec (Problem Statement,
+What We Build, Technology Ecosystem, Social Proof, AI Companion
+Highlight — see "Milestone 9 additions," below). It assumes
+`docs/architecture.md` (the general layering contract) and CLAUDE.md
+Parts 9–19 (the modules' product spec) as background, and focuses on
+what's specific to these milestones: composition, state, rendering,
+motion, and — importantly — where scope deliberately ends.
 
 ## Component hierarchy
 
@@ -15,16 +18,21 @@ app/page.tsx                          Server Component — composition root
 ├── ArrivalExperience                 fixed overlay, unmounts itself
 ├── ScrollDepthTracker                client boundary for useScrollDepth()
 ├── ScrollIndicator                   fixed "scroll for more" affordance
-└── HomepageSection × 9               <section id="…"> + Container + section_viewed analytics
-    ├── #journey-selection    → JourneySelector (owns the page's h1)
-    ├── #adaptive-hero        → AdaptiveHero
-    ├── #product-thinking     → ProductThinkingTimeline
-    ├── #proof-engine         → ProofEngine
-    ├── #product-showcase     → ProductShowcase
+└── HomepageSection × 14              <section id="…"> + Container + section_viewed analytics + currentSection sync
+    ├── #journey-selection      → JourneySelector (owns the page's h1)
+    ├── #adaptive-hero          → AdaptiveHero
+    ├── #problem-statement      → ProblemStatement            (M9)
+    ├── #what-we-build          → WhatWeBuild                 (M9)
+    ├── #technology-ecosystem   → TechnologyEcosystem         (M9)
+    ├── #product-thinking       → ProductThinkingTimeline
+    ├── #proof-engine           → ProofEngine
+    ├── #social-proof           → SocialProof                 (M9)
+    ├── #product-showcase       → ProductShowcase
     ├── #engineering-excellence → EngineeringExcellenceEngine
-    ├── #buildpath-preview    → BuildPathPreview
-    ├── #knowledge-center     → KnowledgeCenterPreview
-    └── #conversion-experience → ConversionExperience
+    ├── #ai-companion-highlight → AiCompanionHighlight        (M9)
+    ├── #buildpath-preview      → BuildPathPreview
+    ├── #knowledge-center       → KnowledgeCenterPreview
+    └── #conversion-experience  → ConversionExperience
 ```
 
 Each module lives in its own `features/homepage/<module>/` folder with
@@ -32,15 +40,51 @@ the same per-component contract as `components/` (CLAUDE.md Part 27):
 `Name.tsx`, `.types.ts`, `.test.tsx`, `.stories.tsx`, `.docs.md`,
 `index.ts`. A `features/homepage/shared/` folder holds what every module
 needs: `HomepageSection`, `useJourneyContent`, `useScrollDepth` /
-`ScrollDepthTracker`, `useSectionAnalytics`, and the shared
-`FICTIONAL_COMPANIES` roster (see "Fictional data," below). Each
-module's own `.docs.md` is the source of truth for that module's specific
-decisions; this file only covers what's cross-cutting.
+`ScrollDepthTracker`, `useSectionAnalytics`, `useCurrentSectionSync`, and
+the shared `FICTIONAL_COMPANIES` roster (see "Fictional data," below).
+Each module's own `.docs.md` is the source of truth for that module's
+specific decisions; this file only covers what's cross-cutting.
 
-**Module 8 (Byld AI Companion) isn't one of the nine sections above.**
-`AiCompanionProvider` is mounted once in `AppProviders` — not per-route —
-so the floating trigger and panel are available everywhere, not just the
-homepage.
+**The Byld AI Companion's conversation panel isn't one of the sections
+above.** `AiCompanionProvider` is mounted once in `AppProviders` — not
+per-route — so the floating trigger and panel are available everywhere,
+not just the homepage. `#ai-companion-highlight` is an inline preview
+and a second entry point into that same panel, not a duplicate
+companion — see its own `.docs.md`.
+
+## Milestone 9 additions
+
+Milestone 9 audited the built (Milestone 3) homepage against CLAUDE.md
+Part 9's full module list and found seven genuine gaps, each closed by
+reusing an existing real dataset/platform rather than inventing a
+parallel one:
+
+- **Hero animation primitives** (`ParticleField`, `LightSweep`,
+  `useMouseParallax`, composed in `adaptive-hero/HeroBackdrop`) — the
+  hero's background was static; the spec calls for particles, parallax,
+  and light sweeps.
+- **`#problem-statement`** — real, cited industry statistics (McKinsey
+  & Company / University of Oxford research), not invented numbers.
+- **`#what-we-build`** — reuses the real `SOLUTIONS` dataset
+  (`@/features/solutions`, Milestone 4) instead of the spec's seven
+  fictional service categories, which map onto no real page.
+- **`#technology-ecosystem`** — reuses the real `TECHNOLOGIES`/
+  `POPULATED_CATEGORIES` dataset and `TechnologyCard`/`TechnologyGrid`
+  (`@/features/technology`, Milestone 6), Chip-filtered by category.
+- **`#ai-companion-highlight`** — an inline transcript built from the
+  real response engine (`GREETINGS.default`, `RESPONSES.ai`), plus a
+  second `useAiCompanion().open()` entry point — not fabricated demo
+  copy or a second companion instance.
+- **`#social-proof`** — testimonials (`@/features/case-studies/data/testimonials.ts`)
+  grounded in real case-study outcomes; explicitly skips the spec's
+  "years-of-experience stats" since `case-studies.ts` itself documents
+  that Byld IQ has no real client history yet (see "Fictional data,"
+  below).
+- **AI context-awareness** — `currentSection`, `recentlyViewed`, and
+  `ctaHistory` added to `ai-companion-store`, feeding a more specific
+  greeting and a contextual fallback reply. See
+  `features/homepage/ai-companion/AiCompanion.docs.md`'s "Context
+  awareness" section.
 
 ## State management
 
@@ -58,7 +102,12 @@ homepage.
   hand-rolling its own branch.
 - **`useAiCompanionStore`** — separate from `useAppStore` on purpose: the
   companion's open/closed state and message log are session-only and
-  unrelated to journey preference (see `ai-companion-store.ts`).
+  unrelated to journey preference (see `ai-companion-store.ts`). As of
+  Milestone 9 it also holds `currentSection` (kept in sync by every
+  `HomepageSection` via `useCurrentSectionSync`), `recentlyViewed` (built
+  for free from every `setPageContext` call site), and `ctaHistory`
+  (recorded from the hero and Conversion Experience's decision cards) —
+  see `features/homepage/ai-companion/AiCompanion.docs.md`.
 - **Local component state** — everything else (BuildPath preview's
   selected goal, the newsletter form's draft value, which FAQ is
   expanded) is plain `useState`, per `docs/architecture.md`'s "state
@@ -104,8 +153,15 @@ Three animation patterns cover the entire homepage:
    it needs to coordinate multiple sequential reveals (logo → wordmark →
    tagline → navigation) against a fixed budget (CLAUDE.md Part 9: under
    2 seconds).
+4. **The Adaptive Hero's background primitives** (`HeroBackdrop`,
+   Milestone 9) — `useMouseParallax` (`useMotionValue`/`useSpring`,
+   pointer-driven, desktop only), `ParticleField` (deterministic
+   golden-angle-spiral positions, not `Math.random()`, to stay
+   SSR-hydration-safe), and `LightSweep` (a paused, repeating diagonal
+   beam). All three render `null` under reduced motion rather than a
+   static fallback.
 
-All three respect `prefers-reduced-motion` — Motion-based ones
+All four respect `prefers-reduced-motion` — Motion-based ones
 automatically via `MotionProvider`'s `reducedMotion="user"`, the Arrival
 Experience via its own `skipIntro` check. Per CLAUDE.md Part 6 ("replace
 movement with opacity" — not remove animation outright), reduced motion
@@ -143,6 +199,9 @@ branch), with a regression test covering the flip-after-mount case.
   (`components/Heading`): `variant` controls visual size, `as` controls
   the semantic tag, so a card title can look like an `h5` while rendering
   as whatever `h2`–`h6` the surrounding document outline actually needs.
+  Every Milestone 9 section follows the same discipline via `SectionHeader`
+  (default `headingVariant="h2"`), so the outline stays intact as sections
+  are added.
 - **Verified, not assumed.** `e2e/homepage.spec.ts` runs a full
   `@axe-core/playwright` scan (`wcag2a`, `wcag2aa`, `best-practice`)
   against the real built page — zero violations. This is in addition to,
@@ -164,12 +223,19 @@ client history, no published case studies). Per CLAUDE.md Part 13's
 using invented content says so in its own `.docs.md` and keeps the
 fabrication contained and consistent:
 
-- **`FICTIONAL_COMPANIES`** (`features/homepage/shared/data/`) — one
-  roster of clearly-fictional companies (Fieldnote, Atlas Logistics, Nova
-  Commerce, Northwind AI, Harborline Cloud, Acme Health), reused by both
-  the Proof Engine's case studies and the Product Showcase's experience
-  pods, so the same fictional client doesn't accidentally get
-  contradictory details in two places.
+- **`FICTIONAL_COMPANIES`** (`features/case-studies/data/`) — one roster
+  of clearly-fictional companies (Fieldnote, Atlas Logistics, Nova
+  Commerce, Northwind AI, Harborline Cloud, Acme Health), reused by the
+  Proof Engine's and Social Proof's case studies and the Product
+  Showcase's experience pods, so the same fictional client doesn't
+  accidentally get contradictory details in two places.
+- **`TESTIMONIALS`** (`features/case-studies/data/testimonials.ts`,
+  Milestone 9) — three testimonials, one per company with a real case
+  study, each quote grounded in that case study's actual `outcome`/
+  `metrics` rather than generic praise, cross-referenced against
+  `CASE_STUDIES`/`FICTIONAL_COMPANIES` in its own test. Deliberately
+  does _not_ include a business-age or client-count stat — see
+  `SocialProof.docs.md`.
 - **`KNOWLEDGE_ARTICLES`** (`features/knowledge/data/`, reused here by the
   homepage's Knowledge Center Preview) — separate, local typed data,
   deliberately _not_ wired to the `content-collections` MDX pipeline (see

@@ -194,11 +194,15 @@ test.describe("Work navigation", () => {
     await page.goto("/");
 
     await page.getByRole("button", { name: "Work", exact: true }).click();
+    // Scoped to the mega menu panel, not just any link with this name — the
+    // homepage's own Social Proof section (Milestone 9) links to the same
+    // companies, so an unscoped locator is ambiguous.
+    const workMenu = page.getByLabel("Work menu");
     for (const name of CASE_STUDY_COMPANY_NAMES) {
-      await expect(page.getByRole("link", { name, exact: true })).toBeVisible();
+      await expect(workMenu.getByRole("link", { name, exact: true })).toBeVisible();
     }
 
-    await page.getByRole("link", { name: "Fieldnote", exact: true }).click();
+    await workMenu.getByRole("link", { name: "Fieldnote", exact: true }).click();
     await expect(page).toHaveURL(/\/work\/fieldnote-mvp$/);
   });
 
