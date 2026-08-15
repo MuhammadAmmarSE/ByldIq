@@ -27,11 +27,18 @@ test.describe("Solutions landing page", () => {
   }) => {
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
+    // Scoped to the solution list (not the page as a whole): the Industries
+    // section (Milestone 10 phase 3) also has an "Enterprise" card, since
+    // "Enterprise" is a legitimate label for both a solution and an
+    // industry — scoping here avoids that ambiguity rather than renaming
+    // either one to something less accurate.
+    const solutionList = page.getByRole("list", { name: "Explore solutions by business need" });
+
     for (const label of SOLUTION_NAV_LABELS) {
-      await expect(page.getByRole("heading", { name: label, exact: true })).toBeVisible();
+      await expect(solutionList.getByRole("heading", { name: label, exact: true })).toBeVisible();
     }
 
-    await page.getByRole("heading", { name: "Startup", exact: true }).click();
+    await solutionList.getByRole("heading", { name: "Startup", exact: true }).click();
     await expect(page).toHaveURL(/\/solutions\/startup$/);
     await expect(
       page.getByRole("heading", {
