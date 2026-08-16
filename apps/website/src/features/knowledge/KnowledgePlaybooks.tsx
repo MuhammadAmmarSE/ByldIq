@@ -15,16 +15,19 @@ import type { KnowledgePlaybooksProps } from "./KnowledgePlaybooks.types";
 const PLAYBOOKS = KNOWLEDGE_ARTICLES.filter((article) => article.type === "playbook");
 
 /**
- * CLAUDE.md Part 18's Playbooks entry point (`/knowledge/playbooks`).
+ * CLAUDE.md Part 18/19's Playbooks entry point (`/knowledge/playbooks`).
  * Filters the same article dataset to `type: "playbook"` rather than
  * introducing a separate playbook content model — a playbook is an
- * article, distinguished only by its `type`, the same way `KnowledgeGrid`
- * already renders every article regardless of type.
+ * article, distinguished only by its `type` and an optional `playbook`
+ * field (steps/checklist/resources), the same way `KnowledgeGrid` already
+ * renders every article regardless of type. Cards link straight to the
+ * dedicated checklist view (`hrefBase="/knowledge/playbooks"`) rather
+ * than the full educational article — the actionable format the spec
+ * asks a playbook to be, not a second listing of the same prose.
  *
- * Only one article (`accessibility-checklist-for-product-teams`) is
- * tagged `"playbook"` today. Rather than hide that behind a vague count,
- * or fabricate more playbooks to make the page feel fuller, the page
- * says so plainly — CLAUDE.md's content strategy never fabricates volume.
+ * The count in the intro copy is real, not padded — CLAUDE.md's content
+ * strategy never fabricates volume to make a collection look busier than
+ * it is.
  */
 export function KnowledgePlaybooks({ className }: KnowledgePlaybooksProps) {
   const analytics = useAnalytics();
@@ -46,6 +49,7 @@ export function KnowledgePlaybooks({ className }: KnowledgePlaybooksProps) {
       <KnowledgeGrid
         articles={PLAYBOOKS}
         categoriesBySlug={CATEGORIES_BY_SLUG}
+        hrefBase="/knowledge/playbooks"
         onSelect={handleSelect}
       />
     </div>

@@ -30,6 +30,19 @@ export interface AiPageContext {
    * not every `AiPageContext` needs one.
    */
   groundedReplies?: AiGroundedReply[];
+  /**
+   * Which part of a long, multi-section page (e.g. a Knowledge article)
+   * the visitor currently has in view, for a greeting more specific than
+   * the page alone (CLAUDE.md Part 16/18: Byld should know "current
+   * section" as well as "current article"). Kept on the page context
+   * itself rather than reusing `AiCompanionState.currentSection` — that
+   * field is specifically the homepage's section-scroll fallback for when
+   * no `pageContext` exists at all, a different concern from "which part
+   * of this specific page." Set via `setPageContextSection`, not
+   * `setPageContext`, so a scrollspy can update it without re-supplying
+   * the whole context (and without clobbering `groundedReplies`).
+   */
+  currentSectionLabel?: string;
 }
 
 /** How many entries `recentlyViewed`/`ctaHistory` keep — recent context only, not a full session log. */
@@ -54,6 +67,8 @@ export interface AiCompanionActions {
   addMessage: (message: AiMessage) => void;
   clearConversation: () => void;
   setPageContext: (context: AiPageContext | null) => void;
+  /** Updates only `pageContext.currentSectionLabel`, a no-op when there's no active page context (e.g. the scrollspy fires once after `setPageContext(null)` on unmount). */
+  setPageContextSection: (sectionLabel: string | null) => void;
   setCurrentSection: (section: string | null) => void;
   recordCtaInteraction: (label: string) => void;
 }
@@ -96,6 +111,14 @@ export function createAiCompanionStore(initState: AiCompanionState = defaultAiCo
           recentlyViewed: [context, ...withoutDuplicate].slice(0, CONTEXT_HISTORY_LIMIT),
         };
       }),
+    setPageContextSection: (sectionLabel) =>
+      set((state) =>
+        state.pageContext
+          ? {
+              pageContext: { ...state.pageContext, currentSectionLabel: sectionLabel ?? undefined },
+            }
+          : {},
+      ),
     setCurrentSection: (section) => set({ currentSection: section }),
     recordCtaInteraction: (label) =>
       set((state) => ({

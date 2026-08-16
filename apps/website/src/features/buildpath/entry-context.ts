@@ -30,3 +30,22 @@ const TECHNOLOGY_CATEGORY_TO_PROJECT_TYPES: Partial<Record<string, ProjectType[]
 export function technologyCategoryToProjectTypes(category: string): ProjectType[] {
   return TECHNOLOGY_CATEGORY_TO_PROJECT_TYPES[category] ?? [];
 }
+
+/**
+ * Same heuristic-mapping approach, applied to a Knowledge article's or
+ * tutorial's `KNOWLEDGE_CATEGORIES` slug — only mapped where a category
+ * genuinely implies a project type; categories like "accessibility" or
+ * "testing" are cross-cutting concerns that don't imply one, so they
+ * deliberately resolve to an empty prefill rather than a guess.
+ */
+const KNOWLEDGE_CATEGORY_TO_PROJECT_TYPES: Partial<Record<string, ProjectType[]>> = {
+  mvp: ["MVP", "New Product"],
+  ai: ["AI Product"],
+  shopify: ["E-commerce"],
+  architecture: ["Modernization"],
+  devops: ["Modernization"],
+};
+
+export function knowledgeCategoryToProjectTypes(category: string): ProjectType[] {
+  return KNOWLEDGE_CATEGORY_TO_PROJECT_TYPES[category] ?? [];
+}

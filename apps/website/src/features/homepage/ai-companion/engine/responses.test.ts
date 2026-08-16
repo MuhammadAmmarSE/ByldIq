@@ -67,6 +67,21 @@ describe("getPageContextGreeting", () => {
       "Start BuildPath",
     ]);
   });
+
+  it("mentions the current section when given one", () => {
+    const greeting = getPageContextGreeting(
+      "Monolith vs. Microservices",
+      undefined,
+      "Core concepts",
+    );
+    expect(greeting.content).toContain("Monolith vs. Microservices");
+    expect(greeting.content).toContain("Core concepts");
+  });
+
+  it("omits section phrasing when no current section is given", () => {
+    const greeting = getPageContextGreeting("Monolith vs. Microservices");
+    expect(greeting.content).not.toContain("currently on");
+  });
 });
 
 describe("getGroundedAnswer", () => {

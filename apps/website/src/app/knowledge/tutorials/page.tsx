@@ -4,23 +4,33 @@ import { Container } from "@/components/Container";
 import { Heading } from "@/components/Heading";
 import { Text } from "@/components/Text";
 import { siteConfig } from "@/config/site";
-import { KnowledgeContentTypePlaceholder } from "@/features/knowledge";
+import { KnowledgeTutorials } from "@/features/knowledge";
 import { breadcrumbJsonLd, jsonLdScriptProps } from "@/lib/json-ld";
 
 const description =
-  "Hands-on, interactive tutorials for building and reasoning about real systems — published once they exist, not before.";
+  "Hands-on, step-by-step tutorials for building and reasoning about real systems.";
 
 export const metadata: Metadata = {
-  title: "Interactive Tutorials",
+  title: "Tutorials",
   description,
   alternates: { canonical: "/knowledge/tutorials" },
+  openGraph: {
+    title: "Tutorials",
+    description,
+    url: "/knowledge/tutorials",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tutorials",
+    description,
+  },
 };
 
 /**
- * See `features/knowledge/KnowledgeContentTypePlaceholder.docs.md` for
- * why this route exists with no real tutorials behind it yet. Excluded
- * from `sitemap.ts` for the same reason `/knowledge/search` is: no
- * content of its own worth indexing.
+ * CLAUDE.md Part 18/19's Tutorials landing page. See
+ * `features/knowledge/KnowledgeTutorials.docs.md` for the real tutorial
+ * count.
  */
 export default function KnowledgeTutorialsPage() {
   return (
@@ -30,18 +40,15 @@ export default function KnowledgeTutorialsPage() {
           breadcrumbJsonLd([
             { name: "Home", url: siteConfig.url },
             { name: "Knowledge Center", url: `${siteConfig.url}/knowledge` },
-            { name: "Interactive Tutorials", url: `${siteConfig.url}/knowledge/tutorials` },
+            { name: "Tutorials", url: `${siteConfig.url}/knowledge/tutorials` },
           ]),
         )}
       />
       <div className="max-w-2xl space-y-3">
-        <Heading variant="display">Interactive Tutorials</Heading>
+        <Heading variant="display">Tutorials</Heading>
         <Text variant="subtitle">{description}</Text>
       </div>
-      <KnowledgeContentTypePlaceholder
-        contentTypeLabel="interactive tutorials"
-        reason="There's no interactive tutorial engine yet — that's a larger build than a single page."
-      />
+      <KnowledgeTutorials />
     </Container>
   );
 }

@@ -85,6 +85,36 @@ describe("KnowledgeHero", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows an honest 'more categories on the way' note when the taxonomy is larger than what's populated", () => {
+    render(
+      <KnowledgeHero
+        query=""
+        onQueryChange={vi.fn()}
+        categories={categories}
+        categoryFilter={null}
+        onCategoryQuickFilter={vi.fn()}
+        totalCategoryCount={20}
+      />,
+    );
+
+    expect(screen.getByText(/2 of 20 knowledge categories are live so far/i)).toBeInTheDocument();
+  });
+
+  it("omits the note when every category is already populated", () => {
+    render(
+      <KnowledgeHero
+        query=""
+        onQueryChange={vi.fn()}
+        categories={categories}
+        categoryFilter={null}
+        onCategoryQuickFilter={vi.fn()}
+        totalCategoryCount={categories.length}
+      />,
+    );
+
+    expect(screen.queryByText(/knowledge categories are live so far/i)).not.toBeInTheDocument();
+  });
+
   it("overrides the headline and supporting copy when given", () => {
     render(
       <KnowledgeHero

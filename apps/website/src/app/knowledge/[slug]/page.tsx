@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
 import { Container } from "@/components/Container";
-import { ReadingProgressBar } from "@/components/ReadingProgressBar";
 import { siteConfig } from "@/config/site";
 import {
   CATEGORIES_BY_SLUG,
@@ -15,8 +14,10 @@ import {
   KnowledgeRealExamples,
   KnowledgeRelatedCaseStudies,
   KnowledgeRelatedLearning,
+  KnowledgeRelatedSolutions,
   KnowledgeRelatedTechnologies,
   KnowledgeSidebar,
+  KnowledgeSummarizer,
   KnowledgeWalkthrough,
   KnowledgeWhyItMatters,
 } from "@/features/knowledge";
@@ -97,8 +98,8 @@ export default async function KnowledgeArticlePage({ params }: KnowledgeArticleP
           }),
         )}
       />
-      <ReadingProgressBar />
       <KnowledgeArticleHero article={article} categoryLabel={category?.label} />
+      <KnowledgeSummarizer article={article} className="max-w-3xl" />
       <div className="lg:grid lg:grid-cols-[14rem_1fr] lg:gap-12">
         <KnowledgeSidebar className="hidden lg:block" />
         <div className="space-y-16">
@@ -109,6 +110,7 @@ export default async function KnowledgeArticlePage({ params }: KnowledgeArticleP
           <KnowledgeRealExamples article={article} />
           <KnowledgeCommonMistakes article={article} />
           <KnowledgeRelatedTechnologies article={article} />
+          <KnowledgeRelatedSolutions article={article} />
           <KnowledgeRelatedCaseStudies article={article} />
           <KnowledgeRelatedLearning article={article} />
         </div>

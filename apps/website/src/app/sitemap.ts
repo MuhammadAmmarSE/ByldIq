@@ -6,6 +6,7 @@ import {
   KNOWLEDGE_ARTICLES,
   LEARNING_PATHS,
   POPULATED_CATEGORIES as KNOWLEDGE_CATEGORIES,
+  TUTORIALS,
 } from "@/features/knowledge";
 import { SOLUTIONS } from "@/features/solutions";
 import { POPULATED_CATEGORIES, TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/features/technology";
@@ -18,10 +19,11 @@ import { POPULATED_CATEGORIES, TECHNOLOGIES as TECHNOLOGY_PROFILES } from "@/fea
  * Center platforms are future milestones, not new routes. `/work/search`,
  * `/technology/search`, and `/knowledge/search` are deliberately
  * excluded — a query-driven results page has no single canonical piece of
- * content worth indexing. `/knowledge/whitepapers`, `/knowledge/videos`,
- * and `/knowledge/tutorials` are also excluded — honest routes for
- * content types that don't exist yet (see
- * `KnowledgeContentTypePlaceholder.docs.md`) have nothing to index either.
+ * content worth indexing. `/knowledge/whitepapers` and `/knowledge/videos`
+ * are also excluded — honest routes for content types that don't exist
+ * yet (see `KnowledgeContentTypePlaceholder.docs.md`) have nothing to
+ * index either. `/knowledge/tutorials` is included now that
+ * `data/tutorials.ts` has real content (Milestone 15).
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -115,6 +117,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    ...KNOWLEDGE_ARTICLES.filter((article) => article.playbook).map(
+      (article): MetadataRoute.Sitemap[number] => ({
+        url: `${siteConfig.url}/knowledge/playbooks/${article.slug}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.6,
+      }),
+    ),
+    {
+      url: `${siteConfig.url}/knowledge/tutorials`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    ...TUTORIALS.map((tutorial): MetadataRoute.Sitemap[number] => ({
+      url: `${siteConfig.url}/knowledge/tutorials/${tutorial.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    })),
     {
       url: `${siteConfig.url}/technology`,
       lastModified: new Date(),

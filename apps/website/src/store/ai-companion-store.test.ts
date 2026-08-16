@@ -65,6 +65,32 @@ describe("createAiCompanionStore", () => {
     expect(store.getState().currentSection).toBeNull();
   });
 
+  it("setPageContextSection merges into the existing page context without touching other fields", () => {
+    const store = createAiCompanionStore();
+    store.getState().setPageContext({
+      label: "Monolith vs. Microservices",
+      slug: "monolith-vs-microservices",
+      groundedReplies: [{ question: "What problem does this solve?", answer: "..." }],
+    });
+
+    store.getState().setPageContextSection("Core concepts");
+    expect(store.getState().pageContext).toEqual({
+      label: "Monolith vs. Microservices",
+      slug: "monolith-vs-microservices",
+      groundedReplies: [{ question: "What problem does this solve?", answer: "..." }],
+      currentSectionLabel: "Core concepts",
+    });
+
+    store.getState().setPageContextSection(null);
+    expect(store.getState().pageContext?.currentSectionLabel).toBeUndefined();
+  });
+
+  it("setPageContextSection is a no-op when there's no active page context", () => {
+    const store = createAiCompanionStore();
+    store.getState().setPageContextSection("Core concepts");
+    expect(store.getState().pageContext).toBeNull();
+  });
+
   it("records recently viewed pages via setPageContext, most-recent-first, deduplicated by slug", () => {
     const store = createAiCompanionStore();
 

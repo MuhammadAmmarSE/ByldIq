@@ -131,13 +131,24 @@ const MAX_GROUNDED_QUICK_REPLIES = 4;
  * become the quick replies instead of the generic three, so a visitor on
  * a case study page is offered real, answerable questions about that
  * specific project rather than a roadmap prompt that ignores it.
+ *
+ * `currentSectionLabel` (CLAUDE.md Part 16/18: Byld should know
+ * "current section" in addition to "current article") only changes the
+ * opening clause — a visitor scrolled deep into an article gets "you're
+ * reading {label}, currently on {section}" instead of a greeting that
+ * reads as if they'd just arrived.
  */
 export function getPageContextGreeting(
   label: string,
   groundedReplies?: AiGroundedReply[],
+  currentSectionLabel?: string,
 ): AiResponse {
+  const opening = currentSectionLabel
+    ? `Looks like you're reading ${label}, currently on "${currentSectionLabel}."`
+    : `Looks like you're exploring ${label}.`;
+
   return {
-    content: `Looks like you're exploring ${label}. Want help thinking through the approach, or would a personalized roadmap from BuildPath be more useful?`,
+    content: `${opening} Want help thinking through the approach, or would a personalized roadmap from BuildPath be more useful?`,
     quickReplies: groundedReplies?.length
       ? groundedReplies.slice(0, MAX_GROUNDED_QUICK_REPLIES).map((reply) => reply.question)
       : ["What's a typical roadmap?", "Compare technologies", "Start BuildPath"],

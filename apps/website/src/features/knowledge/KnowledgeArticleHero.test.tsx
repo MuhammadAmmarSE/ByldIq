@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -8,11 +9,17 @@ vi.mock("@/providers/AnalyticsProvider", () => ({
   useAnalytics: () => ({ track: mockTrack }),
 }));
 
+const { mockUseReadingProgress } = vi.hoisted(() => ({ mockUseReadingProgress: vi.fn(() => 0) }));
+vi.mock("@/hooks/useReadingProgress", () => ({
+  useReadingProgress: () => mockUseReadingProgress(),
+}));
+
 import {
   AiCompanionStoreProvider,
   useAiCompanionStore,
 } from "@/providers/AiCompanionStoreProvider";
-import { StoreProvider } from "@/providers/StoreProvider";
+import { StoreProvider, useAppStore } from "@/providers/StoreProvider";
+import { ToastProvider } from "@/components/Toast";
 
 import { KNOWLEDGE_ARTICLES } from "./data/articles";
 import { KnowledgeArticleHero } from "./KnowledgeArticleHero";
@@ -29,7 +36,9 @@ function renderHero() {
   return render(
     <StoreProvider>
       <AiCompanionStoreProvider>
-        <KnowledgeArticleHero article={article} categoryLabel="MVP" />
+        <ToastProvider>
+          <KnowledgeArticleHero article={article} categoryLabel="MVP" />
+        </ToastProvider>
       </AiCompanionStoreProvider>
     </StoreProvider>,
   );
@@ -38,6 +47,7 @@ function renderHero() {
 describe("KnowledgeArticleHero", () => {
   beforeEach(() => {
     localStorage.clear();
+    mockUseReadingProgress.mockReturnValue(0);
   });
 
   afterEach(() => {
@@ -89,12 +99,38 @@ describe("KnowledgeArticleHero", () => {
     render(
       <StoreProvider>
         <AiCompanionStoreProvider>
-          <Harness />
+          <ToastProvider>
+            <Harness />
+          </ToastProvider>
         </AiCompanionStoreProvider>
       </StoreProvider>,
     );
 
     expect(screen.getByTestId("page-context")).toHaveTextContent(article.slug);
+  });
+
+  it("gives the AI companion real grounded Q&A built from this article's own content", () => {
+    function Harness() {
+      const groundedReplies = useAiCompanionStore((state) => state.pageContext?.groundedReplies);
+      return (
+        <>
+          <KnowledgeArticleHero article={article} />
+          <p data-testid="grounded-count">{groundedReplies?.length ?? 0}</p>
+        </>
+      );
+    }
+
+    render(
+      <StoreProvider>
+        <AiCompanionStoreProvider>
+          <ToastProvider>
+            <Harness />
+          </ToastProvider>
+        </AiCompanionStoreProvider>
+      </StoreProvider>,
+    );
+
+    expect(Number(screen.getByTestId("grounded-count").textContent)).toBeGreaterThan(0);
   });
 
   it("opens the AI companion from Talk to Byld", async () => {
@@ -113,7 +149,9 @@ describe("KnowledgeArticleHero", () => {
     render(
       <StoreProvider>
         <AiCompanionStoreProvider>
-          <Harness />
+          <ToastProvider>
+            <Harness />
+          </ToastProvider>
         </AiCompanionStoreProvider>
       </StoreProvider>,
     );
@@ -124,5 +162,75 @@ describe("KnowledgeArticleHero", () => {
       slug: article.slug,
       cta: "ai",
     });
+  });
+
+  it("tracks knowledge_article_completed when the reading progress bar reaches 100%", () => {
+    mockUseReadingProgress.mockReturnValue(100);
+    renderHero();
+    expect(mockTrack).toHaveBeenCalledWith("knowledge_article_completed", { slug: article.slug });
+  });
+
+  it("renders a share button", () => {
+    renderHero();
+    expect(screen.getByRole("button", { name: /share/i })).toBeInTheDocument();
+  });
+
+  it("persists the last known reading percentage to the store on unmount", async () => {
+    const user = userEvent.setup();
+    mockUseReadingProgress.mockReturnValue(37);
+
+    function Wrapper() {
+      const [showHero, setShowHero] = useState(true);
+      const percent = useAppStore((state) => state.readingProgressBySlug[article.slug]);
+      return (
+        <ToastProvider>
+          {showHero && <KnowledgeArticleHero article={article} />}
+          <button type="button" onClick={() => setShowHero(false)}>
+            Unmount hero
+          </button>
+          <p data-testid="saved-percent">{percent ?? "none"}</p>
+        </ToastProvider>
+      );
+    }
+
+    render(
+      <StoreProvider>
+        <AiCompanionStoreProvider>
+          <Wrapper />
+        </AiCompanionStoreProvider>
+      </StoreProvider>,
+    );
+
+    expect(screen.getByTestId("saved-percent")).toHaveTextContent("none");
+    await user.click(screen.getByRole("button", { name: "Unmount hero" }));
+    expect(screen.getByTestId("saved-percent")).toHaveTextContent("37");
+  });
+
+  it("shows a 'jump back in' banner when there's meaningful saved progress, and dismisses it", async () => {
+    const user = userEvent.setup();
+
+    function Seed() {
+      const setReadingProgress = useAppStore((state) => state.setReadingProgress);
+      useEffect(() => {
+        setReadingProgress(article.slug, 42);
+      }, [setReadingProgress]);
+      return null;
+    }
+
+    render(
+      <StoreProvider>
+        <AiCompanionStoreProvider>
+          <ToastProvider>
+            <Seed />
+            <KnowledgeArticleHero article={article} />
+          </ToastProvider>
+        </AiCompanionStoreProvider>
+      </StoreProvider>,
+    );
+
+    expect(screen.getByText(/you were 42% through this article/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Dismiss" }));
+    expect(screen.queryByText(/you were 42% through this article/i)).not.toBeInTheDocument();
   });
 });

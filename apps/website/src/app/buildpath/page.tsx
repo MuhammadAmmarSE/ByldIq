@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 import { BuildPathShell } from "@/features/buildpath";
 import {
   journeyToProjectTypes,
+  knowledgeCategoryToProjectTypes,
   technologyCategoryToProjectTypes,
 } from "@/features/buildpath/entry-context";
 import type { EntryContext, ProjectType } from "@/features/buildpath/types";
 import { CASE_STUDIES, FICTIONAL_COMPANIES } from "@/features/case-studies";
-import { KNOWLEDGE_ARTICLES } from "@/features/knowledge";
+import { KNOWLEDGE_ARTICLES, TUTORIALS } from "@/features/knowledge";
 import { SOLUTIONS } from "@/features/solutions";
 import { TECHNOLOGIES } from "@/features/technology";
 
@@ -17,6 +18,7 @@ interface BuildPathPageProps {
     caseStudy?: string;
     technology?: string;
     article?: string;
+    tutorial?: string;
   }>;
 }
 
@@ -38,6 +40,7 @@ function resolveEntryContext(params: {
   caseStudy?: string;
   technology?: string;
   article?: string;
+  tutorial?: string;
 }): { entryContext: EntryContext | null; prefillProjectTypes: ProjectType[] } {
   const solution = SOLUTIONS.find((candidate) => candidate.slug === params.solution);
   if (solution) {
@@ -77,7 +80,15 @@ function resolveEntryContext(params: {
   if (article) {
     return {
       entryContext: { source: "knowledge", label: article.title, articleSlug: article.slug },
-      prefillProjectTypes: [],
+      prefillProjectTypes: knowledgeCategoryToProjectTypes(article.category),
+    };
+  }
+
+  const tutorial = TUTORIALS.find((candidate) => candidate.slug === params.tutorial);
+  if (tutorial) {
+    return {
+      entryContext: { source: "tutorial", label: tutorial.title, tutorialSlug: tutorial.slug },
+      prefillProjectTypes: knowledgeCategoryToProjectTypes(tutorial.category),
     };
   }
 

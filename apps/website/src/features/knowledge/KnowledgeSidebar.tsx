@@ -1,6 +1,9 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { useScrollSpy } from "@/hooks/useScrollSpy";
+import { useAiCompanionStore } from "@/providers/AiCompanionStoreProvider";
 import { cn } from "@/utils/cn";
 
 import type { KnowledgeSidebarProps } from "./KnowledgeSidebar.types";
@@ -34,9 +37,25 @@ const SECTIONS = [
  * Sticky in-page navigation with scrollspy (CLAUDE.md Part 8), desktop
  * only — mobile already has the bottom nav dock, and thirteen anchor links
  * don't fit a small viewport usefully. Mirrors `TechnologySidebar`.
+ *
+ * Also the one place that knows which section is actually in view, so it
+ * syncs that into the AI Companion's `pageContext.currentSectionLabel`
+ * (CLAUDE.md Part 16/18: Byld should know "current section," not just
+ * "current article") — reusing this scrollspy rather than standing up a
+ * second `IntersectionObserver` for the same sections. A no-op when no
+ * article `pageContext` is set (e.g. this article isn't the active AI
+ * context, or the companion hasn't been opened yet).
  */
 export function KnowledgeSidebar({ className }: KnowledgeSidebarProps) {
   const activeId = useScrollSpy(SECTIONS.map((section) => section.id));
+  const setPageContextSection = useAiCompanionStore((state) => state.setPageContextSection);
+
+  useEffect(() => {
+    const activeLabel = SECTIONS.find((section) => section.id === activeId)?.label ?? null;
+    setPageContextSection(activeLabel);
+    return () => setPageContextSection(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId]);
 
   return (
     <nav aria-label="On this page" className={cn("sticky top-24 self-start", className)}>

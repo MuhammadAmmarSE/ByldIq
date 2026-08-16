@@ -23,6 +23,7 @@ import type { ArticleCardProps } from "./ArticleCard.types";
 export function ArticleCard({
   article,
   categoryLabel,
+  hrefBase = "/knowledge",
   onSelect,
   onExpandAiSummary,
   className,
@@ -44,7 +45,7 @@ export function ArticleCard({
             ProjectCard. */}
         <Heading variant="h5" as="h3" className="mt-2">
           <Link
-            href={`/knowledge/${article.slug}`}
+            href={`${hrefBase}/${article.slug}`}
             onClick={() => onSelect?.(article.slug)}
             className="hover:text-accent transition-colors"
           >

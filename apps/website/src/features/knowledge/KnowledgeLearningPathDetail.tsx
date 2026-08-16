@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 
 import { Badge } from "@/components/Badge";
@@ -42,6 +43,18 @@ export function KnowledgeLearningPathDetail({ path, className }: KnowledgeLearni
   ).length;
   const percent = steps.length === 0 ? 0 : Math.round((completedCount / steps.length) * 100);
   const firstStep = steps[0];
+  const hasFiredCompletion = useRef(false);
+
+  useEffect(() => {
+    if (steps.length > 0 && completedCount === steps.length && !hasFiredCompletion.current) {
+      hasFiredCompletion.current = true;
+      analytics.track("learning_path_completed", { pathSlug: path.slug });
+    }
+    if (completedCount < steps.length) {
+      hasFiredCompletion.current = false;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [completedCount, steps.length, path.slug]);
 
   function handleStepSelect(articleSlug: string) {
     analytics.track("learning_path_step_selected", { pathSlug: path.slug, articleSlug });

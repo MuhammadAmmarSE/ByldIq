@@ -61,10 +61,24 @@ describe("KnowledgeExplorer", () => {
 
     await user.type(
       screen.getByRole("searchbox", { name: /search the knowledge center/i }),
-      "nonexistent topic xyz",
+      "zzqzzqzz flibbergibbet",
     );
 
     expect(screen.getByText(/No articles match/i)).toBeInTheDocument();
+  });
+
+  it("offers a real category or technology suggestion when a query matches one but no article", async () => {
+    const user = userEvent.setup();
+    render(<KnowledgeExplorer />);
+
+    await user.type(
+      screen.getByRole("searchbox", { name: /search the knowledge center/i }),
+      "mongodb",
+    );
+
+    expect(
+      screen.getByRole("link", { name: /explore mongodb in technology explorer/i }),
+    ).toHaveAttribute("href", "/technology/mongodb");
   });
 
   it("opens the AI companion from the hero's Ask Byld prompt", async () => {

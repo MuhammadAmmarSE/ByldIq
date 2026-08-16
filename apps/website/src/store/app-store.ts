@@ -11,6 +11,10 @@ export interface AppState {
   bookmarkedArticleSlugs: string[];
   /** Knowledge Center article slugs a visitor has marked complete within a Learning Path (CLAUDE.md Part 18: Learning Paths' "progress, completion"). */
   completedArticleSlugs: string[];
+  /** Checked-off playbook checklist items, id'd as `${playbookSlug}:${stepId}:${itemIndex}` (CLAUDE.md Part 18/19: Playbooks' "Checklists"). Flat, like `bookmarkedArticleSlugs`, rather than nested per playbook — the composite id is already unique and avoids a second normalization shape for the same kind of data. */
+  checkedPlaybookItemIds: string[];
+  /** Last known scroll percentage (0-100) per article slug, written once on unmount rather than on every scroll tick (CLAUDE.md Part 18/23: Reading Experience's "Allow visitors to return to where they stopped"). */
+  readingProgressBySlug: Record<string, number>;
 }
 
 export interface AppActions {
@@ -18,6 +22,8 @@ export interface AppActions {
   markIntroSeen: () => void;
   toggleBookmark: (slug: string) => void;
   toggleArticleCompleted: (slug: string) => void;
+  toggleChecklistItem: (itemId: string) => void;
+  setReadingProgress: (slug: string, percent: number) => void;
 }
 
 export type AppStore = AppState & AppActions;
@@ -27,6 +33,8 @@ export const defaultAppState: AppState = {
   hasSeenIntro: false,
   bookmarkedArticleSlugs: [],
   completedArticleSlugs: [],
+  checkedPlaybookItemIds: [],
+  readingProgressBySlug: {},
 };
 
 /**
@@ -93,6 +101,16 @@ export function createAppStore(initState: AppState = defaultAppState) {
               ? state.completedArticleSlugs.filter((candidate) => candidate !== slug)
               : [...state.completedArticleSlugs, slug],
           })),
+        toggleChecklistItem: (itemId) =>
+          set((state) => ({
+            checkedPlaybookItemIds: state.checkedPlaybookItemIds.includes(itemId)
+              ? state.checkedPlaybookItemIds.filter((candidate) => candidate !== itemId)
+              : [...state.checkedPlaybookItemIds, itemId],
+          })),
+        setReadingProgress: (slug, percent) =>
+          set((state) => ({
+            readingProgressBySlug: { ...state.readingProgressBySlug, [slug]: percent },
+          })),
       }),
       {
         name: "byld-iq-app-store",
@@ -102,6 +120,8 @@ export function createAppStore(initState: AppState = defaultAppState) {
           hasSeenIntro: state.hasSeenIntro,
           bookmarkedArticleSlugs: state.bookmarkedArticleSlugs,
           completedArticleSlugs: state.completedArticleSlugs,
+          checkedPlaybookItemIds: state.checkedPlaybookItemIds,
+          readingProgressBySlug: state.readingProgressBySlug,
         }),
         skipHydration: true,
       },

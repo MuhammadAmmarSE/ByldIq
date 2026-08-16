@@ -107,4 +107,68 @@ describe("createAppStore", () => {
 
     expect(storeB.getState().completedArticleSlugs).toEqual(["validating-an-mvp"]);
   });
+
+  it("defaults checkedPlaybookItemIds to empty", () => {
+    const store = createAppStore();
+    expect(store.getState().checkedPlaybookItemIds).toEqual([]);
+  });
+
+  it("adds an item id via toggleChecklistItem", () => {
+    const store = createAppStore();
+    store.getState().toggleChecklistItem("architecture-review-playbook:write-it-down:0");
+    expect(store.getState().checkedPlaybookItemIds).toEqual([
+      "architecture-review-playbook:write-it-down:0",
+    ]);
+  });
+
+  it("removes an item id from checkedPlaybookItemIds when toggled again", () => {
+    const store = createAppStore();
+    store.getState().toggleChecklistItem("architecture-review-playbook:write-it-down:0");
+    store.getState().toggleChecklistItem("architecture-review-playbook:write-it-down:0");
+    expect(store.getState().checkedPlaybookItemIds).toEqual([]);
+  });
+
+  it("persists checkedPlaybookItemIds to storage after rehydration", async () => {
+    const storeA = createAppStore();
+    storeA.getState().toggleChecklistItem("architecture-review-playbook:write-it-down:0");
+
+    const storeB = createAppStore();
+    await storeB.persist.rehydrate();
+
+    expect(storeB.getState().checkedPlaybookItemIds).toEqual([
+      "architecture-review-playbook:write-it-down:0",
+    ]);
+  });
+
+  it("defaults readingProgressBySlug to empty", () => {
+    const store = createAppStore();
+    expect(store.getState().readingProgressBySlug).toEqual({});
+  });
+
+  it("records a slug's reading percentage via setReadingProgress", () => {
+    const store = createAppStore();
+    store.getState().setReadingProgress("validating-an-mvp", 42);
+    expect(store.getState().readingProgressBySlug).toEqual({ "validating-an-mvp": 42 });
+  });
+
+  it("overwrites a slug's percentage without disturbing other slugs", () => {
+    const store = createAppStore();
+    store.getState().setReadingProgress("validating-an-mvp", 42);
+    store.getState().setReadingProgress("rag-vs-fine-tuning", 10);
+    store.getState().setReadingProgress("validating-an-mvp", 80);
+    expect(store.getState().readingProgressBySlug).toEqual({
+      "validating-an-mvp": 80,
+      "rag-vs-fine-tuning": 10,
+    });
+  });
+
+  it("persists readingProgressBySlug to storage after rehydration", async () => {
+    const storeA = createAppStore();
+    storeA.getState().setReadingProgress("validating-an-mvp", 55);
+
+    const storeB = createAppStore();
+    await storeB.persist.rehydrate();
+
+    expect(storeB.getState().readingProgressBySlug).toEqual({ "validating-an-mvp": 55 });
+  });
 });

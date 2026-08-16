@@ -12,9 +12,12 @@ import { cn } from "@/utils/cn";
 import "./analytics";
 
 import { KNOWLEDGE_ARTICLES } from "./data/articles";
+import { KNOWLEDGE_CATEGORIES } from "./data/categories";
 import { CATEGORIES_BY_SLUG, POPULATED_CATEGORIES } from "./data/facets";
 import { KnowledgeGrid } from "./KnowledgeGrid";
 import { KnowledgeHero } from "./KnowledgeHero";
+import { KnowledgeNewsletterSignup } from "./KnowledgeNewsletterSignup";
+import { searchKnowledgeArticles, suggestForZeroResults } from "./search";
 import type { KnowledgeExplorerProps } from "./KnowledgeExplorer.types";
 
 const FEATURED_ARTICLE = KNOWLEDGE_ARTICLES.find((article) => article.featured);
@@ -48,18 +51,23 @@ export function KnowledgeExplorer({
   );
   const analytics = useAnalytics();
 
-  const filteredArticles = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
+  const categoryScopedArticles = useMemo(
+    () =>
+      categoryFilter
+        ? KNOWLEDGE_ARTICLES.filter((article) => article.category === categoryFilter)
+        : KNOWLEDGE_ARTICLES,
+    [categoryFilter],
+  );
 
-    return KNOWLEDGE_ARTICLES.filter((article) => {
-      if (categoryFilter && article.category !== categoryFilter) return false;
+  const filteredArticles = useMemo(
+    () => searchKnowledgeArticles(categoryScopedArticles, query).map((result) => result.article),
+    [categoryScopedArticles, query],
+  );
 
-      if (!normalizedQuery) return true;
-      const haystack =
-        `${article.title} ${article.summary} ${article.problem} ${article.audience.join(" ")}`.toLowerCase();
-      return haystack.includes(normalizedQuery);
-    });
-  }, [query, categoryFilter]);
+  const zeroResultSuggestions = useMemo(
+    () => (query.trim() && filteredArticles.length === 0 ? suggestForZeroResults(query) : []),
+    [query, filteredArticles.length],
+  );
 
   function handleQueryChange(nextQuery: string) {
     setQuery(nextQuery);
@@ -77,6 +85,10 @@ export function KnowledgeExplorer({
 
   function handleArticleSelect(slug: string) {
     analytics.track("knowledge_card_clicked", { slug });
+    if (query.trim()) {
+      const position = filteredArticles.findIndex((article) => article.slug === slug);
+      analytics.track("knowledge_search_result_clicked", { slug, query, position });
+    }
   }
 
   return (
@@ -87,6 +99,7 @@ export function KnowledgeExplorer({
         categories={POPULATED_CATEGORIES}
         categoryFilter={categoryFilter}
         onCategoryQuickFilter={handleCategoryFilterChange}
+        totalCategoryCount={initialCategoryFilter ? undefined : KNOWLEDGE_CATEGORIES.length}
         headline={headline}
         supportingCopy={supportingCopy}
       />
@@ -101,6 +114,9 @@ export function KnowledgeExplorer({
           </Button>
           <Button asChild variant="outline">
             <Link href="/knowledge/playbooks">Explore Playbooks</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/knowledge/tutorials">Explore Tutorials</Link>
           </Button>
         </div>
       </section>
@@ -126,8 +142,11 @@ export function KnowledgeExplorer({
           articles={filteredArticles}
           categoriesBySlug={CATEGORIES_BY_SLUG}
           onSelect={handleArticleSelect}
+          suggestions={zeroResultSuggestions}
         />
       </section>
+
+      <KnowledgeNewsletterSignup />
     </div>
   );
 }

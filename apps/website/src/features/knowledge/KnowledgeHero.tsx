@@ -27,6 +27,7 @@ export function KnowledgeHero({
   categories,
   categoryFilter,
   onCategoryQuickFilter,
+  totalCategoryCount,
   headline = "Engineering Knowledge That Lasts.",
   supportingCopy = "Practical guides on product strategy, architecture, AI, accessibility, and commerce — written to educate, not to market.",
   className,
@@ -76,6 +77,13 @@ export function KnowledgeHero({
             </Button>
           ))}
         </div>
+
+        {totalCategoryCount !== undefined && totalCategoryCount > categories.length && (
+          <Text variant="caption">
+            {categories.length} of {totalCategoryCount} knowledge categories are live so far — more
+            guides are on the way.
+          </Text>
+        )}
 
         <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
           <Button variant="outline" onClick={openAiCompanion}>

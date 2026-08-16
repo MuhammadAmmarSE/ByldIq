@@ -35,6 +35,7 @@ export function useAiCompanion() {
   const clearConversation = useAiCompanionStore((state) => state.clearConversation);
   const pageContext = useAiCompanionStore((state) => state.pageContext);
   const setPageContext = useAiCompanionStore((state) => state.setPageContext);
+  const setPageContextSection = useAiCompanionStore((state) => state.setPageContextSection);
   const currentSection = useAiCompanionStore((state) => state.currentSection);
   const setCurrentSection = useAiCompanionStore((state) => state.setCurrentSection);
   const recentlyViewed = useAiCompanionStore((state) => state.recentlyViewed);
@@ -52,7 +53,11 @@ export function useAiCompanion() {
     // straight from the homepage without visiting a detail page).
     const sectionLabel = currentSection ? SECTION_LABELS[currentSection] : undefined;
     const greeting = pageContext
-      ? getPageContextGreeting(pageContext.label, pageContext.groundedReplies)
+      ? getPageContextGreeting(
+          pageContext.label,
+          pageContext.groundedReplies,
+          pageContext.currentSectionLabel,
+        )
       : sectionLabel
         ? getPageContextGreeting(sectionLabel)
         : journey
@@ -130,6 +135,7 @@ export function useAiCompanion() {
     sendMessage,
     clearConversation: handleClearConversation,
     setPageContext,
+    setPageContextSection,
     currentSection,
     setCurrentSection,
     recentlyViewed,

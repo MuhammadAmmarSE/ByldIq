@@ -77,4 +77,30 @@ describe("KnowledgeLearningPathDetail", () => {
     expect(firstCheckbox).toBeChecked();
     expect(screen.getByText(`1 of ${path.articleSlugs.length} complete`)).toBeInTheDocument();
   });
+
+  it("tracks learning_path_completed exactly once when every step is checked", async () => {
+    const user = userEvent.setup();
+    renderDetail();
+
+    const checkboxes = screen.getAllByRole("checkbox", { name: "Complete" });
+    for (const checkbox of checkboxes) {
+      await user.click(checkbox);
+    }
+
+    expect(mockTrack).toHaveBeenCalledWith("learning_path_completed", { pathSlug: path.slug });
+    expect(
+      mockTrack.mock.calls.filter(([event]) => event === "learning_path_completed"),
+    ).toHaveLength(1);
+
+    // Unchecking and rechecking the last box should fire it again — a
+    // genuine second completion, not a stale guard.
+    const lastCheckbox = checkboxes[checkboxes.length - 1];
+    if (!lastCheckbox) throw new Error("Expected at least one checkbox");
+    await user.click(lastCheckbox);
+    await user.click(lastCheckbox);
+
+    expect(
+      mockTrack.mock.calls.filter(([event]) => event === "learning_path_completed"),
+    ).toHaveLength(2);
+  });
 });

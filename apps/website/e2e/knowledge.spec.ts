@@ -198,7 +198,7 @@ test.describe("Learning Paths", () => {
 });
 
 test.describe("Playbooks", () => {
-  test("lists the one real playbook and states the honest scope", async ({ page }) => {
+  test("lists all three real playbooks and states the honest scope", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto("/knowledge/playbooks");
 
@@ -206,7 +206,27 @@ test.describe("Playbooks", () => {
     await expect(
       page.getByRole("link", { name: /A Practical Accessibility Checklist for Product Teams/ }),
     ).toBeVisible();
-    await expect(page.getByText(/One practical playbook is published so far/)).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /The Architecture Review Playbook/ }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /The Production Readiness Playbook/ }),
+    ).toBeVisible();
+    await expect(page.getByText(/3 practical playbooks are published so far/)).toBeVisible();
+  });
+
+  test("a card links to the dedicated checklist view, not the full article", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge/playbooks");
+
+    await page
+      .getByRole("link", { name: /The Architecture Review Playbook/ })
+      .first()
+      .click();
+    await expect(page).toHaveURL(/\/knowledge\/playbooks\/architecture-review-playbook$/);
+    await expect(
+      page.getByRole("heading", { name: "The Architecture Review Playbook" }),
+    ).toBeVisible();
   });
 
   test("has no automatically detectable accessibility violations", async ({ page }) => {
@@ -219,8 +239,103 @@ test.describe("Playbooks", () => {
   });
 });
 
+test.describe("Playbook detail page (dedicated checklist)", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge/playbooks/architecture-review-playbook");
+  });
+
+  test("renders steps and tracks checklist progress", async ({ page }) => {
+    await expect(
+      page.getByRole("heading", { name: "The Architecture Review Playbook" }),
+    ).toBeVisible();
+    await expect(page.getByText("0 of 9 checked")).toBeVisible();
+
+    const [firstItem] = await page
+      .getByRole("button", { name: "The problem is stated in one paragraph, in plain language" })
+      .all();
+    if (!firstItem) throw new Error("Expected the first checklist item to be present");
+    await firstItem.click();
+
+    await expect(firstItem).toHaveAttribute("aria-pressed", "true");
+    await expect(page.getByText("1 of 9 checked")).toBeVisible();
+  });
+
+  test("links back to the full educational article", async ({ page }) => {
+    await expect(page.getByRole("link", { name: "Read the full guide" })).toHaveAttribute(
+      "href",
+      "/knowledge/architecture-review-playbook",
+    );
+  });
+
+  test("has no automatically detectable accessibility violations", async ({ page }) => {
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "best-practice"])
+      .analyze();
+    expect(results.violations).toEqual([]);
+  });
+});
+
+test.describe("Tutorials", () => {
+  test("lists the real tutorial and states the honest scope", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge/tutorials");
+
+    await expect(page.getByRole("heading", { name: "All tutorials" })).toBeVisible();
+    await expect(page.getByText(/One hands-on tutorial is published so far/)).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: /Add Automated Accessibility Testing to a Next\.js App/ }),
+    ).toBeVisible();
+  });
+
+  test("detail page renders prerequisites, setup, steps with code, validation, and next steps", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge/tutorials/automated-accessibility-testing-with-axe");
+
+    await expect(
+      page.getByRole("heading", { name: "Add Automated Accessibility Testing to a Next.js App" }),
+    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Prerequisites" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Setup" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Step 1: Write a basic Playwright test" }),
+    ).toBeVisible();
+    await expect(page.getByText("pnpm add -D @playwright/test @axe-core/playwright")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Validation" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Next steps" })).toBeVisible();
+
+    await expect(
+      page.getByRole("link", { name: "Plan a similar build with BuildPath" }),
+    ).toHaveAttribute("href", "/buildpath?tutorial=automated-accessibility-testing-with-axe");
+  });
+
+  test("a code block's copy button copies the sample to the clipboard", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge/tutorials/automated-accessibility-testing-with-axe");
+
+    await page.getByRole("button", { name: "Copy" }).first().click();
+    const copied = await page.evaluate(() => navigator.clipboard.readText());
+    expect(copied).toContain("pnpm add -D @playwright/test @axe-core/playwright");
+  });
+
+  test("has no automatically detectable accessibility violations", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge/tutorials/automated-accessibility-testing-with-axe");
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "best-practice"])
+      .analyze();
+    expect(results.violations).toEqual([]);
+  });
+});
+
 test.describe("Honest content-type placeholders", () => {
-  for (const path of ["/knowledge/whitepapers", "/knowledge/videos", "/knowledge/tutorials"]) {
+  for (const path of ["/knowledge/whitepapers", "/knowledge/videos"]) {
     test(`${path} states the content gap and links to real content`, async ({ page }) => {
       await page.emulateMedia({ reducedMotion: "reduce" });
       const response = await page.goto(path);
@@ -243,6 +358,99 @@ test.describe("Honest content-type placeholders", () => {
       .withTags(["wcag2a", "wcag2aa", "best-practice"])
       .analyze();
     expect(results.violations).toEqual([]);
+  });
+});
+
+test.describe("Search intelligence", () => {
+  test("recognizes an alias and ranks the matching article first", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge");
+
+    await page.getByRole("searchbox", { name: /search the knowledge center/i }).fill("postgres");
+    await expect(
+      page.getByRole("link", { name: /The Architecture Review Playbook/ }).first(),
+    ).toBeVisible();
+  });
+
+  test("a zero-result query surfaces a real Technology Explorer suggestion, never a dead end", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge");
+
+    await page.getByRole("searchbox", { name: /search the knowledge center/i }).fill("mongodb");
+    await expect(page.getByText(/No articles match that search or category yet/)).toBeVisible();
+    await expect(
+      page.getByRole("link", { name: "Explore MongoDB in Technology Explorer" }),
+    ).toHaveAttribute("href", "/technology/mongodb");
+  });
+});
+
+test.describe("Ask Byld to summarize", () => {
+  test("switching modes shows a different, real summary derived from the article", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge/validating-an-mvp");
+
+    await expect(page.getByRole("heading", { name: "Ask Byld to summarize" })).toBeVisible();
+    const executiveTab = page.getByRole("tab", { name: "Executive summary" });
+    await executiveTab.click();
+    await expect(executiveTab).toHaveAttribute("aria-selected", "true");
+
+    const beginnerTab = page.getByRole("tab", { name: "Explain it simply" });
+    await beginnerTab.click();
+    await expect(beginnerTab).toHaveAttribute("aria-selected", "true");
+  });
+});
+
+test.describe("Reading progress and sharing", () => {
+  test("a share triggers the clipboard fallback with a confirmation toast", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    // The Web Share API isn't available in the headless test browser, so
+    // ShareButton takes its documented clipboard-copy fallback path.
+    await page.goto("/knowledge/validating-an-mvp");
+
+    await page.getByRole("button", { name: "Share" }).click();
+    await expect(page.getByText("Link copied", { exact: true })).toBeVisible();
+    const copied = await page.evaluate(() => navigator.clipboard.readText());
+    expect(copied).toBe("http://localhost:3000/knowledge/validating-an-mvp");
+  });
+
+  test("revisiting an article with saved partial progress offers to jump back in", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge/validating-an-mvp");
+    // Seed reading progress the same way KnowledgeArticleHero's unmount effect
+    // does, rather than actually scrolling and unmounting in the test.
+    await page.evaluate(() => {
+      const raw = localStorage.getItem("byld-iq-app-store");
+      const state = raw ? JSON.parse(raw) : { state: {}, version: 0 };
+      state.state.readingProgressBySlug = { "validating-an-mvp": 40 };
+      localStorage.setItem("byld-iq-app-store", JSON.stringify(state));
+    });
+    await page.reload();
+
+    await expect(page.getByText("Welcome back")).toBeVisible();
+    await expect(page.getByText("You were 40% through this article.")).toBeVisible();
+    await page.getByRole("button", { name: "Dismiss" }).click();
+    await expect(page.getByText("Welcome back")).not.toBeVisible();
+  });
+});
+
+test.describe("Knowledge Center newsletter", () => {
+  test("submitting the newsletter form shows a confirmation", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/knowledge");
+
+    await page.getByLabel("Email address").fill("founder@example.com");
+    await page.getByRole("button", { name: "Subscribe" }).click();
+    await expect(page.getByText("You're subscribed.")).toBeVisible();
   });
 });
 

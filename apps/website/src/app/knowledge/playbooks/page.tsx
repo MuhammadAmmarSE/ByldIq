@@ -28,9 +28,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * CLAUDE.md Part 18's Playbooks landing page. See
- * `features/knowledge/KnowledgePlaybooks.docs.md` for why only one real
- * playbook ships today.
+ * CLAUDE.md Part 18/19's Playbooks landing page. See
+ * `features/knowledge/KnowledgePlaybooks.docs.md` for the real playbook
+ * count and how playbook cards link to their dedicated checklist view.
  */
 export default function KnowledgePlaybooksPage() {
   return (

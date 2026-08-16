@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import { Button } from "@/components/Button";
 import { Text } from "@/components/Text";
 import { ArticleCard } from "@/features/homepage/knowledge-center-preview";
 import { cn } from "@/utils/cn";
@@ -9,13 +12,18 @@ import type { KnowledgeGridProps } from "./KnowledgeGrid.types";
  * (CLAUDE.md Part 7: "Every empty state teaches") rather than a bare
  * "No results." Reuses the homepage preview's `ArticleCard` — the same
  * "one card, not two" reuse the Solutions/Technology/Case Studies
- * `RelatedKnowledge` modules already rely on.
+ * `RelatedKnowledge` modules already rely on. When `search.ts` found a
+ * real (not fabricated) category or Technology Explorer match for the
+ * query, those appear as concrete next steps instead of just "try
+ * again."
  */
 export function KnowledgeGrid({
   articles,
   categoriesBySlug,
+  hrefBase,
   onSelect,
   onExpandAiSummary,
+  suggestions = [],
   className,
 }: KnowledgeGridProps) {
   if (articles.length === 0) {
@@ -25,6 +33,15 @@ export function KnowledgeGrid({
         <Text variant="caption" className="mt-1">
           Try a different category, or clear the search to see every article.
         </Text>
+        {suggestions.length > 0 && (
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            {suggestions.map((suggestion) => (
+              <Button key={suggestion.href} asChild variant="outline" size="sm">
+                <Link href={suggestion.href}>{suggestion.label}</Link>
+              </Button>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
@@ -36,6 +53,7 @@ export function KnowledgeGrid({
           key={article.slug}
           article={article}
           categoryLabel={categoriesBySlug.get(article.category)?.label}
+          hrefBase={hrefBase}
           onSelect={onSelect}
           onExpandAiSummary={onExpandAiSummary}
         />

@@ -53,6 +53,7 @@ export interface EntryContext {
     | "case-study"
     | "technology"
     | "knowledge"
+    | "tutorial"
     | "about"
     | "nav"
     | "direct";
@@ -61,6 +62,7 @@ export interface EntryContext {
   caseStudySlug?: string;
   technologySlug?: string;
   articleSlug?: string;
+  tutorialSlug?: string;
   industry?: string;
 }
 
