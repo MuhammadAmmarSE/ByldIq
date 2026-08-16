@@ -4,6 +4,7 @@ import { CommandPaletteProvider } from "@/components/CommandPalette";
 import { ToastProvider } from "@/components/Toast";
 import { AiCompanionStoreProvider } from "@/providers/AiCompanionStoreProvider";
 import { AnalyticsProvider } from "@/providers/AnalyticsProvider";
+import { BuildPathStoreProvider } from "@/providers/BuildPathStoreProvider";
 import { MotionProvider } from "@/providers/MotionProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { StoreProvider } from "@/providers/StoreProvider";
@@ -20,11 +21,13 @@ export function StorybookProviders({ children }: { children: ReactNode }) {
       <QueryProvider>
         <StoreProvider>
           <AiCompanionStoreProvider>
-            <AnalyticsProvider>
-              <ToastProvider>
-                <CommandPaletteProvider>{children}</CommandPaletteProvider>
-              </ToastProvider>
-            </AnalyticsProvider>
+            <BuildPathStoreProvider>
+              <AnalyticsProvider>
+                <ToastProvider>
+                  <CommandPaletteProvider>{children}</CommandPaletteProvider>
+                </ToastProvider>
+              </AnalyticsProvider>
+            </BuildPathStoreProvider>
           </AiCompanionStoreProvider>
         </StoreProvider>
       </QueryProvider>

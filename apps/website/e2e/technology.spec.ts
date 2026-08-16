@@ -132,7 +132,7 @@ test.describe("Technology detail page (next-js, representative of all eleven)", 
 
     await cta.click();
     await expect(page).toHaveURL(/\/buildpath\?technology=next-js$/);
-    await expect(page.getByText(/Continuing with Next\.js/)).toBeVisible();
+    await expect(page.getByText("Continuing from Next.js")).toBeVisible();
   });
 
   test("opens the AI Companion from Talk to Byld with a technology-aware greeting", async ({

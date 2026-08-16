@@ -5,6 +5,7 @@ import { ToastProvider } from "@/components/Toast";
 import { AiCompanionProvider } from "@/features/homepage/ai-companion";
 import { AiCompanionStoreProvider } from "@/providers/AiCompanionStoreProvider";
 import { AnalyticsProvider } from "@/providers/AnalyticsProvider";
+import { BuildPathStoreProvider } from "@/providers/BuildPathStoreProvider";
 import { MotionProvider } from "@/providers/MotionProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import { StoreProvider } from "@/providers/StoreProvider";
@@ -22,13 +23,15 @@ export function AppProviders({ children }: { children: ReactNode }) {
         <QueryProvider>
           <StoreProvider>
             <AiCompanionStoreProvider>
-              <AnalyticsProvider>
-                <ToastProvider>
-                  <CommandPaletteProvider>
-                    <AiCompanionProvider>{children}</AiCompanionProvider>
-                  </CommandPaletteProvider>
-                </ToastProvider>
-              </AnalyticsProvider>
+              <BuildPathStoreProvider>
+                <AnalyticsProvider>
+                  <ToastProvider>
+                    <CommandPaletteProvider>
+                      <AiCompanionProvider>{children}</AiCompanionProvider>
+                    </CommandPaletteProvider>
+                  </ToastProvider>
+                </AnalyticsProvider>
+              </BuildPathStoreProvider>
             </AiCompanionStoreProvider>
           </StoreProvider>
         </QueryProvider>
