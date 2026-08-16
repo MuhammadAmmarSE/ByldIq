@@ -68,7 +68,7 @@ export function SolutionCard({
       onClick={() => onSelect?.(solution.slug)}
       onPointerEnter={() => onHover?.(solution.slug)}
       className={cn(
-        "border-border bg-surface relative flex flex-col gap-4 rounded-lg border p-6 shadow-sm transition",
+        "border-border bg-surface relative flex min-w-0 flex-col gap-4 rounded-lg border p-6 shadow-sm transition",
         "hover:border-accent/50 hover:-translate-y-1 hover:shadow-md",
         "focus-visible:ring-focus-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none",
         isRecommended && "border-accent shadow-md",

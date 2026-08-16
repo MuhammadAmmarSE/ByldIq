@@ -47,4 +47,16 @@ describe("SolutionCard", () => {
       expect(screen.getByText(firstTechnology.name)).toBeInTheDocument();
     }
   });
+
+  it("stays shrinkable inside a CSS grid despite its truncated architecture preview", () => {
+    // Regression test: a grid item's default `min-width: auto` sizes to its
+    // content's intrinsic minimum — and a `truncate` (whitespace-nowrap)
+    // child's intrinsic minimum is its full, un-wrapped text width. Without
+    // `min-w-0` here, a long `architecturePreview` string forced this card
+    // (and the whole grid row) wider than the viewport on mobile. See
+    // `docs/solutions.md` and `IndustryDetail.tsx`'s grid.
+    render(<SolutionCard solution={solution} />);
+    const link = screen.getByRole("link", { name: new RegExp(solution.navLabel) });
+    expect(link).toHaveClass("min-w-0");
+  });
 });

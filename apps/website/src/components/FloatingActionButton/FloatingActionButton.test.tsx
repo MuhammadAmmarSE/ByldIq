@@ -22,4 +22,12 @@ describe("FloatingActionButton", () => {
     render(<FloatingActionButton icon={Sparkles} label="Ask Byld" position="bottom-left" />);
     expect(screen.getByRole("button", { name: "Ask Byld" })).toHaveClass("left-6");
   });
+
+  it("clears MobileNav's fixed bottom dock on mobile, dropping to bottom-6 at lg", () => {
+    render(<FloatingActionButton icon={Sparkles} label="Ask Byld" />);
+    expect(screen.getByRole("button", { name: "Ask Byld" })).toHaveClass(
+      "bottom-24",
+      "lg:bottom-6",
+    );
+  });
 });

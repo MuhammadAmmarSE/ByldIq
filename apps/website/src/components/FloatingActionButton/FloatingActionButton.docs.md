@@ -27,6 +27,15 @@ supplied via `label`), plus:
 Subtle hover/tap scale only (`whileHover`/`whileTap`), per Byld's own
 guidance in CLAUDE.md: "Never exaggerated."
 
+## Mobile positioning
+
+`bottom-24` (96px) below the `lg` breakpoint, `bottom-6` (24px) at and
+above it. Below `lg`, `MobileNav` renders a full-width fixed dock at the
+very bottom of the viewport — `PageShell`'s `main` already reserves 80px
+(`pb-20`) of clearance for it. A plain `bottom-6` sat this button directly
+on top of the dock's own Menu button; `bottom-24` clears the dock with a
+small margin instead.
+
 ## Accessibility
 
 Icon-only, so `label` is required and becomes the button's `aria-label`.
