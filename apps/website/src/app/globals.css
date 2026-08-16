@@ -5,14 +5,30 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
-  /* Breakpoints, per the responsive spec (Small -> Desktop). Overrides Tailwind defaults. */
-  --breakpoint-xs: 360px;
-  --breakpoint-sm: 390px;
-  --breakpoint-md: 430px;
-  --breakpoint-lg: 768px;
-  --breakpoint-xl: 1024px;
-  --breakpoint-2xl: 1280px;
-  --breakpoint-3xl: 1440px;
+  /*
+   * Standard Tailwind breakpoint scale, declared explicitly rather than
+   * left to the framework default so the scale is visible here.
+   *
+   * This block previously pinned sm/md to phone-width values (390px/430px)
+   * and lg to tablet width (768px) — a "differentiate phone sizes" scale
+   * that doesn't match how any component in this codebase actually uses
+   * these prefixes. Every grid/layout here was authored assuming the
+   * conventional meaning (`sm:` = "wider than a phone," `lg:` = "desktop"),
+   * e.g. `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`. With sm at 390px,
+   * that "mobile-first" 1-column default never actually applied on real
+   * phones (390-430px is the common portrait width for most modern
+   * phones), forcing multi-column grids, badge rows, and metric pairs into
+   * columns far too narrow for their content — visible as wrapped,
+   * overlapping text and page-level horizontal scroll on real devices.
+   * Restoring the standard scale makes every existing `sm:`/`md:`/`lg:`
+   * usage behave as its author intended, without touching the ~90 files
+   * that use them.
+   */
+  --breakpoint-sm: 40rem; /* 640px */
+  --breakpoint-md: 48rem; /* 768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+  --breakpoint-2xl: 96rem; /* 1536px */
 
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
